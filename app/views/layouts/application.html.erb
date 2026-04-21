@@ -24,6 +24,10 @@
   </head>
 
   <body>
+    <nav style="padding: 12px 20px; border-bottom: 1px solid #ccc; display: flex; gap: 20px;">
+      <%= link_to "Posts", posts_path %>
+      <%= link_to "Users", users_path %>
+    </nav>
     <%= yield %>
   </body>
 </html>

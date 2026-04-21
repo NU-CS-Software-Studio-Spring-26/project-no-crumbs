@@ -27,8 +27,8 @@
   </div>
 
   <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
+    <%= form.label :user_id, "User", style: "display: block" %>
+    <%= form.select :user_id, User.all.map { |u| [u.username, u.id] }, { prompt: "Select a user" } %>
   </div>
 
   <div>
