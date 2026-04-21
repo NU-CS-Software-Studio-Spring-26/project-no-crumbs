@@ -56,4 +56,3 @@ users_data.each_with_index do |attrs, i|
     end
   end
 end
-
