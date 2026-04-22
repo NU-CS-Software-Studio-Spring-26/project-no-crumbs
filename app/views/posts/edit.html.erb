@@ -1,12 +1,10 @@
-<% content_for :title, "Editing post" %>
+<% content_for :title, "Edit Meal" %>
 
-<h1>Editing post</h1>
+<%= link_to @post, class: "btn btn-sm btn-outline-secondary mb-3" do %>
+  <i class="bi bi-arrow-left me-1"></i> Back
+<% end %>
 
-<%= render "form", post: @post %>
-
-<br>
-
-<div>
-  <%= link_to "Show this post", @post %> |
-  <%= link_to "Back to posts", posts_path %>
+<div class="form-card">
+  <h1 class="h4 fw-bold mb-4">Edit Meal</h1>
+  <%= render "form", post: @post %>
 </div>

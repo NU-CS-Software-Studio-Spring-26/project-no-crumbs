@@ -1,22 +1,22 @@
-<div id="<%= dom_id post %>">
-  <div>
-    <strong>Title:</strong>
-    <%= post.title %>
+<div class="meal-card" id="<%= dom_id post %>">
+  <div class="meal-card-top">
+    <div class="meal-date-block">
+      <span class="day"><%= post.meal_date&.strftime("%-d") || "?" %></span>
+      <span class="mon"><%= post.meal_date&.strftime("%b") || "—" %></span>
+    </div>
+    <div>
+      <p class="meal-card-title"><%= post.title %></p>
+      <p class="meal-card-time"><i class="bi bi-clock me-1"></i><%= post.meal_date&.strftime("%l:%M %p")&.strip %></p>
+    </div>
   </div>
-
-  <div>
-    <strong>Description:</strong>
-    <%= post.description %>
+  <div class="meal-card-body">
+    <p class="meal-card-desc"><%= post.description.presence || "No description yet." %></p>
   </div>
-
-  <div>
-    <strong>Meal date:</strong>
-    <%= post.meal_date %>
+  <div class="meal-card-footer">
+    <div class="d-flex align-items-center gap-2">
+      <div class="avatar avatar-sm"><%= post.user.username[0].upcase %></div>
+      <%= link_to post.user.username, post.user, class: "text-decoration-none text-secondary small fw-semibold" %>
+    </div>
+    <%= link_to "View", post, class: "btn btn-sm btn-outline-secondary" %>
   </div>
-
-  <div>
-    <strong>User:</strong>
-    <%= post.user.username %>
-  </div>
-
 </div>

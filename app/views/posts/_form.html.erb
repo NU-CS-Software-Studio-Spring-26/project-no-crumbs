@@ -1,9 +1,8 @@
 <%= form_with(model: post) do |form| %>
   <% if post.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
-
-      <ul>
+    <div class="alert alert-danger">
+      <strong><%= pluralize(post.errors.count, "error") %> prevented this from being saved:</strong>
+      <ul class="mb-0 mt-1">
         <% post.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -11,27 +10,25 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
+  <div class="mb-3">
+    <%= form.label :title, class: "form-label fw-semibold" %>
+    <%= form.text_field :title, class: "form-control", placeholder: "e.g. Backyard pasta night" %>
   </div>
 
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.textarea :description %>
+  <div class="mb-3">
+    <%= form.label :description, class: "form-label fw-semibold" %>
+    <%= form.textarea :description, class: "form-control", rows: 4, placeholder: "What's on the menu? Any details to share?" %>
   </div>
 
-  <div>
-    <%= form.label :meal_date, style: "display: block" %>
-    <%= form.datetime_field :meal_date %>
+  <div class="mb-3">
+    <%= form.label :meal_date, "Date & Time", class: "form-label fw-semibold" %>
+    <%= form.datetime_field :meal_date, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :user_id, "User", style: "display: block" %>
-    <%= form.select :user_id, User.all.map { |u| [u.username, u.id] }, { prompt: "Select a user" } %>
+  <div class="mb-4">
+    <%= form.label :user_id, "Host", class: "form-label fw-semibold" %>
+    <%= form.select :user_id, User.all.map { |u| [u.username, u.id] }, { prompt: "Select a host" }, { class: "form-select" } %>
   </div>
 
-  <div>
-    <%= form.submit %>
-  </div>
+  <%= form.submit class: "btn btn-warning fw-semibold px-4" %>
 <% end %>
