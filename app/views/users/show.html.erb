@@ -1,10 +1,58 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, @user.username %>
 
-<%= render @user %>
+<%= link_to users_path, class: "btn btn-sm btn-outline-secondary mb-3" do %>
+  <i class="bi bi-arrow-left me-1"></i> Back to People
+<% end %>
 
-<div>
-  <%= link_to "Edit this user", edit_user_path(@user) %> |
-  <%= link_to "Back to users", users_path %>
+<div class="bg-white rounded-3 border p-4 mb-4 d-flex align-items-start gap-3 flex-wrap" style="border-color:#F3EDE8 !important">
+  <div class="avatar avatar-lg"><%= @user.username[0].upcase %></div>
+  <div class="flex-grow-1">
+    <h2 class="fw-bold mb-1"><%= @user.username %></h2>
+    <p class="text-muted small mb-2"><i class="bi bi-envelope me-1"></i><%= @user.email %></p>
+    <% if @user.bio.present? %>
+      <p class="mb-0" style="color:#57534E"><%= @user.bio %></p>
+    <% end %>
+  </div>
+  <span class="badge rounded-pill fs-6 px-3 py-2" style="background:#FFF0E8;color:#EA580C">
+    <%= @user.posts.count %> <%= @user.posts.count == 1 ? "meal" : "meals" %>
+  </span>
+</div>
 
-  <%= button_to "Destroy this user", @user, method: :delete %>
+<% if @user.posts.any? %>
+  <p class="section-eyebrow">Meals hosted</p>
+  <div class="bg-white rounded-3 border overflow-hidden mb-4" style="border-color:#F3EDE8 !important">
+    <table class="nc-table">
+      <thead>
+        <tr>
+          <th>Meal</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @user.posts.each do |post| %>
+          <tr>
+            <td class="fw-semibold"><%= post.title %></td>
+            <td><%= post.meal_date&.strftime("%b %-d, %Y") %></td>
+            <td class="text-muted"><%= post.meal_date&.strftime("%l:%M %p")&.strip %></td>
+            <td class="text-end">
+              <%= link_to "View", post, class: "btn btn-sm btn-outline-secondary" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p class="text-muted">No meals hosted yet.</p>
+<% end %>
+
+<div class="d-flex gap-2">
+  <%= link_to edit_user_path(@user), class: "btn btn-outline-secondary" do %>
+    <i class="bi bi-pencil me-1"></i> Edit
+  <% end %>
+  <%= button_to @user, method: :delete, form: { data: { turbo_confirm: "Remove this person?" } }, class: "btn btn-outline-danger" do %>
+    <i class="bi bi-trash me-1"></i> Delete
+  <% end %>
 </div>

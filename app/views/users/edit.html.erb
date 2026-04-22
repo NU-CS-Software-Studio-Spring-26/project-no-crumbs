@@ -1,12 +1,10 @@
-<% content_for :title, "Editing user" %>
+<% content_for :title, "Edit Profile" %>
 
-<h1>Editing user</h1>
+<%= link_to @user, class: "btn btn-sm btn-outline-secondary mb-3" do %>
+  <i class="bi bi-arrow-left me-1"></i> Back
+<% end %>
 
-<%= render "form", user: @user %>
-
-<br>
-
-<div>
-  <%= link_to "Show this user", @user %> |
-  <%= link_to "Back to users", users_path %>
+<div class="form-card">
+  <h1 class="h4 fw-bold mb-4">Edit Profile</h1>
+  <%= render "form", user: @user %>
 </div>

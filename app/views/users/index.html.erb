@@ -1,16 +1,25 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, "People" %>
 
-<% content_for :title, "Users" %>
-
-<h1>Users</h1>
-
-<div id="users">
-  <% @users.each do |user| %>
-    <%= render user %>
-    <p>
-      <%= link_to "Show this user", user %>
-    </p>
+<div class="page-hero d-flex justify-content-between align-items-center flex-wrap gap-3">
+  <div>
+    <h1>Friends</h1>
+    <p>Friends who eat together, stay together</p>
+  </div>
+  <%= link_to new_user_path, class: "btn btn-light fw-bold" do %>
+    <i class="bi bi-plus-lg me-1"></i> Add Someone
   <% end %>
 </div>
 
-<%= link_to "New user", new_user_path %>
+<% if @users.empty? %>
+  <div class="empty-state">
+    <div style="font-size:3.5rem">👥</div>
+    <p class="mt-3 mb-4 fs-5">No one here yet — add your first friend.</p>
+    <%= link_to "Add someone", new_user_path, class: "btn btn-fire" %>
+  </div>
+<% else %>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <% @users.each do |user| %>
+      <div class="col"><%= render user %></div>
+    <% end %>
+  </div>
+<% end %>
