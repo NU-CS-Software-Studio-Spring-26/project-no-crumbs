@@ -1,8 +1,8 @@
 <%= form_with(model: user) do |form| %>
   <% if user.errors.any? %>
-    <div class="alert alert-danger">
-      <strong><%= pluralize(user.errors.count, "error") %> prevented this from being saved:</strong>
-      <ul class="mb-0 mt-1">
+    <div class="alert alert-danger mb-4">
+      <strong><%= pluralize(user.errors.count, "error") %>:</strong>
+      <ul class="mb-0 mt-1 ps-3">
         <% user.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -11,19 +11,20 @@
   <% end %>
 
   <div class="mb-3">
-    <%= form.label :username, class: "form-label fw-semibold" %>
+    <%= form.label :username, class: "form-label" %>
     <%= form.text_field :username, class: "form-control", placeholder: "e.g. spaghetti_sam" %>
   </div>
 
   <div class="mb-3">
-    <%= form.label :email, class: "form-label fw-semibold" %>
-    <%= form.text_field :email, class: "form-control", placeholder: "email@example.com" %>
+    <%= form.label :email, class: "form-label" %>
+    <%= form.text_field :email, class: "form-control", placeholder: "you@school.edu" %>
   </div>
 
   <div class="mb-4">
-    <%= form.label :bio, class: "form-label fw-semibold" %>
-    <%= form.textarea :bio, class: "form-control", rows: 3, placeholder: "A little about yourself..." %>
+    <%= form.label :bio, class: "form-label" %>
+    <%= form.textarea :bio, class: "form-control", rows: 3,
+          placeholder: "A little about yourself..." %>
   </div>
 
-  <%= form.submit class: "btn btn-warning fw-semibold px-4" %>
+  <%= form.submit class: "btn-nc" %>
 <% end %>

@@ -1,11 +1,13 @@
 <% content_for :title, "New Meal" %>
 
-<%= link_to posts_path, class: "btn btn-sm btn-outline-secondary mb-3" do %>
-  <i class="bi bi-arrow-left me-1"></i> Back
-<% end %>
+<div class="mb-4">
+  <%= link_to posts_path, class: "btn-outline-nc btn-sm-nc" do %>
+    <i class="bi bi-arrow-left"></i> Back
+  <% end %>
+</div>
 
-<div class="form-card">
-  <h1 class="h4 fw-bold mb-1">Plan a Meal 🍽️</h1>
-  <p class="text-muted small mb-4">What are you eating and when?</p>
+<div class="form-wrap">
+  <h1 class="form-page-title">Plan a meal</h1>
+  <p class="form-page-sub">What are you eating and when?</p>
   <%= render "form", post: @post %>
 </div>
