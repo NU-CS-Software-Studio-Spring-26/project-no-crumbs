@@ -1,8 +1,8 @@
 <%= form_with(model: post) do |form| %>
   <% if post.errors.any? %>
-    <div class="alert alert-danger">
-      <strong><%= pluralize(post.errors.count, "error") %> prevented this from being saved:</strong>
-      <ul class="mb-0 mt-1">
+    <div class="alert alert-danger mb-4">
+      <strong><%= pluralize(post.errors.count, "error") %>:</strong>
+      <ul class="mb-0 mt-1 ps-3">
         <% post.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -11,24 +11,28 @@
   <% end %>
 
   <div class="mb-3">
-    <%= form.label :title, class: "form-label fw-semibold" %>
+    <%= form.label :title, class: "form-label" %>
     <%= form.text_field :title, class: "form-control", placeholder: "e.g. Backyard pasta night" %>
   </div>
 
   <div class="mb-3">
-    <%= form.label :description, class: "form-label fw-semibold" %>
-    <%= form.textarea :description, class: "form-control", rows: 4, placeholder: "What's on the menu? Any details to share?" %>
+    <%= form.label :description, class: "form-label" %>
+    <%= form.textarea :description, class: "form-control", rows: 4,
+          placeholder: "What's on the menu? Any details to share?" %>
   </div>
 
   <div class="mb-3">
-    <%= form.label :meal_date, "Date & Time", class: "form-label fw-semibold" %>
+    <%= form.label :meal_date, "Date & Time", class: "form-label" %>
     <%= form.datetime_field :meal_date, class: "form-control" %>
   </div>
 
   <div class="mb-4">
-    <%= form.label :user_id, "Host", class: "form-label fw-semibold" %>
-    <%= form.select :user_id, User.all.map { |u| [u.username, u.id] }, { prompt: "Select a host" }, { class: "form-select" } %>
+    <%= form.label :user_id, "Host", class: "form-label" %>
+    <%= form.select :user_id,
+          User.all.map { |u| [u.username, u.id] },
+          { prompt: "Select a host" },
+          { class: "form-select" } %>
   </div>
 
-  <%= form.submit class: "btn btn-warning fw-semibold px-4" %>
+  <%= form.submit class: "btn-nc" %>
 <% end %>

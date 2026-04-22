@@ -1,22 +1,27 @@
 <div class="meal-card" id="<%= dom_id post %>">
-  <div class="meal-card-top">
-    <div class="meal-date-block">
+  <div class="meal-cover gc-meal">
+    <div class="meal-cover-date">
       <span class="day"><%= post.meal_date&.strftime("%-d") || "?" %></span>
       <span class="mon"><%= post.meal_date&.strftime("%b") || "—" %></span>
     </div>
-    <div>
-      <p class="meal-card-title"><%= post.title %></p>
-      <p class="meal-card-time"><i class="bi bi-clock me-1"></i><%= post.meal_date&.strftime("%l:%M %p")&.strip %></p>
-    </div>
   </div>
+
   <div class="meal-card-body">
-    <p class="meal-card-desc"><%= post.description.presence || "No description yet." %></p>
-  </div>
-  <div class="meal-card-footer">
-    <div class="d-flex align-items-center gap-2">
-      <div class="avatar avatar-sm"><%= post.user.username[0].upcase %></div>
-      <%= link_to post.user.username, post.user, class: "text-decoration-none text-secondary small fw-semibold" %>
+    <h3 class="meal-card-title"><%= post.title %></h3>
+    <div class="meal-card-when">
+      <i class="bi bi-clock" style="font-size:0.75rem;color:var(--muted)"></i>
+      <span><%= post.meal_date&.strftime("%a, %b %-d · %l:%M %p")&.strip || "Date TBD" %></span>
     </div>
-    <%= link_to "View", post, class: "btn btn-sm btn-outline-secondary" %>
+    <% if post.description.present? %>
+      <p class="meal-card-desc"><%= post.description %></p>
+    <% end %>
+  </div>
+
+  <div class="meal-card-footer">
+    <%= link_to post.user, class: "meal-host-link" do %>
+      <div class="avatar avatar-sm"><%= post.user.username[0].upcase %></div>
+      <span class="meal-host-name"><%= post.user.username %></span>
+    <% end %>
+    <%= link_to "View", post, class: "btn-outline-nc btn-sm-nc" %>
   </div>
 </div>

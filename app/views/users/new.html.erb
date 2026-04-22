@@ -1,11 +1,13 @@
 <% content_for :title, "Add Someone" %>
 
-<%= link_to users_path, class: "btn btn-sm btn-outline-secondary mb-3" do %>
-  <i class="bi bi-arrow-left me-1"></i> Back
-<% end %>
+<div class="mb-4">
+  <%= link_to users_path, class: "btn-outline-nc btn-sm-nc" do %>
+    <i class="bi bi-arrow-left"></i> Back
+  <% end %>
+</div>
 
-<div class="form-card">
-  <h1 class="h4 fw-bold mb-1">Add to the Crew 👋</h1>
-  <p class="text-muted small mb-4">Who's joining the table?</p>
+<div class="form-wrap">
+  <h1 class="form-page-title">Add to the crew</h1>
+  <p class="form-page-sub">Who's joining the table?</p>
   <%= render "form", user: @user %>
 </div>
