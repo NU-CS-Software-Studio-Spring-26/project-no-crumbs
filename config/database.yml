@@ -87,18 +87,13 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: project_no_crumb_production
-    username: project_no_crumb
-    password: <%= ENV["PROJECT_NO_CRUMB_DATABASE_PASSWORD"] %>
+    url: <%= ENV["DATABASE_URL"] %>
   cache:
     <<: *primary_production
-    database: project_no_crumb_production_cache
     migrations_paths: db/cache_migrate
   queue:
     <<: *primary_production
-    database: project_no_crumb_production_queue
     migrations_paths: db/queue_migrate
   cable:
     <<: *primary_production
-    database: project_no_crumb_production_cable
     migrations_paths: db/cable_migrate
