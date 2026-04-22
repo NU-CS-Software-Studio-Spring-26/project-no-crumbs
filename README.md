@@ -9,21 +9,20 @@ This app will allow friends to connect and eat good food together. It serves two
 
 ## MVP
 
-Our MVP must allow for users to have a profile, add other users as friends, and allow people to post and respond to posts. 
+Our MVP must allow for users to have a profile, add other users as friends, and allow people to post and respond to posts.
 The core functionality allows users find opportunities to connect with friends around food experiences.
-
 
 ### Core Features
 
 1. **Sign-up/Login** - Users can sign up and login securely
-2. **Friend list, request, accept/decline** - Users can have a friends list along with the ability to request, accept, and decline friends.  
+2. **Friend list, request, accept/decline** - Users can have a friends list along with the ability to request, accept, and decline friends.
 3. **Posts/dashboard view** - Users can see all available meal posts in some sort of feed
-4. **Create/edit a post** - Users can create and edit posts about meals 
-5. **Respond/RSVP/comment on a post** - Users can respond, comment, or RSVP in some fashion on a post.  
+4. **Create/edit a post** - Users can create and edit posts about meals
+5. **Respond/RSVP/comment on a post** - Users can respond, comment, or RSVP in some fashion on a post.
 
 ## Deployment
 
-**Heroku Link:** TBD
+**Heroku Link:** https://project-no-crumbs-5aede83efb62.herokuapp.com/
 
 ## Communication
 
