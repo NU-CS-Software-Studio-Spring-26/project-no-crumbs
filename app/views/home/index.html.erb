@@ -1,0 +1,35 @@
+<div class="home-hero">
+  <div class="home-hero-inner">
+    <p class="home-eyebrow">Cook it. Share it. Leave no crumbs.</p>
+    <h1 class="home-headline">No<span>Crumbs</span></h1>
+    <p class="home-sub">Connect with friends over food — post a meal you're cooking, share what you've made, and never eat alone.</p>
+  </div>
+</div>
+
+<div class="home-cards">
+  <%= link_to posts_path, class: "home-card" do %>
+    <div class="home-card-icon gc-meal">
+      <i class="bi bi-journal-richtext"></i>
+    </div>
+    <div class="home-card-body">
+      <h2 class="home-card-title">Meals</h2>
+      <p class="home-card-desc">See meals your friends are cooking or leftovers up for grabs — and post your own.</p>
+    </div>
+    <div class="home-card-footer">
+      <span class="home-card-link">View all meals <i class="bi bi-arrow-right"></i></span>
+    </div>
+  <% end %>
+
+  <%= link_to users_path, class: "home-card" do %>
+    <div class="home-card-icon gc-1">
+      <i class="bi bi-people"></i>
+    </div>
+    <div class="home-card-body">
+      <h2 class="home-card-title">People</h2>
+      <p class="home-card-desc">Find friends on NoCrumbs, see who's cooking, and connect over shared meals.</p>
+    </div>
+    <div class="home-card-footer">
+      <span class="home-card-link">View all people <i class="bi bi-arrow-right"></i></span>
+    </div>
+  <% end %>
+</div>
