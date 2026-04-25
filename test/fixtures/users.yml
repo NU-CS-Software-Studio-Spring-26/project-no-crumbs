@@ -4,8 +4,10 @@ one:
   username: alice
   email: alice@example.com
   bio: Love cooking Italian food and hosting dinner parties.
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password123") %>
 
 two:
   username: bob
   email: bob@example.com
   bio: Always have leftovers. Big fan of meal prep Sundays.
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password123") %>
