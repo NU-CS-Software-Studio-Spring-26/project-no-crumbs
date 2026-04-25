@@ -2,7 +2,7 @@ require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
   test "can create a user with valid attributes" do
-    user = User.new(username: "testuser", email: "test@example.com", bio: "Hi there")
+    user = User.new(username: "testuser", email: "test@example.com", bio: "Hi there", password: "password123")
     assert user.save
   end
 
@@ -27,7 +27,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "deleting user destroys associated posts" do
-    user = User.create!(username: "tempuser", email: "temp@example.com")
+    user = User.create!(username: "tempuser", email: "temp@example.com", password: "password123")
     user.posts.create!(title: "Test Post", description: "desc", meal_date: Time.now)
     post_count_before = Post.count
     user.destroy

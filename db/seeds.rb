@@ -8,11 +8,11 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 users_data = [
-  { username: "alice", email: "alice@example.com", bio: "Food lover and home chef." },
-  { username: "bob", email: "bob@example.com", bio: "Obsessed with trying new restaurants." },
-  { username: "carol", email: "carol@example.com", bio: "Vegetarian cook and recipe blogger." },
-  { username: "dave", email: "dave@example.com", bio: "Weekend grillmaster." },
-  { username: "eve", email: "eve@example.com", bio: "Baking enthusiast with a sweet tooth." }
+  { username: "alice", email: "alice@example.com", bio: "Food lover and home chef.", password: "password123" },
+  { username: "bob", email: "bob@example.com", bio: "Obsessed with trying new restaurants.", password: "password123" },
+  { username: "carol", email: "carol@example.com", bio: "Vegetarian cook and recipe blogger.", password: "password123" },
+  { username: "dave", email: "dave@example.com", bio: "Weekend grillmaster.", password: "password123" },
+  { username: "eve", email: "eve@example.com", bio: "Baking enthusiast with a sweet tooth.", password: "password123" }
 ]
 
 posts_data = [
@@ -47,6 +47,7 @@ users_data.each_with_index do |attrs, i|
   user = User.find_or_create_by!(email: attrs[:email]) do |u|
     u.username = attrs[:username]
     u.bio = attrs[:bio]
+    u.password = attrs[:password]
   end
 
   posts_data[i].each do |post_attrs|

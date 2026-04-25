@@ -3,7 +3,7 @@
 
   <div class="user-card-body">
     <div class="user-avatar-offset">
-      <div class="avatar avatar-md"><%= user.username[0].upcase %></div>
+      <div class="avatar avatar-md"><%= user.username&.first&.upcase || "?" %></div>
     </div>
 
     <h5 class="user-card-name"><%= user.username %></h5>
