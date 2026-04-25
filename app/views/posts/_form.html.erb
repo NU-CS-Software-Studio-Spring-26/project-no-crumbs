@@ -26,13 +26,5 @@
     <%= form.datetime_field :meal_date, class: "form-control" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :user_id, "Host", class: "form-label" %>
-    <%= form.select :user_id,
-          User.all.map { |u| [u.username, u.id] },
-          { prompt: "Select a host" },
-          { class: "form-select" } %>
-  </div>
-
   <%= form.submit class: "btn-nc" %>
 <% end %>
