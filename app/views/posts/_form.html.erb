@@ -21,9 +21,11 @@
           placeholder: "What's on the menu? Any details to share?" %>
   </div>
 
-  <div class="mb-3">
+  <div class="mb-3" data-controller="datepicker">
     <%= form.label :meal_date, "Date & Time", class: "form-label" %>
-    <%= form.datetime_field :meal_date, class: "form-control" %>
+    <input type="text" data-datepicker-target="display" class="form-control"
+           placeholder="e.g. May 10, 2026 at 7:00 PM" readonly style="cursor:pointer">
+    <%= form.hidden_field :meal_date, data: { datepicker_target: "hidden" } %>
   </div>
 
   <%= form.submit class: "btn-nc" %>
