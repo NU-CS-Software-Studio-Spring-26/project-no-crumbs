@@ -29,6 +29,9 @@
       <div class="nc-nav-mid">
         <%= link_to "Meals", posts_path, class: "nc-nav-link" %>
         <%= link_to "People", users_path, class: "nc-nav-link" %>
+        <% if user_signed_in? %>
+          <%= link_to "Friends", friendships_path, class: "nc-nav-link" %>
+        <% end %>
       </div>
       <div class="nc-nav-right">
         <% if user_signed_in? %>
