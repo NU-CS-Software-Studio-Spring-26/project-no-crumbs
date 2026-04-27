@@ -1,0 +1,85 @@
+<% content_for :title, "Friends" %>
+
+<div class="feed-header">
+  <div>
+    <h1 class="feed-title">Friends</h1>
+    <p class="feed-subtitle"><%= pluralize(@friends.count, "friend") %></p>
+  </div>
+</div>
+
+<% if @pending_received.any? %>
+  <p class="section-label">Requests waiting on you</p>
+  <div class="nc-table-wrap">
+    <table class="nc-table">
+      <thead>
+        <tr>
+          <th>Person</th>
+          <th>Sent</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @pending_received.each do |f| %>
+          <tr>
+            <td><%= link_to f.requester.username, f.requester %></td>
+            <td><%= f.created_at.strftime("%b %-d, %Y") %></td>
+            <td class="text-end">
+              <%= button_to friendship_path(f), method: :patch, params: { status: 'accepted' }, class: "btn-brand-nc btn-sm-nc" do %>
+                <i class="bi bi-check"></i> Accept
+              <% end %>
+              <%= button_to friendship_path(f), method: :patch, params: { status: 'declined' }, class: "btn-outline-nc btn-sm-nc" do %>
+                Decline
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+
+<% if @pending_sent.any? %>
+  <p class="section-label">Sent requests</p>
+  <div class="nc-table-wrap">
+    <table class="nc-table">
+      <thead>
+        <tr>
+          <th>Person</th>
+          <th>Sent</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @pending_sent.each do |f| %>
+          <tr>
+            <td><%= link_to f.receiver.username, f.receiver %></td>
+            <td><%= f.created_at.strftime("%b %-d, %Y") %></td>
+            <td class="text-end">
+              <%= button_to friendship_path(f), method: :delete, class: "btn-outline-nc btn-sm-nc" do %>
+                Cancel
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+
+<% if @friends.any? %>
+  <p class="section-label">Your friends</p>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+    <% @friends.each do |friend| %>
+      <div class="col"><%= render friend %></div>
+    <% end %>
+  </div>
+<% elsif @pending_received.empty? && @pending_sent.empty? %>
+  <div class="empty-state">
+    <div class="empty-icon">👋</div>
+    <p class="empty-title">No friends yet</p>
+    <p class="empty-sub">Find someone on the People page and send them a request.</p>
+    <%= link_to users_path, class: "btn-brand-nc" do %>
+      <i class="bi bi-people"></i> Browse People
+    <% end %>
+  </div>
+<% end %>

@@ -12,13 +12,36 @@
     <div class="profile-avatar-row">
       <div class="avatar avatar-xl"><%= @user.username[0].upcase %></div>
       <div class="profile-actions">
-        <%= link_to edit_user_path(@user), class: "btn-outline-nc btn-sm-nc" do %>
-          <i class="bi bi-pencil"></i> Edit
-        <% end %>
-        <%= button_to @user, method: :delete,
-              form: { data: { turbo_confirm: "Remove this person?" } },
-              class: "btn-danger-nc btn-sm-nc" do %>
-          <i class="bi bi-trash"></i>
+        <% if current_user == @user %>
+          <%= link_to edit_user_path(@user), class: "btn-outline-nc btn-sm-nc" do %>
+            <i class="bi bi-pencil"></i> Edit
+          <% end %>
+          <%= button_to @user, method: :delete,
+                form: { data: { turbo_confirm: "Remove this person?" } },
+                class: "btn-danger-nc btn-sm-nc" do %>
+            <i class="bi bi-trash"></i>
+          <% end %>
+        <% elsif @friendship.nil? %>
+          <%= button_to friendships_path, method: :post, params: { receiver_id: @user.id }, class: "btn-brand-nc btn-sm-nc" do %>
+            <i class="bi bi-person-plus"></i> Add Friend
+          <% end %>
+        <% elsif @friendship.status == 'pending' && @friendship.requester == current_user %>
+          <%= button_to friendship_path(@friendship), method: :delete, class: "btn-outline-nc btn-sm-nc" do %>
+            <i class="bi bi-hourglass"></i> Request Sent
+          <% end %>
+        <% elsif @friendship.status == 'pending' && @friendship.receiver == current_user %>
+          <%= button_to friendship_path(@friendship), method: :patch, params: { status: 'accepted' }, class: "btn-brand-nc btn-sm-nc" do %>
+            <i class="bi bi-check"></i> Accept
+          <% end %>
+          <%= button_to friendship_path(@friendship), method: :patch, params: { status: 'declined' }, class: "btn-outline-nc btn-sm-nc" do %>
+            Decline
+          <% end %>
+        <% elsif @friendship.status == 'accepted' %>
+          <%= button_to friendship_path(@friendship), method: :delete,
+                form: { data: { turbo_confirm: "Unfriend #{@user.username}?" } },
+                class: "btn-outline-nc btn-sm-nc" do %>
+            <i class="bi bi-person-check"></i> Friends
+          <% end %>
         <% end %>
       </div>
     </div>
@@ -37,6 +60,10 @@
     <div class="profile-stat">
       <span class="profile-stat-num"><%= @user.posts.count %></span>
       <span class="profile-stat-label"><%= @user.posts.count == 1 ? "Meal" : "Meals" %></span>
+    </div>
+    <div class="profile-stat">
+      <span class="profile-stat-num"><%= @user.friends.count %></span>
+      <span class="profile-stat-label"><%= @user.friends.count == 1 ? "Friend" : "Friends" %></span>
     </div>
   </div>
 </div>
@@ -69,4 +96,13 @@
   </div>
 <% else %>
   <p style="color:var(--muted);font-size:0.9rem;font-weight:500">No meals hosted yet.</p>
+<% end %>
+
+<% if @user.friends.any? %>
+  <p class="section-label">Friends</p>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+    <% @user.friends.each do |friend| %>
+      <div class="col"><%= render friend %></div>
+    <% end %>
+  </div>
 <% end %>
