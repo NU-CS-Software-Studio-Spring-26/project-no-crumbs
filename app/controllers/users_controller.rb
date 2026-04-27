@@ -8,6 +8,9 @@ class UsersController < ApplicationController
 
   # GET /users/1 or /users/1.json
   def show
+    @friendship = Friendship.where(requester: current_user, receiver: @user)
+                            .or(Friendship.where(requester: @user, receiver: current_user))
+                            .first
   end
 
   # GET /users/new
