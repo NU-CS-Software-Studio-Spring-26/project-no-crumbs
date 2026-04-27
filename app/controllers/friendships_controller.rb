@@ -1,5 +1,5 @@
 class FriendshipsController < ApplicationController
-  before_action :set_friendship, only: [:update, :destroy]
+  before_action :set_friendship, only: [ :update, :destroy ]
 
   def index
     @friends          = current_user.friends
@@ -11,15 +11,15 @@ class FriendshipsController < ApplicationController
     receiver   = User.find(params[:receiver_id])
     friendship = current_user.sent_friendships.new(receiver: receiver)
     if friendship.save
-      redirect_back fallback_location: friendships_path, notice: 'Friend request sent.'
+      redirect_back fallback_location: friendships_path, notice: "Friend request sent."
     else
-      redirect_back fallback_location: friendships_path, alert: 'Could not send friend request.'
+      redirect_back fallback_location: friendships_path, alert: "Could not send friend request."
     end
   end
 
   def update
     unless @friendship.receiver == current_user
-      return redirect_back fallback_location: friendships_path, alert: 'Not authorized.'
+      return redirect_back fallback_location: friendships_path, alert: "Not authorized."
     end
     @friendship.update!(status: params[:status])
     redirect_back fallback_location: friendships_path, notice: "Request #{params[:status]}."
@@ -27,10 +27,10 @@ class FriendshipsController < ApplicationController
 
   def destroy
     unless @friendship.requester == current_user || @friendship.receiver == current_user
-      return redirect_back fallback_location: friendships_path, alert: 'Not authorized.'
+      return redirect_back fallback_location: friendships_path, alert: "Not authorized."
     end
     @friendship.destroy
-    redirect_back fallback_location: friendships_path, notice: 'Removed.'
+    redirect_back fallback_location: friendships_path, notice: "Removed."
   end
 
   private
