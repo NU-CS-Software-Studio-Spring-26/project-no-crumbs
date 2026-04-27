@@ -5,12 +5,12 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :posts, -> { order(meal_date: :asc) }, dependent: :destroy
 
-  has_many :sent_friendships,     class_name: 'Friendship', foreign_key: :requester_id, dependent: :destroy
-  has_many :received_friendships, class_name: 'Friendship', foreign_key: :receiver_id,  dependent: :destroy
+  has_many :sent_friendships,     class_name: "Friendship", foreign_key: :requester_id, dependent: :destroy
+  has_many :received_friendships, class_name: "Friendship", foreign_key: :receiver_id,  dependent: :destroy
 
-  has_many :friends_as_requester, -> { where(friendships: { status: 'accepted' }) },
+  has_many :friends_as_requester, -> { where(friendships: { status: "accepted" }) },
            through: :sent_friendships, source: :receiver
-  has_many :friends_as_receiver,  -> { where(friendships: { status: 'accepted' }) },
+  has_many :friends_as_receiver,  -> { where(friendships: { status: "accepted" }) },
            through: :received_friendships, source: :requester
 
   def friends
