@@ -53,7 +53,7 @@ class PostsController < ApplicationController
     @post.destroy!
 
     respond_to do |format|
-      format.html { redirect_to posts_path, notice: "Post was successfully destroyed.", status: :see_other }
+      format.html { redirect_to posts_path, notice: "Post was successfully deleted.", status: :see_other }
       format.json { head :no_content }
     end
   end

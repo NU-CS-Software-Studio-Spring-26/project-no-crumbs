@@ -1174,6 +1174,77 @@ input[type="submit"].btn-outline-nc.w-100 {
   text-align: center;
 }
 
+/* ── CONFIRM MODAL ── */
+.nc-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(17, 24, 39, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.15s ease both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.nc-modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-md);
+  width: 100%;
+  max-width: 380px;
+  overflow: hidden;
+  animation: fadeUp 0.2s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+.nc-modal-header {
+  padding: 1.25rem 1.5rem 0;
+}
+
+.nc-modal-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #FEF2F2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  color: #DC2626;
+  font-size: 1rem;
+}
+
+.nc-modal-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.2px;
+  margin: 0 0 6px;
+}
+
+.nc-modal-message {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.55;
+}
+
+.nc-modal-footer {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding: 1.25rem 1.5rem;
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 720px) {
   .nc-nav { padding: 0 1rem; }
