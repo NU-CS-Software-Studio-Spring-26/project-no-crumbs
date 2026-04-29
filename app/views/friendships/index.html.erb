@@ -7,6 +7,16 @@
   </div>
 </div>
 
+<div class="find-people-banner">
+  <div>
+    <p class="find-people-title">Find People</p>
+    <p class="find-people-sub">Browse everyone on NoCrumbs and send a friend request.</p>
+  </div>
+  <%= link_to users_path, class: "btn-outline-nc" do %>
+    <i class="bi bi-people"></i> Browse People
+  <% end %>
+</div>
+
 <% if @pending_received.any? %>
   <p class="section-label">Requests waiting on you</p>
   <div class="nc-table-wrap">
@@ -21,7 +31,7 @@
       <tbody>
         <% @pending_received.each do |f| %>
           <tr>
-            <td><%= link_to f.requester.username, f.requester %></td>
+            <td><%= link_to f.requester.username, f.requester, class: "user-table-link" %></td>
             <td><%= f.created_at.strftime("%b %-d, %Y") %></td>
             <td class="text-end">
               <%= button_to friendship_path(f), method: :patch, params: { status: 'accepted' }, class: "btn-brand-nc btn-sm-nc" do %>
@@ -52,7 +62,7 @@
       <tbody>
         <% @pending_sent.each do |f| %>
           <tr>
-            <td><%= link_to f.receiver.username, f.receiver %></td>
+            <td><%= link_to f.receiver.username, f.receiver, class: "user-table-link" %></td>
             <td><%= f.created_at.strftime("%b %-d, %Y") %></td>
             <td class="text-end">
               <%= button_to friendship_path(f), method: :delete, class: "btn-outline-nc btn-sm-nc" do %>
@@ -71,15 +81,6 @@
   <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
     <% @friends.each do |friend| %>
       <div class="col"><%= render friend %></div>
-    <% end %>
-  </div>
-<% elsif @pending_received.empty? && @pending_sent.empty? %>
-  <div class="empty-state">
-    <div class="empty-icon">👋</div>
-    <p class="empty-title">No friends yet</p>
-    <p class="empty-sub">Find someone on the People page and send them a request.</p>
-    <%= link_to users_path, class: "btn-brand-nc" do %>
-      <i class="bi bi-people"></i> Browse People
     <% end %>
   </div>
 <% end %>

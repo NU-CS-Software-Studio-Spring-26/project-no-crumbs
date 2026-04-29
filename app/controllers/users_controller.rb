@@ -11,6 +11,14 @@ class UsersController < ApplicationController
     @friendship = Friendship.where(requester: current_user, receiver: @user)
                             .or(Friendship.where(requester: @user, receiver: current_user))
                             .first
+    can_see_meals = current_user == @user || current_user.friend_with?(@user)
+    if can_see_meals
+      @active_posts   = @user.posts.active.order(meal_date: :asc)
+      @archived_posts = @user.posts.archived.order(meal_date: :desc)
+    else
+      @active_posts   = nil
+      @archived_posts = nil
+    end
   end
 
   # GET /users/new

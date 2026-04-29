@@ -5,13 +5,12 @@ export default class extends Controller {
   static targets = ["display", "hidden"]
 
   connect() {
-    const initial = this.hiddenTarget.value || null
+    const initial = this.element.dataset.datepickerInitialValue
 
     this.picker = flatpickr(this.displayTarget, {
       enableTime: true,
       dateFormat: "F j, Y \\a\\t h:i K",
       minuteIncrement: 15,
-      defaultDate: initial,
       disableMobile: true,
       onChange: ([date]) => {
         if (!date) return
@@ -21,6 +20,13 @@ export default class extends Controller {
           `T${pad(date.getHours())}:${pad(date.getMinutes())}`
       }
     })
+
+    if (initial) {
+      const [datePart, timePart = "00:00"] = initial.split("T")
+      const [y, m, d] = datePart.split("-").map(Number)
+      const [h, min] = timePart.split(":").map(Number)
+      this.picker.setDate(new Date(y, m - 1, d, h, min), false)
+    }
   }
 
   disconnect() {
