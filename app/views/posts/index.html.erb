@@ -5,6 +5,11 @@
     <h1 class="feed-title">Meals</h1>
     <p class="feed-subtitle"><%= pluralize(@posts.count, "meal") %> planned</p>
   </div>
+  <% if user_signed_in? %>
+    <%= link_to new_post_path, class: "nc-nav-cta" do %>
+      <i class="bi bi-plus"></i> Plan a Meal
+    <% end %>
+  <% end %>
 </div>
 
 <% if @posts.empty? %>

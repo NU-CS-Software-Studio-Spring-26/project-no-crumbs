@@ -57,3 +57,25 @@ users_data.each_with_index do |attrs, i|
     end
   end
 end
+
+alice = User.find_by!(email: "alice@example.com")
+bob   = User.find_by!(email: "bob@example.com")
+carol = User.find_by!(email: "carol@example.com")
+dave  = User.find_by!(email: "dave@example.com")
+eve   = User.find_by!(email: "eve@example.com")
+
+friendships_data = [
+  { requester: alice, receiver: bob,   status: "accepted" },
+  { requester: carol, receiver: alice, status: "accepted" },
+  { requester: bob,   receiver: carol, status: "accepted" },
+  { requester: carol, receiver: dave,  status: "accepted" },
+  { requester: alice, receiver: dave,  status: "pending"  },
+  { requester: eve,   receiver: bob,   status: "pending"  },
+  { requester: dave,  receiver: eve,   status: "declined" }
+]
+
+friendships_data.each do |f|
+  Friendship.find_or_create_by!(requester: f[:requester], receiver: f[:receiver]) do |fs|
+    fs.status = f[:status]
+  end
+end

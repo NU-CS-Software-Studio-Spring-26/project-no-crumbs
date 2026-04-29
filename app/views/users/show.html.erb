@@ -16,12 +16,15 @@
           <%= link_to edit_user_path(@user), class: "btn-outline-nc btn-sm-nc" do %>
             <i class="bi bi-pencil"></i> Edit
           <% end %>
+          <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "btn-outline-nc btn-sm-nc" do %>
+            <i class="bi bi-box-arrow-right"></i> Sign Out
+          <% end %>
           <%= button_to @user, method: :delete,
                 form: { data: { turbo_confirm: "Remove this person?" } },
                 class: "btn-danger-nc btn-sm-nc" do %>
             <i class="bi bi-trash"></i>
           <% end %>
-        <% elsif @friendship.nil? %>
+        <% elsif @friendship.nil? || @friendship.status == 'declined' %>
           <%= button_to friendships_path, method: :post, params: { receiver_id: @user.id }, class: "btn-brand-nc btn-sm-nc" do %>
             <i class="bi bi-person-plus"></i> Add Friend
           <% end %>
@@ -68,34 +71,69 @@
   </div>
 </div>
 
-<% if @user.posts.any? %>
-  <p class="section-label">Meals hosted</p>
-  <div class="nc-table-wrap">
-    <table class="nc-table">
-      <thead>
-        <tr>
-          <th>Meal</th>
-          <th>Date</th>
-          <th>Time</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @user.posts.each do |post| %>
-          <tr>
-            <td><%= post.title %></td>
-            <td><%= post.meal_date&.strftime("%b %-d, %Y") || "—" %></td>
-            <td><%= post.meal_date&.strftime("%-l:%M %p")&.strip || "—" %></td>
-            <td class="text-end">
-              <%= link_to "View", post, class: "btn-outline-nc btn-sm-nc" %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+<% if @active_posts.nil? %>
+  <div class="locked-meals">
+    <i class="bi bi-lock"></i>
+    <p>Add <%= @user.username %> as a friend to see their meals.</p>
   </div>
 <% else %>
-  <p style="color:var(--muted);font-size:0.9rem;font-weight:500">No meals hosted yet.</p>
+  <% if @active_posts.any? %>
+    <p class="section-label">Meals hosted</p>
+    <div class="nc-table-wrap">
+      <table class="nc-table">
+        <thead>
+          <tr>
+            <th>Meal</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @active_posts.each do |post| %>
+            <tr>
+              <td><%= post.title %></td>
+              <td><%= post.meal_date&.strftime("%b %-d, %Y") || "—" %></td>
+              <td><%= post.meal_date&.strftime("%-l:%M %p")&.strip || "—" %></td>
+              <td class="text-end">
+                <%= link_to "View", post, class: "btn-outline-nc btn-sm-nc" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% elsif @archived_posts.none? %>
+    <p style="color:var(--muted);font-size:0.9rem;font-weight:500">No meals hosted yet.</p>
+  <% end %>
+
+  <% if @archived_posts.any? %>
+    <p class="section-label">Archived meals</p>
+    <div class="nc-table-wrap">
+      <table class="nc-table nc-table-muted">
+        <thead>
+          <tr>
+            <th>Meal</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @archived_posts.each do |post| %>
+            <tr>
+              <td><%= post.title %></td>
+              <td><%= post.meal_date&.strftime("%b %-d, %Y") || "—" %></td>
+              <td><%= post.meal_date&.strftime("%-l:%M %p")&.strip || "—" %></td>
+              <td class="text-end">
+                <%= link_to "View", post, class: "btn-outline-nc btn-sm-nc" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
 <% end %>
 
 <% if @user.friends.any? %>

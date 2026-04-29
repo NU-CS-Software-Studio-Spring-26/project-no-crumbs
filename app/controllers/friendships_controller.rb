@@ -9,11 +9,22 @@ class FriendshipsController < ApplicationController
 
   def create
     receiver   = User.find(params[:receiver_id])
-    friendship = current_user.sent_friendships.new(receiver: receiver)
-    if friendship.save
+
+    # If a declined friendship already exists between these two users, reuse it
+    existing = Friendship.where(requester: current_user, receiver: receiver, status: "declined")
+                         .or(Friendship.where(requester: receiver, receiver: current_user, status: "declined"))
+                         .first
+
+    if existing
+      existing.update!(requester: current_user, receiver: receiver, status: "pending")
       redirect_back fallback_location: friendships_path, notice: "Friend request sent."
     else
-      redirect_back fallback_location: friendships_path, alert: "Could not send friend request."
+      friendship = current_user.sent_friendships.new(receiver: receiver)
+      if friendship.save
+        redirect_back fallback_location: friendships_path, notice: "Friend request sent."
+      else
+        redirect_back fallback_location: friendships_path, alert: "Could not send friend request."
+      end
     end
   end
 

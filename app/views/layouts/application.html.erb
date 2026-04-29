@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>NoCrumbs</title>
+    <title><%= content_for(:title) || "No Crumbs" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -27,17 +27,15 @@
         <% end %>
       </div>
       <div class="nc-nav-mid">
-        <%= link_to "Meals", posts_path, class: "nc-nav-link" %>
-        <%= link_to "People", users_path, class: "nc-nav-link" %>
         <% if user_signed_in? %>
+          <%= link_to "Meals", posts_path, class: "nc-nav-link" %>
           <%= link_to "Friends", friendships_path, class: "nc-nav-link" %>
         <% end %>
       </div>
       <div class="nc-nav-right">
         <% if user_signed_in? %>
-          <%= link_to "Sign Out", destroy_user_session_path, data: { turbo_method: :delete }, class: "nc-nav-link" %>
-          <%= link_to new_post_path, class: "nc-nav-cta" do %>
-            <i class="bi bi-plus"></i> Plan a Meal
+          <%= link_to user_path(current_user), class: "nc-nav-icon", title: "My Profile" do %>
+            <i class="bi bi-person-circle"></i>
           <% end %>
         <% else %>
           <%= link_to "Sign In", new_user_session_path, class: "nc-nav-link" %>

@@ -1,9 +1,15 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :require_owner!, only: %i[ edit update destroy ]
 
   # GET /posts or /posts.json
   def index
-    @posts = Post.order(meal_date: :asc)
+    if user_signed_in?
+      visible_ids = current_user.friends.ids + [ current_user.id ]
+      @posts = Post.active.where(user_id: visible_ids).order(meal_date: :asc)
+    else
+      @posts = Post.none
+    end
   end
 
   # GET /posts/1 or /posts/1.json
@@ -62,6 +68,10 @@ class PostsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_post
       @post = Post.find(params.expect(:id))
+    end
+
+    def require_owner!
+      redirect_to @post, alert: "You can only modify your own meals." unless @post.user == current_user
     end
 
     # Only allow a list of trusted parameters through.
