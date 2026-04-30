@@ -1,9 +1,15 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
+  before_action :require_owner!, only: %i[ edit update destroy ]
 
   # GET /users or /users.json
   def index
-    @users = User.all
+    @query = params[:q].to_s.strip
+    @users = if @query.present?
+      User.where("username ILIKE ? OR email ILIKE ?", "%#{@query}%", "%#{@query}%")
+    else
+      User.all
+    end
   end
 
   # GET /users/1 or /users/1.json
@@ -49,7 +55,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: "User was successfully updated.", status: :see_other }
+        format.html { redirect_to user_path(@user, direct: 1), notice: "User was successfully updated.", status: :see_other }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -72,6 +78,10 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params.expect(:id))
+    end
+
+    def require_owner!
+      redirect_to @user, alert: "You can only modify your own profile." unless @user == current_user
     end
 
     # Only allow a list of trusted parameters through.

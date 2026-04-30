@@ -11,11 +11,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get new" do
-    get new_user_url
-    assert_response :success
-  end
-
   test "should create user" do
     skip "User creation is handled by Devise registration"
   end
@@ -32,7 +27,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should update user" do
     patch user_url(@user), params: { user: { bio: @user.bio, email: @user.email, username: @user.username } }
-    assert_redirected_to user_url(@user)
+    assert_redirected_to user_url(@user, direct: 1)
   end
 
   test "should destroy user" do

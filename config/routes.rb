@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :posts
-  resources :users
+  resources :users, only: %i[index show edit update destroy]
   resources :friendships
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

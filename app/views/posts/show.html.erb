@@ -1,8 +1,14 @@
 <% content_for :title, @post.title %>
 
 <div class="mb-3">
-  <%= link_to posts_path, class: "btn-outline-nc btn-sm-nc" do %>
-    <i class="bi bi-arrow-left"></i> Meals
+  <% if params[:from_create] || params[:from_edit] %>
+    <%= link_to posts_path, class: "btn-outline-nc btn-sm-nc" do %>
+      <i class="bi bi-arrow-left"></i> All Meals
+    <% end %>
+  <% else %>
+    <a href="#" onclick="history.back(); return false;" class="btn-outline-nc btn-sm-nc">
+      <i class="bi bi-arrow-left"></i> Back
+    </a>
   <% end %>
 </div>
 

@@ -1,5 +1,13 @@
 <% content_for :title, "People" %>
 
+<% if request.referer&.start_with?(root_url) %>
+  <div class="mb-3">
+    <a href="#" onclick="history.back(); return false;" class="btn-outline-nc btn-sm-nc">
+      <i class="bi bi-arrow-left"></i> Back
+    </a>
+  </div>
+<% end %>
+
 <div class="feed-header">
   <div>
     <h1 class="feed-title">People</h1>
@@ -7,14 +15,23 @@
   </div>
 </div>
 
+<%= form_with url: users_path, method: :get, class: "nc-search-form" do %>
+  <div class="nc-search-wrap">
+    <i class="bi bi-search nc-search-icon"></i>
+    <%= text_field_tag :q, @query, placeholder: "Search by name or email…", class: "nc-search-input", autocomplete: "off" %>
+    <% if @query.present? %>
+      <%= link_to users_path, class: "nc-search-clear" do %>
+        <i class="bi bi-x"></i>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
 <% if @users.empty? %>
   <div class="empty-state">
-    <div class="empty-icon">👤</div>
-    <p class="empty-title">No one here yet</p>
-    <p class="empty-sub">Add your first friend and start planning meals together.</p>
-    <%= link_to new_user_path, class: "btn-brand-nc" do %>
-      <i class="bi bi-plus"></i> Add Someone
-    <% end %>
+    <div class="empty-icon">🔍</div>
+    <p class="empty-title">No results for "<%= @query %>"</p>
+    <p class="empty-sub">Try a different name or email.</p>
   </div>
 <% else %>
   <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">

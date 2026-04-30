@@ -1,13 +1,23 @@
 <% content_for :title, "Edit Profile" %>
 
 <div class="mb-4">
-  <%= link_to @user, class: "btn-outline-nc btn-sm-nc" do %>
+  <a href="#" onclick="history.back(); return false;" class="btn-outline-nc btn-sm-nc">
     <i class="bi bi-arrow-left"></i> Back
-  <% end %>
+  </a>
 </div>
 
 <div class="form-wrap">
   <h1 class="form-page-title">Edit profile</h1>
   <p class="form-page-sub">Update your details below</p>
   <%= render "form", user: @user %>
+
+  <div style="margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+    <p style="font-size:0.8125rem;font-weight:700;color:var(--text);margin-bottom:4px;">Danger zone</p>
+    <p style="font-size:0.8125rem;color:var(--muted);font-weight:500;margin-bottom:1rem;">Deleting your account is permanent and cannot be undone.</p>
+    <%= button_to @user, method: :delete,
+          form: { data: { turbo_confirm: "Permanently delete your account? This cannot be undone." } },
+          class: "btn-danger-nc btn-sm-nc" do %>
+      <i class="bi bi-trash"></i> Delete account
+    <% end %>
+  </div>
 </div>

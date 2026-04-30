@@ -1,9 +1,11 @@
 <% content_for :title, @user.username %>
-<div class="mb-3">
-  <%= link_to users_path, class: "btn-outline-nc btn-sm-nc" do %>
-    <i class="bi bi-arrow-left"></i> People
-  <% end %>
-</div>
+<% unless params[:direct] %>
+  <div class="mb-3">
+    <a href="#" onclick="history.back(); return false;" class="btn-outline-nc btn-sm-nc">
+      <i class="bi bi-arrow-left"></i> Back
+    </a>
+  </div>
+<% end %>
 
 <div class="profile-card">
   <div class="profile-cover gc-meal"></div>
@@ -18,11 +20,6 @@
           <% end %>
           <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "btn-outline-nc btn-sm-nc" do %>
             <i class="bi bi-box-arrow-right"></i> Sign Out
-          <% end %>
-          <%= button_to @user, method: :delete,
-                form: { data: { turbo_confirm: "Remove this person?" } },
-                class: "btn-danger-nc btn-sm-nc" do %>
-            <i class="bi bi-trash"></i>
           <% end %>
         <% elsif @friendship.nil? || @friendship.status == 'declined' %>
           <%= button_to friendships_path, method: :post, params: { receiver_id: @user.id }, class: "btn-brand-nc btn-sm-nc" do %>

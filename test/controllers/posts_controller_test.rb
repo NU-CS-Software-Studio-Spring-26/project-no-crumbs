@@ -21,7 +21,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
       post posts_url, params: { post: { description: @post.description, meal_date: @post.meal_date, title: "New Post" } }
     end
 
-    assert_redirected_to post_url(Post.last)
+    assert_redirected_to post_url(Post.last, from_create: 1)
   end
 
   test "should show post" do
@@ -36,7 +36,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update post" do
     patch post_url(@post), params: { post: { description: @post.description, meal_date: @post.meal_date, title: @post.title } }
-    assert_redirected_to post_url(@post)
+    assert_redirected_to post_url(@post, from_edit: 1)
   end
 
   test "should destroy post" do
