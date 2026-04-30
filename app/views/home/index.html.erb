@@ -1,35 +1,120 @@
-<div class="home-hero">
-  <div class="home-hero-inner">
-    <p class="home-eyebrow">Cook it. Share it. Leave no crumbs.</p>
-    <h1 class="home-headline">No<span>Crumbs</span></h1>
-    <p class="home-sub">Connect with friends over food — post a meal you're cooking, share what you've made, and never eat alone.</p>
+<% content_for :title, "NoCrumbs — Cook it. Share it." %>
+
+<%# ── HERO ── %>
+<div class="lp-hero">
+  <div class="lp-blob lp-blob-1"></div>
+  <div class="lp-blob lp-blob-2"></div>
+  <div class="lp-blob lp-blob-3"></div>
+
+  <span class="lp-emoji" style="top:10%;left:7%;font-size:2.75rem;animation-duration:7s;animation-delay:0s;">🍝</span>
+  <span class="lp-emoji" style="top:18%;right:9%;font-size:2.25rem;animation-duration:5.5s;animation-delay:0.6s;">🥗</span>
+  <span class="lp-emoji" style="top:60%;left:5%;font-size:2rem;animation-duration:8s;animation-delay:1.2s;">🍕</span>
+  <span class="lp-emoji" style="top:68%;right:7%;font-size:2.5rem;animation-duration:6s;animation-delay:0.3s;">🥘</span>
+  <span class="lp-emoji" style="top:38%;left:2%;font-size:1.75rem;animation-duration:9s;animation-delay:1.8s;">🧆</span>
+  <span class="lp-emoji" style="top:32%;right:3%;font-size:1.75rem;animation-duration:6.5s;animation-delay:2.2s;">🍜</span>
+  <span class="lp-emoji" style="top:82%;left:20%;font-size:1.5rem;animation-duration:7.5s;animation-delay:0.9s;">🥐</span>
+  <span class="lp-emoji" style="top:12%;left:28%;font-size:1.25rem;animation-duration:5s;animation-delay:1.5s;">🍣</span>
+  <span class="lp-emoji" style="top:78%;right:20%;font-size:1.75rem;animation-duration:8.5s;animation-delay:0.4s;">🫕</span>
+  <span class="lp-emoji" style="top:50%;right:2%;font-size:1.25rem;animation-duration:6s;animation-delay:2.8s;">🌮</span>
+
+  <div class="lp-hero-content">
+    <div class="lp-eyebrow">
+      <span class="lp-eyebrow-dot"></span>
+      Social dining, reimagined
+    </div>
+    <h1 class="lp-headline">No<span>Crumbs</span><br>left behind.</h1>
+    <p class="lp-sub">Post a meal you're cooking. Share what you've made.<br class="lp-br-hide">Connect with friends over food — and never eat alone.</p>
+    <div class="lp-cta-row">
+      <%= link_to posts_path, class: "lp-btn-primary" do %>
+        <i class="bi bi-journal-richtext"></i> See Meals
+      <% end %>
+      <%= link_to friendships_path, class: "lp-btn-ghost" do %>
+        <i class="bi bi-people"></i> Friends
+      <% end %>
+    </div>
   </div>
 </div>
 
-<div class="home-cards">
-  <%= link_to posts_path, class: "home-card" do %>
-    <div class="home-card-icon gc-meal">
-      <i class="bi bi-journal-richtext"></i>
+<%# ── MARQUEE ── %>
+<div class="lp-marquee-wrap">
+  <div class="lp-marquee">
+    <div class="lp-marquee-track">
+      <span>🍝 Pasta Night</span><span>🥗 Salad Bar</span><span>🍕 Pizza Friday</span>
+      <span>🥘 Sunday Stew</span><span>🍜 Ramen Lab</span><span>🧆 Falafel Feast</span>
+      <span>🥐 Croissant Morning</span><span>🍣 Sushi Spread</span><span>🫕 Fondue Night</span>
+      <span>🌮 Taco Tuesday</span><span>🍳 Brunch Club</span><span>🥩 Grill Night</span>
+      <%# duplicate for seamless loop %>
+      <span>🍝 Pasta Night</span><span>🥗 Salad Bar</span><span>🍕 Pizza Friday</span>
+      <span>🥘 Sunday Stew</span><span>🍜 Ramen Lab</span><span>🧆 Falafel Feast</span>
+      <span>🥐 Croissant Morning</span><span>🍣 Sushi Spread</span><span>🫕 Fondue Night</span>
+      <span>🌮 Taco Tuesday</span><span>🍳 Brunch Club</span><span>🥩 Grill Night</span>
     </div>
-    <div class="home-card-body">
-      <h2 class="home-card-title">Meals</h2>
-      <p class="home-card-desc">See meals your friends are cooking or leftovers up for grabs — and post your own.</p>
-    </div>
-    <div class="home-card-footer">
-      <span class="home-card-link">View all meals <i class="bi bi-arrow-right"></i></span>
-    </div>
-  <% end %>
+  </div>
+</div>
 
-  <%= link_to friendships_path, class: "home-card" do %>
-    <div class="home-card-icon gc-1">
-      <i class="bi bi-people"></i>
+<%# ── FEATURES ── %>
+<div class="lp-features">
+  <div class="lp-feature">
+    <div class="lp-feature-icon gc-meal">🍳</div>
+    <h3 class="lp-feature-title">Cook &amp; Post</h3>
+    <p class="lp-feature-desc">Planning a dinner? Post it on NoCrumbs and let your friends know what's cooking — and when.</p>
+  </div>
+  <div class="lp-feature">
+    <div class="lp-feature-icon gc-1">👀</div>
+    <h3 class="lp-feature-title">See What's On</h3>
+    <p class="lp-feature-desc">Browse your friends' meals, see what's on the menu tonight, and never miss a good bite.</p>
+  </div>
+  <div class="lp-feature">
+    <div class="lp-feature-icon gc-2">🤝</div>
+    <h3 class="lp-feature-title">Share the Table</h3>
+    <p class="lp-feature-desc">Add friends, accept invites, and build a crew of people who love food as much as you do.</p>
+  </div>
+</div>
+
+<%# ── HOW IT WORKS ── %>
+<div class="lp-how">
+  <p class="lp-section-eyebrow">How it works</p>
+  <div class="lp-steps">
+    <div class="lp-step">
+      <div class="lp-step-num">1</div>
+      <div class="lp-step-text">
+        <h4 class="lp-step-title">Create your profile</h4>
+        <p class="lp-step-desc">Sign up and set up your NoCrumbs identity in seconds.</p>
+      </div>
     </div>
-    <div class="home-card-body">
-      <h2 class="home-card-title">Friends</h2>
-      <p class="home-card-desc">See your friends on NoCrumbs, manage requests, and find new people to connect with.</p>
+    <div class="lp-step-line"></div>
+    <div class="lp-step">
+      <div class="lp-step-num">2</div>
+      <div class="lp-step-text">
+        <h4 class="lp-step-title">Add your friends</h4>
+        <p class="lp-step-desc">Connect with people you know — meals stay private to your circle.</p>
+      </div>
     </div>
-    <div class="home-card-footer">
-      <span class="home-card-link">View friends <i class="bi bi-arrow-right"></i></span>
+    <div class="lp-step-line"></div>
+    <div class="lp-step">
+      <div class="lp-step-num">3</div>
+      <div class="lp-step-text">
+        <h4 class="lp-step-title">Post your meals</h4>
+        <p class="lp-step-desc">Share what you're cooking and when — your crew will see it instantly.</p>
+      </div>
     </div>
-  <% end %>
+  </div>
+</div>
+
+<%# ── BOTTOM CTA ── %>
+<div class="lp-bottom">
+  <div class="lp-bottom-blob lp-bottom-blob-1"></div>
+  <div class="lp-bottom-blob lp-bottom-blob-2"></div>
+  <div class="lp-bottom-inner">
+    <p class="lp-bottom-eyebrow">Ready to eat?</p>
+    <h2 class="lp-bottom-headline">Leave no crumbs.</h2>
+    <div class="lp-cta-row">
+      <%= link_to posts_path, class: "lp-btn-primary" do %>
+        <i class="bi bi-journal-richtext"></i> See Meals
+      <% end %>
+      <%= link_to friendships_path, class: "lp-btn-ghost" do %>
+        <i class="bi bi-people"></i> Your Friends
+      <% end %>
+    </div>
+  </div>
 </div>
