@@ -81,13 +81,24 @@
       document.addEventListener("turbo:load", function() {
         const hamburger = document.getElementById("nc-hamburger");
         const menu = document.getElementById("nc-mobile-menu");
-        if (!hamburger || !menu) return;
-        hamburger.addEventListener("click", function(e) {
-          e.stopPropagation();
-          menu.classList.toggle("open");
-        });
-        document.addEventListener("click", function() {
-          menu.classList.remove("open");
+        if (hamburger && menu) {
+          if (!hamburger.dataset.listenerAttached) {
+            hamburger.dataset.listenerAttached = "true";
+            hamburger.addEventListener("click", function(e) {
+              e.stopPropagation();
+              menu.classList.toggle("open");
+            });
+            document.addEventListener("click", function() {
+              menu.classList.remove("open");
+            });
+          }
+        }
+
+        document.querySelectorAll(".nc-flash").forEach(function(flash) {
+          setTimeout(function() {
+            flash.classList.add("nc-flash-hide");
+            setTimeout(function() { flash.remove(); }, 400);
+          }, 3500);
         });
       });
     </script>
