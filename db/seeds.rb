@@ -85,18 +85,18 @@ posts_data = [
 
 # Each pair is [requester_index, receiver_index] into the users array
 friendships_data = [
-  [0, 1],  # alice  <-> bob
-  [0, 2],  # alice  <-> carol
-  [0, 5],  # alice  <-> frank
-  [1, 3],  # bob    <-> dave
-  [1, 6],  # bob    <-> grace
-  [2, 7],  # carol  <-> henry
-  [3, 4],  # dave   <-> eve
-  [4, 5],  # eve    <-> frank
-  [5, 8],  # frank  <-> isabel
-  [6, 9],  # grace  <-> jordan
-  [7, 9],  # henry  <-> jordan
-  [8, 9]   # isabel <-> jordan
+  [ 0, 1 ],  # alice  <-> bob
+  [ 0, 2 ],  # alice  <-> carol
+  [ 0, 5 ],  # alice  <-> frank
+  [ 1, 3 ],  # bob    <-> dave
+  [ 1, 6 ],  # bob    <-> grace
+  [ 2, 7 ],  # carol  <-> henry
+  [ 3, 4 ],  # dave   <-> eve
+  [ 4, 5 ],  # eve    <-> frank
+  [ 5, 8 ],  # frank  <-> isabel
+  [ 6, 9 ],  # grace  <-> jordan
+  [ 7, 9 ],  # henry  <-> jordan
+  [ 8, 9 ]   # isabel <-> jordan
 ]
 
 users = users_data.each_with_index.map do |attrs, i|
