@@ -129,6 +129,7 @@ bob   = User.find_by!(email: "bob@example.com")
 carol = User.find_by!(email: "carol@example.com")
 dave  = User.find_by!(email: "dave@example.com")
 eve   = User.find_by!(email: "eve@example.com")
+frank = User.find_by!(email: "frank@example.com")
 
 friendships_data = [
   { requester: alice, receiver: bob,   status: "accepted" },
@@ -143,5 +144,78 @@ friendships_data = [
 friendships_data.each do |f|
   Friendship.find_or_create_by!(requester: f[:requester], receiver: f[:receiver]) do |fs|
     fs.status = f[:status]
+  end
+end
+
+# ── Nick (the real user) ──────────────────────────────────────────────────────
+nick = User.find_or_create_by!(email: "nperry248@gmail.com") do |u|
+  u.username = "nperry"
+  u.bio      = "Always down to eat."
+  u.password = "password123"
+end
+
+# Nick's upcoming meals (active, so friends can RSVP to them)
+nick_bbq = nick.posts.find_or_create_by!(title: "Backyard BBQ Bash") do |p|
+  p.description = "Burgers, dogs, ribs — the whole spread. BYOB and bring a side."
+  p.meal_date   = 2.days.from_now.change(hour: 17, min: 0)
+end
+
+nick_sushi = nick.posts.find_or_create_by!(title: "Homemade Sushi Night") do |p|
+  p.description = "Rolling our own maki and nigiri. I'll have all the fish — just show up hungry."
+  p.meal_date   = 5.days.from_now.change(hour: 19, min: 30)
+end
+
+# Friends' upcoming meals (so Nick has something to RSVP to)
+alice_pasta = alice.posts.find_or_create_by!(title: "Garden Pasta Night") do |p|
+  p.description = "Fresh pappardelle with cherry tomatoes, basil, and burrata straight from the garden."
+  p.meal_date   = 3.days.from_now.change(hour: 18, min: 30)
+end
+
+bob_ramen = bob.posts.find_or_create_by!(title: "Sunday Ramen Session") do |p|
+  p.description = "Spent all day on the broth — tonkotsu with all the toppings. Limited seats."
+  p.meal_date   = 4.days.from_now.change(hour: 19, min: 0)
+end
+
+frank_wine = frank.posts.find_or_create_by!(title: "Wine & Cheese Evening") do |p|
+  p.description = "Pairing six cheeses with natural wines. A quiet one — max 6 people."
+  p.meal_date   = 7.days.from_now.change(hour: 20, min: 0)
+end
+
+# Friendships connecting Nick to the existing crew
+[
+  { requester: nick, receiver: alice },
+  { requester: nick, receiver: bob   },
+  { requester: nick, receiver: carol },
+  { requester: frank, receiver: nick }
+].each do |f|
+  Friendship.find_or_create_by!(requester: f[:requester], receiver: f[:receiver]) do |fs|
+    fs.status = "accepted"
+  end
+end
+
+# RSVPs on Nick's meals (friends responding to his events)
+{
+  nick_bbq   => [ { user: alice, status: "going"     },
+                  { user: bob,   status: "maybe"      },
+                  { user: carol, status: "going"      },
+                  { user: frank, status: "not_going"  } ],
+  nick_sushi => [ { user: alice, status: "going"     },
+                  { user: frank, status: "maybe"      } ]
+}.each do |post, rsvps|
+  rsvps.each do |r|
+    Rsvp.find_or_create_by!(post: post, user: r[:user]) do |rsvp|
+      rsvp.status = r[:status]
+    end
+  end
+end
+
+# Nick's RSVPs on friends' upcoming meals
+{
+  alice_pasta => "going",
+  bob_ramen   => "maybe",
+  frank_wine  => "going"
+}.each do |post, status|
+  Rsvp.find_or_create_by!(post: post, user: nick) do |rsvp|
+    rsvp.status = status
   end
 end

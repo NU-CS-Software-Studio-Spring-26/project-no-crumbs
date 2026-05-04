@@ -2135,3 +2135,127 @@ input[type="submit"].btn-outline-nc.w-100 {
 
   .lp-br-hide { display: none; }
 }
+
+/* ── RSVP ── */
+.rsvp-btn-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rsvp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all var(--t);
+  white-space: nowrap;
+}
+
+.rsvp-btn:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+.rsvp-btn-active {
+  border-color: transparent !important;
+  color: #fff !important;
+}
+
+.rsvp-btn-going.rsvp-btn-active {
+  background: #16a34a;
+}
+
+.rsvp-btn-maybe.rsvp-btn-active {
+  background: #d97706;
+}
+
+.rsvp-btn-not-going.rsvp-btn-active {
+  background: var(--muted);
+}
+
+.rsvp-group {
+  margin-bottom: 12px;
+}
+
+.rsvp-group:last-child {
+  margin-bottom: 0;
+}
+
+.rsvp-group-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+
+.rsvp-avatars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rsvp-avatar-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none !important;
+  transition: opacity var(--t);
+}
+
+.rsvp-avatar-item:hover {
+  opacity: 0.75;
+}
+
+.rsvp-avatar-name {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.rsvp-cant-make-it {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin: 8px 0 0;
+}
+
+.rsvp-empty {
+  font-size: 0.875rem;
+  color: var(--muted);
+  font-weight: 500;
+  margin: 0;
+}
+
+.rsvp-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rsvp-count span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+}

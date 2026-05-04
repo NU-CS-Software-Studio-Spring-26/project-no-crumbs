@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_27_194411) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_04_181739) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -35,6 +35,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_27_194411) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
+  create_table "rsvps", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "post_id", null: false
+    t.string "status", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["post_id", "user_id"], name: "index_rsvps_on_post_id_and_user_id", unique: true
+    t.index ["post_id"], name: "index_rsvps_on_post_id"
+    t.index ["user_id"], name: "index_rsvps_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.text "bio"
     t.datetime "created_at", null: false
@@ -52,4 +63,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_27_194411) do
   add_foreign_key "friendships", "users", column: "receiver_id"
   add_foreign_key "friendships", "users", column: "requester_id"
   add_foreign_key "posts", "users"
+  add_foreign_key "rsvps", "posts"
+  add_foreign_key "rsvps", "users"
 end

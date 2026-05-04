@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :posts
+  resources :posts do
+    resource :rsvp, only: %i[create destroy]
+  end
   resources :users, only: %i[index show edit update destroy]
   resources :friendships
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

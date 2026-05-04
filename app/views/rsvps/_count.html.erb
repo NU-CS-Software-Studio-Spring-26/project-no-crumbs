@@ -1,0 +1,14 @@
+<% going_count = post.rsvps.where(status: "going").count
+   maybe_count = post.rsvps.where(status: "maybe").count %>
+<% if going_count > 0 || maybe_count > 0 %>
+  <div id="rsvp-count-<%= post.id %>" class="rsvp-count">
+    <% if going_count > 0 %>
+      <span><i class="bi bi-check-circle-fill" style="color:#16a34a;font-size:0.7rem"></i> <%= going_count %> going</span>
+    <% end %>
+    <% if maybe_count > 0 %>
+      <span><i class="bi bi-question-circle-fill" style="color:#d97706;font-size:0.7rem"></i> <%= maybe_count %> maybe</span>
+    <% end %>
+  </div>
+<% else %>
+  <div id="rsvp-count-<%= post.id %>"></div>
+<% end %>
