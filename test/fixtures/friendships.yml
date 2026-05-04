@@ -2,10 +2,5 @@
 
 one:
   requester: one
-  receiver: one
-  status: MyString
-
-two:
-  requester: two
   receiver: two
-  status: MyString
+  status: accepted
