@@ -1,25 +1,25 @@
 require "test_helper"
 
 class PostTest < ActiveSupport::TestCase
+  setup do
+    @user = users(:one)
+  end
+
   test "can create a post with valid attributes" do
-    user = users(:one)
-    post = Post.new(title: "Taco Tuesday", description: "Making tacos for everyone", meal_date: Time.now, user: user)
+    post = Post.new(title: "Taco Tuesday", description: "Making tacos", meal_date: 1.day.from_now, user: @user)
     assert post.save
   end
 
   test "post has a title" do
-    post = posts(:one)
-    assert_equal "Homemade Lasagna Night", post.title
+    assert_equal "Homemade Lasagna Night", posts(:one).title
   end
 
   test "post has a description" do
-    post = posts(:one)
-    assert_not_nil post.description
+    assert_not_nil posts(:one).description
   end
 
   test "post has a meal_date" do
-    post = posts(:one)
-    assert_not_nil post.meal_date
+    assert_not_nil posts(:one).meal_date
   end
 
   test "post belongs to a user" do
@@ -29,7 +29,39 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test "post requires a user" do
-    post = Post.new(title: "No User Post", description: "desc", meal_date: Time.now)
+    post = Post.new(title: "No User Post", description: "desc", meal_date: 1.day.from_now)
     assert_not post.save
+  end
+
+  # active scope
+  test "active scope includes post with future meal_date" do
+    post = Post.create!(title: "Future", description: "d", meal_date: 2.days.from_now, user: @user)
+    assert_includes Post.active, post
+  end
+
+  test "active scope includes post with nil meal_date" do
+    post = Post.create!(title: "No Date", description: "d", meal_date: nil, user: @user)
+    assert_includes Post.active, post
+  end
+
+  test "active scope excludes post older than 36 hours" do
+    post = Post.create!(title: "Old", description: "d", meal_date: 37.hours.ago, user: @user)
+    assert_not_includes Post.active, post
+  end
+
+  # archived scope
+  test "archived scope includes post older than 36 hours" do
+    post = Post.create!(title: "Archived", description: "d", meal_date: 37.hours.ago, user: @user)
+    assert_includes Post.archived, post
+  end
+
+  test "archived scope excludes post with future meal_date" do
+    post = Post.create!(title: "Future", description: "d", meal_date: 2.days.from_now, user: @user)
+    assert_not_includes Post.archived, post
+  end
+
+  test "archived scope excludes post with nil meal_date" do
+    post = Post.create!(title: "No Date", description: "d", meal_date: nil, user: @user)
+    assert_not_includes Post.archived, post
   end
 end

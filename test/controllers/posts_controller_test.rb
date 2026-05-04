@@ -46,4 +46,38 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to posts_url
   end
+
+  # Authorization
+  test "non-owner cannot edit another user's post" do
+    sign_in users(:two)
+    get edit_post_url(@post)
+    assert_redirected_to post_url(@post)
+  end
+
+  test "non-owner cannot update another user's post" do
+    sign_in users(:two)
+    patch post_url(@post), params: { post: { title: "Hacked" } }
+    assert_redirected_to post_url(@post)
+  end
+
+  test "non-owner cannot destroy another user's post" do
+    sign_in users(:two)
+    assert_no_difference("Post.count") do
+      delete post_url(@post)
+    end
+    assert_redirected_to post_url(@post)
+  end
+
+  # Authentication
+  test "unauthenticated user is redirected from index" do
+    sign_out :user
+    get posts_url
+    assert_redirected_to new_user_session_path
+  end
+
+  test "unauthenticated user is redirected from new" do
+    sign_out :user
+    get new_post_url
+    assert_redirected_to new_user_session_path
+  end
 end
