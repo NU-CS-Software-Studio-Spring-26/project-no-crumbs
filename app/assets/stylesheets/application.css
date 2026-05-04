@@ -2111,6 +2111,16 @@ input[type="submit"].btn-outline-nc.w-100 {
   margin: 0 0 2.25rem;
 }
 
+/* Footer */
+.nc-footer {
+  text-align: center;
+  padding: 1.25rem;
+  font-size: 0.8rem;
+  color: var(--text-2);
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+}
+
 /* Responsive overrides */
 @media (max-width: 720px) {
   .lp-hero {
