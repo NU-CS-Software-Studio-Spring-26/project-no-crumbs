@@ -3,6 +3,9 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  validates :username, presence: true, uniqueness: { case_sensitive: false }
+
   has_many :posts, -> { order(meal_date: :asc) }, dependent: :destroy
   has_many :rsvps, dependent: :destroy
 
