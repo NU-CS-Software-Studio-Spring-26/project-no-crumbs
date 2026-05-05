@@ -11,32 +11,42 @@
 <div class="feed-header">
   <div>
     <h1 class="feed-title">People</h1>
-    <p class="feed-subtitle"><%= pluralize(@users.count, "person") %> in the crew</p>
   </div>
 </div>
 
-<%= form_with url: users_path, method: :get, class: "nc-search-form" do %>
-  <div class="nc-search-wrap">
-    <i class="bi bi-search nc-search-icon"></i>
-    <%= text_field_tag :q, @query, placeholder: "Search by name or email…", class: "nc-search-input", autocomplete: "off" %>
-    <% if @query.present? %>
-      <%= link_to users_path, class: "nc-search-clear" do %>
+<div data-controller="user-search">
+  <%= form_with url: users_path, method: :get, class: "nc-search-form",
+      data: { user_search_target: "form", turbo_frame: "user-results" } do %>
+    <div class="nc-search-wrap">
+      <i class="bi bi-search nc-search-icon"></i>
+      <%= text_field_tag :q, @query,
+          placeholder: "Search by name or email…",
+          class: "nc-search-input",
+          autocomplete: "off",
+          data: { user_search_target: "input", action: "input->user-search#search" } %>
+      <a href="#" class="nc-search-clear<%= " d-none" unless @query.present? %>"
+         data-user-search-target="clear"
+         data-action="click->user-search#clear">
         <i class="bi bi-x"></i>
-      <% end %>
-    <% end %>
-  </div>
-<% end %>
+      </a>
+    </div>
+  <% end %>
 
-<% if @users.empty? %>
-  <div class="empty-state">
-    <div class="empty-icon">🔍</div>
-    <p class="empty-title">No results for "<%= @query %>"</p>
-    <p class="empty-sub">Try a different name or email.</p>
-  </div>
-<% else %>
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
-    <% @users.each do |user| %>
-      <div class="col"><%= render user %></div>
+  <turbo-frame id="user-results">
+    <p class="feed-subtitle"><%= pluralize(@users.count, "person") %> in the crew</p>
+
+    <% if @users.empty? %>
+      <div class="empty-state">
+        <div class="empty-icon">🔍</div>
+        <p class="empty-title">No results for "<%= @query %>"</p>
+        <p class="empty-sub">Try a different name or email.</p>
+      </div>
+    <% else %>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+        <% @users.each do |user| %>
+          <div class="col"><%= render user %></div>
+        <% end %>
+      </div>
     <% end %>
-  </div>
-<% end %>
+  </turbo-frame>
+</div>
