@@ -9,7 +9,7 @@
 <% end %>
 
 <%= turbo_stream.replace "comment-form-fields-#{@post.id}" do %>
-  <%= form_with model: [@post, Comment.new],
+  <%= form_with model: [ @post, Comment.new ],
         data: { turbo_stream: true },
         class: "comment-form" do |f| %>
     <div class="comment-input-row">

@@ -7,7 +7,7 @@
   </div>
   <div class="content-card-body" style="padding:0">
     <div id="comment-form-fields-<%= post.id %>">
-    <%= form_with model: [post, Comment.new],
+    <%= form_with model: [ post, Comment.new ],
           data: { turbo_stream: true },
           class: "comment-form" do |f| %>
       <div class="comment-input-row">
