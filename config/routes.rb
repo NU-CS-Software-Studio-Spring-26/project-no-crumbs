@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   resources :posts do
     resource :rsvp, only: %i[create destroy]
     resource :like, only: %i[create]
+    resources :comments, only: %i[create destroy] do
+      resource :like, only: %i[create]
+    end
   end
   resources :users, only: %i[index show edit update destroy]
   resources :friendships

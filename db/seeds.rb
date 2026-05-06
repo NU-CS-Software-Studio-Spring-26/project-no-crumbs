@@ -219,3 +219,39 @@ end
     rsvp.status = status
   end
 end
+
+# ── Likes ─────────────────────────────────────────────────────────────────────
+[
+  { user: alice, post: nick_bbq    },
+  { user: bob,   post: nick_bbq    },
+  { user: carol, post: nick_bbq    },
+  { user: nick,  post: alice_pasta },
+  { user: bob,   post: alice_pasta },
+  { user: nick,  post: bob_ramen   },
+  { user: alice, post: bob_ramen   },
+  { user: nick,  post: frank_wine  },
+  { user: alice, post: nick_sushi  },
+  { user: carol, post: nick_sushi  }
+].each do |l|
+  Like.find_or_create_by!(user: l[:user], likeable: l[:post])
+end
+
+# ── Comments ──────────────────────────────────────────────────────────────────
+comments_data = [
+  { user: alice, post: nick_bbq,    body: "Can't wait — I'm bringing potato salad!" },
+  { user: bob,   post: nick_bbq,    body: "Should I grab extra charcoal on the way?" },
+  { user: carol, post: nick_bbq,    body: "Making a veggie option to bring 🌽" },
+  { user: nick,  post: alice_pasta, body: "That burrata detail has me sold. See you there." },
+  { user: bob,   post: alice_pasta, body: "Fresh pappardelle is undefeated. Counting down." },
+  { user: alice, post: bob_ramen,   body: "12 hours of broth?? You're insane (in the best way)." },
+  { user: nick,  post: bob_ramen,   body: "Save me a seat. I'll bring the beer." },
+  { user: nick,  post: frank_wine,  body: "Really hoping the Époisses makes the cut." },
+  { user: alice, post: frank_wine,  body: "Do we need to bring anything?" },
+  { user: alice, post: nick_sushi,  body: "I'll be the one who rolls everything wrong but has fun." },
+  { user: carol, post: nick_sushi,  body: "I've been practicing my rolling. Game time." }
+]
+
+comments_data.each do |c|
+  next if Comment.exists?(user: c[:user], post: c[:post], body: c[:body])
+  Comment.create!(user: c[:user], post: c[:post], body: c[:body])
+end

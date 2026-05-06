@@ -2329,3 +2329,130 @@ input[type="submit"].btn-outline-nc.w-100 {
 .like-btn-sm .like-count {
   font-size: 0.72rem;
 }
+
+/* ── Comments ──────────────────────────────── */
+.comment-form {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.comment-input-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.comment-input {
+  flex: 1;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--surface);
+  resize: none;
+  line-height: 1.5;
+  transition: border-color var(--t);
+}
+
+.comment-input:focus {
+  outline: none;
+  border-color: var(--brand);
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.comment:last-child {
+  border-bottom: none;
+}
+
+.comment-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.comment-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+
+.comment-username {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.comment-username:hover {
+  color: var(--brand);
+}
+
+.comment-time {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.comment-text {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  line-height: 1.55;
+  margin: 0;
+  word-break: break-word;
+}
+
+.comment-delete-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 2px 4px;
+  font-size: 0.875rem;
+  border-radius: var(--radius-sm);
+  transition: color var(--t), background var(--t);
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+.comment-delete-btn:hover {
+  color: #e11d48;
+  background: #fff1f2;
+}
+
+.comment-count-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.meal-meta-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.comment-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+  margin-top: 2px;
+}

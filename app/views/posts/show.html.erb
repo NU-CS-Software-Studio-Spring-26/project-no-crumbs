@@ -70,7 +70,7 @@
 <div class="row g-4 mb-4">
   <% if current_user != @post.user %>
     <div class="col-md-6">
-      <div class="content-card">
+      <div class="content-card h-100">
         <div class="content-card-header">
           <p class="content-card-label">Are you going?</p>
           <% if @post.archived? %>
@@ -90,7 +90,7 @@
   <% end %>
 
   <div class="<%= current_user == @post.user ? 'col-12' : 'col-md-6' %>">
-    <div class="content-card">
+    <div class="content-card h-100">
       <div class="content-card-header">
         <p class="content-card-label">Who's coming</p>
       </div>
@@ -98,6 +98,12 @@
         <%= render "rsvps/guest_list", post: @post %>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="row g-4 mb-4">
+  <div class="col-12">
+    <%= render "comments/comments_card", post: @post %>
   </div>
 </div>
 
