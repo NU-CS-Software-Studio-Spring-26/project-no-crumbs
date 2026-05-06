@@ -43,3 +43,6 @@
 .DS_Store
 **/.DS_Store
 
+# Local dev notes
+/.claude/
+

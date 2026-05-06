@@ -36,6 +36,7 @@
     <div class="content-card h-100">
       <div class="content-card-header">
         <p class="content-card-label">About this meal</p>
+        <%= render "likes/like_button", likeable: @post, size: :normal %>
       </div>
       <div class="content-card-body">
         <p style="color:var(--text-2);margin:0;line-height:1.75;font-size:0.9375rem">

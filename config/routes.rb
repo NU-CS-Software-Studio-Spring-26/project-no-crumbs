@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   resources :posts do
     resource :rsvp, only: %i[create destroy]
+    resource :like, only: %i[create]
   end
   resources :users, only: %i[index show edit update destroy]
   resources :friendships
