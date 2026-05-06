@@ -18,7 +18,16 @@
     <% if post.description.present? %>
       <p class="meal-card-desc"><%= post.description %></p>
     <% end %>
-    <%= render "rsvps/count", post: post %>
+    <div class="d-flex align-items-center gap-3">
+      <%= render "rsvps/count", post: post %>
+      <% comment_count = post.comments.count %>
+      <% if comment_count > 0 %>
+        <span class="meal-meta-count">
+          <i class="bi bi-chat" style="font-size:0.7rem"></i>
+          <%= comment_count %>
+        </span>
+      <% end %>
+    </div>
   </div>
 
   <div class="meal-card-footer">
