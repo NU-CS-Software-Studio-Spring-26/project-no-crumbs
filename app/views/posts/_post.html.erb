@@ -7,7 +7,10 @@
   </div>
 
   <div class="meal-card-body">
-    <h3 class="meal-card-title"><%= post.title %></h3>
+    <div class="d-flex align-items-start justify-content-between gap-2">
+      <h3 class="meal-card-title" style="margin:0"><%= post.title %></h3>
+      <%= render "likes/like_button", likeable: post, size: :small %>
+    </div>
     <div class="meal-card-when">
       <i class="bi bi-clock" style="font-size:0.75rem;color:var(--muted)"></i>
       <span><%= post.meal_date&.strftime("%a, %b %-d · %l:%M %p")&.strip || "Date TBD" %></span>

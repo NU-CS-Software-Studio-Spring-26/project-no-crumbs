@@ -789,6 +789,10 @@ input[type="submit"].btn-outline-nc {
   padding: 12px 18px;
   border-bottom: 1px solid var(--border);
   background: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 .content-card-label {
@@ -2258,4 +2262,70 @@ input[type="submit"].btn-outline-nc.w-100 {
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--muted);
+}
+
+/* ── Like button ──────────────────────────────── */
+.like-btn-wrap {
+  display: inline-flex;
+}
+
+.like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.like-btn:hover {
+  border-color: #e11d48;
+  color: #e11d48;
+}
+
+.like-btn:active {
+  transform: none;
+}
+
+.like-btn-active {
+  border-color: #e11d48;
+  color: #e11d48;
+  background: #fff1f2;
+}
+
+.like-btn .bi-heart-fill {
+  color: #e11d48;
+}
+
+.like-count {
+  font-size: 0.8125rem;
+}
+
+.meal-like-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.like-btn-sm {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  border-width: 1px;
+}
+
+.like-btn-sm .bi {
+  font-size: 0.7rem;
+}
+
+.like-btn-sm .like-count {
+  font-size: 0.72rem;
 }
