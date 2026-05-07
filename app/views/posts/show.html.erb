@@ -12,7 +12,8 @@
   <% end %>
 </div>
 
-<div class="detail-cover gc-meal">
+<div class="detail-cover <%= @post.cover_photo_url? ? "detail-cover-photo" : "gc-meal" %>"
+     <%= @post.cover_photo_url? ? "style=background-image:url('#{@post.cover_photo_url}')" : "" %>>
   <div class="detail-cover-overlay"></div>
   <div class="detail-cover-content">
     <% if @post.meal_date %>
