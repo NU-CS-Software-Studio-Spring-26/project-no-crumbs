@@ -2456,3 +2456,14 @@ input[type="submit"].btn-outline-nc.w-100 {
   align-self: flex-start;
   margin-top: 2px;
 }
+
+/* ── Photo covers (Unsplash) ──────────────────────────────── */
+.meal-cover-photo {
+  background-size: cover;
+  background-position: center;
+}
+
+.detail-cover-photo {
+  background-size: cover;
+  background-position: center;
+}

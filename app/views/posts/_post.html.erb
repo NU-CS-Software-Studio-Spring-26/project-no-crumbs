@@ -1,5 +1,6 @@
 <div class="meal-card" id="<%= dom_id post %>">
-  <div class="meal-cover gc-meal">
+  <div class="meal-cover <%= post.cover_photo_url? ? "meal-cover-photo" : "gc-meal" %>"
+       <%= post.cover_photo_url? ? "style=background-image:url('#{post.cover_photo_url}')" : "" %>>
     <div class="meal-cover-date">
       <span class="day"><%= post.meal_date&.strftime("%-d") || "?" %></span>
       <span class="mon"><%= post.meal_date&.strftime("%b") || "—" %></span>
