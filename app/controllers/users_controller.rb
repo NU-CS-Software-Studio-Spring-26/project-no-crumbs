@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   # GET /users or /users.json
   def index
-    @query = params[:q].to_s.strip
+    @query = params[:q].to_s.strip.first(100)
     @users = if @query.present?
       User.where("username ILIKE ? OR email ILIKE ?", "%#{@query}%", "%#{@query}%")
     else

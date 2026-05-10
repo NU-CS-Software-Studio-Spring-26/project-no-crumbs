@@ -4,7 +4,7 @@ class CommunitiesController < ApplicationController
 
   def index
     @communities = if params[:q].present?
-      Community.where("name ILIKE ?", "%#{params[:q]}%").order(:name)
+      Community.where("name ILIKE ?", "%#{params[:q].to_s.strip.first(100)}%").order(:name)
     else
       Community.order(:name)
     end

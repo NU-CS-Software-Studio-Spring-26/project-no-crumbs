@@ -33,6 +33,58 @@ class PostTest < ActiveSupport::TestCase
     assert_not post.save
   end
 
+  # title validation
+  test "invalid without title" do
+    post = Post.new(description: "desc", meal_date: 1.day.from_now, user: @user)
+    assert_not post.valid?
+    assert_includes post.errors[:title], "can't be blank"
+  end
+
+  test "invalid when title exceeds 100 characters" do
+    post = Post.new(title: "a" * 101, user: @user)
+    assert_not post.valid?
+    assert post.errors[:title].any?
+  end
+
+  test "valid with title at exactly 100 characters" do
+    post = Post.new(title: "a" * 100, user: @user)
+    assert post.valid?
+  end
+
+  # description validation
+  test "invalid when description exceeds 2000 characters" do
+    post = Post.new(title: "Dinner", description: "a" * 2001, user: @user)
+    assert_not post.valid?
+    assert post.errors[:description].any?
+  end
+
+  test "valid with description at exactly 2000 characters" do
+    post = Post.new(title: "Dinner", description: "a" * 2000, user: @user)
+    assert post.valid?
+  end
+
+  test "valid without description" do
+    post = Post.new(title: "Dinner", user: @user)
+    assert post.valid?
+  end
+
+  # meal_date validation
+  test "invalid when meal_date is more than 6 months in the future" do
+    post = Post.new(title: "Far Future", user: @user, meal_date: 7.months.from_now)
+    assert_not post.valid?
+    assert post.errors[:meal_date].any?
+  end
+
+  test "valid when meal_date is within 6 months" do
+    post = Post.new(title: "Soon", user: @user, meal_date: 5.months.from_now)
+    assert post.valid?
+  end
+
+  test "valid with nil meal_date" do
+    post = Post.new(title: "No Date", user: @user, meal_date: nil)
+    assert post.valid?
+  end
+
   # active scope
   test "active scope includes post with future meal_date" do
     post = Post.create!(title: "Future", description: "d", meal_date: 2.days.from_now, user: @user)
