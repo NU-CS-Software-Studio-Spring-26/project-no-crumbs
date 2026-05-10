@@ -78,6 +78,22 @@
       <%= yield %>
     </div>
 
+    <footer class="nc-footer">
+      <div class="nc-footer-inner">
+        <%= link_to root_path, class: "nc-footer-brand" do %>
+          No<span>Crumbs</span>
+        <% end %>
+        <nav class="nc-footer-links">
+          <%= link_to "About", about_path, class: "nc-footer-link" %>
+          <%= link_to "Legal & Privacy", legal_path, class: "nc-footer-link" %>
+          <a href="https://github.com/NU-CS-Software-Studio-Spring-26/project-no-crumbs" class="nc-footer-link" target="_blank" rel="noopener noreferrer">
+            <i class="bi bi-github"></i> GitHub
+          </a>
+        </nav>
+        <p class="nc-footer-copy">&copy; <%= Date.current.year %> NoCrumbs &mdash; Northwestern CS 397</p>
+      </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       document.addEventListener("turbo:load", function() {
