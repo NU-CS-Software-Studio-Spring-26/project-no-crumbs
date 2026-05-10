@@ -9,10 +9,10 @@
 <div class="detail-cover gc-<%= @community.id % 8 %>">
   <div class="detail-cover-overlay"></div>
   <div class="detail-cover-content">
-    <div class="detail-date-pill">
+    <%= link_to members_community_path(@community), class: "detail-date-pill", style: "text-decoration:none" do %>
       <i class="bi bi-people"></i>
       <%= pluralize(@community.members.count, "member") %>
-    </div>
+    <% end %>
     <h1 class="detail-title"><%= @community.name %></h1>
   </div>
 </div>

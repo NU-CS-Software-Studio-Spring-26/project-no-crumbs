@@ -1,6 +1,6 @@
 class CommunitiesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_community, only: %i[show destroy]
+  before_action :set_community, only: %i[show members destroy]
 
   def index
     @communities = if params[:q].present?
@@ -13,6 +13,10 @@ class CommunitiesController < ApplicationController
   def show
     @posts = @community.member_posts.includes(:user)
     @membership = current_user.community_memberships.find_by(community: @community)
+  end
+
+  def members
+    @members = @community.members.order(:username)
   end
 
   def new
