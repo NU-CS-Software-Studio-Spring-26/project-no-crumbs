@@ -1,0 +1,14 @@
+one:
+  user: one
+  community: one
+  role: admin
+
+two:
+  user: two
+  community: one
+  role: member
+
+three:
+  user: two
+  community: two
+  role: admin
