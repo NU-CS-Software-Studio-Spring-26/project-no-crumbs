@@ -24,4 +24,7 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   root "home#index"
+
+  get "about", to: "pages#about", as: :about
+  get "legal", to: "pages#legal", as: :legal
 end

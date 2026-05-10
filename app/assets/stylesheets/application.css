@@ -2467,3 +2467,114 @@ input[type="submit"].btn-outline-nc.w-100 {
   background-size: cover;
   background-position: center;
 }
+
+/* ── Footer ──────────────────────────────────────────────── */
+.nc-footer {
+  margin-top: 4rem;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.nc-footer-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.nc-footer-brand {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: -0.3px;
+  transition: opacity var(--t);
+}
+.nc-footer-brand span { color: var(--brand); }
+.nc-footer-brand:hover { opacity: 0.72; color: var(--text); }
+
+.nc-footer-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.nc-footer-link {
+  color: var(--text-2);
+  text-decoration: none;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  transition: color var(--t), background var(--t);
+}
+.nc-footer-link:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+.nc-footer-copy {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* ── Static pages (about, legal) ──────────────────────────── */
+.nc-static-page {
+  max-width: 680px;
+  margin: 3rem auto;
+  padding: 0 1.25rem;
+}
+
+.nc-static-hero {
+  margin-bottom: 2.5rem;
+}
+
+.nc-static-hero h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 0.5rem;
+}
+.nc-static-hero h1 span { color: var(--brand); }
+
+.nc-static-lead {
+  font-size: 1rem;
+  color: var(--text-2);
+  margin: 0;
+}
+
+.nc-static-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.nc-static-body section h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.nc-static-body section p,
+.nc-static-body section ul {
+  font-size: 0.9375rem;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin: 0 0 0.75rem;
+}
+
+.nc-static-body section ul {
+  padding-left: 1.25rem;
+}
+
+.nc-static-body section ul li {
+  margin-bottom: 0.35rem;
+}
