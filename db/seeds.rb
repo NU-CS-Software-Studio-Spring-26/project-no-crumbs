@@ -255,3 +255,51 @@ comments_data.each do |c|
   next if Comment.exists?(user: c[:user], post: c[:post], body: c[:body])
   Comment.create!(user: c[:user], post: c[:post], body: c[:body])
 end
+
+# ── Communities ───────────────────────────────────────────────────────────────
+grace  = User.find_by!(email: "grace@example.com")
+henry  = User.find_by!(email: "henry@example.com")
+isabel = User.find_by!(email: "isabel@example.com")
+jordan = User.find_by!(email: "jordan@example.com")
+eve    = User.find_by!(email: "eve@example.com")
+
+communities_data = [
+  {
+    name:        "NU Class of '26",
+    description: "Northwestern University class of 2026 — eat, cook, and share meals with your classmates.",
+    creator:     alice,
+    members:     [ alice, bob, carol, nick ]
+  },
+  {
+    name:        "Chicago Food Scene",
+    description: "Exploring the best of Chicago's dining culture, one meal at a time.",
+    creator:     frank,
+    members:     [ frank, grace, isabel, nick ]
+  },
+  {
+    name:        "Meal Prep Crew",
+    description: "Plan your week, cook in bulk, and share what's in the rotation.",
+    creator:     henry,
+    members:     [ henry, carol, eve ]
+  },
+  {
+    name:        "Late Night Eaters",
+    description: "For people who eat dinner after midnight and have zero regrets.",
+    creator:     jordan,
+    members:     [ jordan, bob, nick ]
+  }
+]
+
+communities_data.each do |data|
+  community = Community.find_or_create_by!(name: data[:name]) do |c|
+    c.description = data[:description]
+    c.creator     = data[:creator]
+  end
+
+  data[:members].each do |user|
+    role = user == data[:creator] ? "admin" : "member"
+    CommunityMembership.find_or_create_by!(community: community, user: user) do |m|
+      m.role = role
+    end
+  end
+end

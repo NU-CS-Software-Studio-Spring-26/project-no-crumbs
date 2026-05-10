@@ -1,0 +1,71 @@
+<% content_for :title, "Communities" %>
+
+<div class="feed-header">
+  <div>
+    <h1 class="feed-title">Communities</h1>
+    <p class="feed-subtitle">Find your group, eat together</p>
+  </div>
+  <%= link_to new_community_path, class: "nc-nav-cta" do %>
+    <i class="bi bi-plus"></i> New Community
+  <% end %>
+</div>
+
+<%= form_with url: communities_path, method: :get, local: true, class: "nc-search-form" do |f| %>
+  <div class="nc-search-wrap">
+    <i class="bi bi-search nc-search-icon"></i>
+    <%= f.text_field :q, value: params[:q], class: "nc-search-input", placeholder: "Search communities…" %>
+    <% if params[:q].present? %>
+      <%= link_to communities_path, class: "nc-search-clear" do %>
+        <i class="bi bi-x"></i>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @communities.empty? %>
+  <div class="empty-state">
+    <div class="empty-icon">🏘️</div>
+    <p class="empty-title">No communities found</p>
+    <p class="empty-sub">Be the first to create one and bring your group together.</p>
+    <%= link_to new_community_path, class: "btn-brand-nc" do %>
+      <i class="bi bi-plus"></i> Create Community
+    <% end %>
+  </div>
+<% else %>
+  <div class="nc-table-wrap">
+    <table class="nc-table">
+      <thead>
+        <tr>
+          <th>Community</th>
+          <th>Members</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @communities.each do |community| %>
+          <tr>
+            <td>
+              <%= link_to community.name, community, class: "user-table-link" %>
+              <% if community.description.present? %>
+                <div style="font-size:0.8rem;color:var(--muted);font-weight:400;margin-top:2px">
+                  <%= truncate(community.description, length: 72) %>
+                </div>
+              <% end %>
+            </td>
+            <td><%= community.members.count %></td>
+            <td class="text-end">
+              <% if community.member?(current_user) %>
+                <span class="tag tag-brand"><i class="bi bi-check2"></i> Joined</span>
+              <% else %>
+                <%= button_to community_membership_path(community), method: :post,
+                      class: "btn-brand-nc btn-sm-nc" do %>
+                  <i class="bi bi-person-plus"></i> Join
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
