@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   end
   resources :users, only: %i[index show edit update destroy]
   resources :friendships
+  resources :communities, only: %i[index show new create destroy] do
+    resource :membership, only: %i[create destroy], controller: "community_memberships"
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
