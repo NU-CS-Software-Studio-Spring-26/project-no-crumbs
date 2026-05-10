@@ -4,7 +4,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates :username, presence: true, uniqueness: { case_sensitive: false }
+  validates :username, presence: true, uniqueness: { case_sensitive: false },
+                       length: { in: 2..30 },
+                       format: { with: /\A[a-zA-Z0-9_]+\z/, message: "can only contain letters, numbers, and underscores" }
+  validates :bio, length: { maximum: 500, allow_blank: true }
 
   has_many :posts, -> { order(meal_date: :asc) }, dependent: :destroy
   has_many :rsvps, dependent: :destroy

@@ -24,6 +24,36 @@ class CommunityTest < ActiveSupport::TestCase
     assert_not Community.new(name: "nu class of '26", creator: @charlie).valid?
   end
 
+  # name length validation
+  test "invalid when name is shorter than 2 characters" do
+    assert_not Community.new(name: "X", creator: @charlie).valid?
+  end
+
+  test "valid with name at exactly 2 characters" do
+    assert Community.new(name: "XY", creator: @charlie).valid?
+  end
+
+  test "invalid when name exceeds 50 characters" do
+    assert_not Community.new(name: "a" * 51, creator: @charlie).valid?
+  end
+
+  test "valid with name at exactly 50 characters" do
+    assert Community.new(name: "a" * 50, creator: @charlie).valid?
+  end
+
+  # description length validation
+  test "invalid when description exceeds 1000 characters" do
+    assert_not Community.new(name: "Valid Name", description: "a" * 1001, creator: @charlie).valid?
+  end
+
+  test "valid with description at exactly 1000 characters" do
+    assert Community.new(name: "Valid Name", description: "a" * 1000, creator: @charlie).valid?
+  end
+
+  test "valid without description" do
+    assert Community.new(name: "No Desc", creator: @charlie).valid?
+  end
+
   test "belongs to creator" do
     assert_equal @alice, @community.creator
   end

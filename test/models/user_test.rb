@@ -25,6 +25,64 @@ class UserTest < ActiveSupport::TestCase
     assert_not_nil @alice.bio
   end
 
+  # username length validation
+  test "invalid when username is shorter than 2 characters" do
+    user = User.new(username: "a", email: "short@example.com", password: "password123")
+    assert_not user.valid?
+    assert user.errors[:username].any?
+  end
+
+  test "valid with username at exactly 2 characters" do
+    user = User.new(username: "ab", email: "two@example.com", password: "password123")
+    assert user.valid?
+  end
+
+  test "invalid when username exceeds 30 characters" do
+    user = User.new(username: "a" * 31, email: "long@example.com", password: "password123")
+    assert_not user.valid?
+    assert user.errors[:username].any?
+  end
+
+  test "valid with username at exactly 30 characters" do
+    user = User.new(username: "a" * 30, email: "thirty@example.com", password: "password123")
+    assert user.valid?
+  end
+
+  # username format validation
+  test "invalid when username contains spaces" do
+    user = User.new(username: "hello world", email: "space@example.com", password: "password123")
+    assert_not user.valid?
+    assert user.errors[:username].any?
+  end
+
+  test "invalid when username contains special characters" do
+    user = User.new(username: "user@name!", email: "special@example.com", password: "password123")
+    assert_not user.valid?
+    assert user.errors[:username].any?
+  end
+
+  test "valid with username containing letters numbers and underscores" do
+    user = User.new(username: "user_123", email: "valid@example.com", password: "password123")
+    assert user.valid?
+  end
+
+  # bio length validation
+  test "invalid when bio exceeds 500 characters" do
+    user = User.new(username: "biotest", email: "bio@example.com", password: "password123", bio: "a" * 501)
+    assert_not user.valid?
+    assert user.errors[:bio].any?
+  end
+
+  test "valid with bio at exactly 500 characters" do
+    user = User.new(username: "biotest2", email: "bio2@example.com", password: "password123", bio: "a" * 500)
+    assert user.valid?
+  end
+
+  test "valid without bio" do
+    user = User.new(username: "nobio", email: "nobio@example.com", password: "password123")
+    assert user.valid?
+  end
+
   test "user has many posts" do
     assert_respond_to @alice, :posts
   end
