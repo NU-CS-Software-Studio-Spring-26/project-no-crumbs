@@ -35,7 +35,7 @@
       </div>
       <div class="nc-nav-right">
         <% if user_signed_in? %>
-          <%= link_to user_path(current_user, direct: 1), class: "nc-nav-icon nc-nav-desktop-only", title: "My Profile" do %>
+          <%= link_to user_path(current_user, direct: 1), class: "nc-nav-icon nc-nav-desktop-only", aria: { label: "My Profile" } do %>
             <i class="bi bi-person-circle"></i>
           <% end %>
         <% else %>
