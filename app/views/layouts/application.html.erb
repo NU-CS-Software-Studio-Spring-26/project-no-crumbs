@@ -20,6 +20,7 @@
   </head>
 
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <nav class="nc-nav">
       <div class="nc-nav-left">
         <%= link_to root_path, class: "nc-brand" do %>
@@ -62,7 +63,7 @@
       <% end %>
     </div>
 
-    <div class="nc-container">
+    <main id="main-content" class="nc-container">
       <% if notice.present? %>
         <div class="nc-flash">
           <i class="bi bi-check-circle-fill"></i>
@@ -76,7 +77,7 @@
         </div>
       <% end %>
       <%= yield %>
-    </div>
+    </main>
 
     <footer class="nc-footer">
       <div class="nc-footer-inner">
