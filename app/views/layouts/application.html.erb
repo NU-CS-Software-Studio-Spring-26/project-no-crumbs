@@ -65,13 +65,13 @@
 
     <main id="main-content" class="nc-container">
       <% if notice.present? %>
-        <div class="nc-flash">
+        <div class="nc-flash" role="alert">
           <i class="bi bi-check-circle-fill"></i>
           <%= notice %>
         </div>
       <% end %>
       <% if alert.present? && !devise_controller? %>
-        <div class="nc-flash nc-flash-alert">
+        <div class="nc-flash nc-flash-alert" role="alert">
           <i class="bi bi-exclamation-circle-fill"></i>
           <%= alert %>
         </div>

@@ -6,8 +6,9 @@
         method: :post,
         params: { size: btn_size },
         class: "like-btn #{btn_size == :small ? "like-btn-sm" : ""} #{"like-btn-active" if liked}".strip,
+        aria: { label: "#{liked ? "Unlike" : "Like"} (#{likeable.likes.count} #{"like".pluralize(likeable.likes.count)})", pressed: liked },
         data: { turbo_stream: true } do %>
-    <i class="bi <%= liked ? "bi-heart-fill" : "bi-heart" %>"></i>
+    <i class="bi <%= liked ? "bi-heart-fill" : "bi-heart" %>" aria-hidden="true"></i>
     <span class="like-count"><%= likeable.likes.count %></span>
   <% end %>
 </div>
