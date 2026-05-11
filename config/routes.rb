@@ -1,8 +1,18 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :posts
+  resources :posts do
+    resource :rsvp, only: %i[create destroy]
+    resource :like, only: %i[create]
+    resources :comments, only: %i[create destroy] do
+      resource :like, only: %i[create]
+    end
+  end
   resources :users, only: %i[index show edit update destroy]
   resources :friendships
+  resources :communities, only: %i[index show new create destroy] do
+    member { get :members }
+    resource :membership, only: %i[create destroy], controller: "community_memberships"
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -14,4 +24,7 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   root "home#index"
+
+  get "about", to: "pages#about", as: :about
+  get "legal", to: "pages#legal", as: :legal
 end

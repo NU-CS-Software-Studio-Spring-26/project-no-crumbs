@@ -36,6 +36,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
+        @post.update_column(:cover_photo_url, UnsplashService.fetch_photo_url(@post.title))
         format.html { redirect_to post_path(@post, from_create: 1), notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
       else

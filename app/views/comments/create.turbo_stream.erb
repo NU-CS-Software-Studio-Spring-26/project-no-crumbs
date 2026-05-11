@@ -1,0 +1,25 @@
+<%= turbo_stream.prepend "comments-list-#{@post.id}" do %>
+  <%= render @comment %>
+<% end %>
+
+<%= turbo_stream.replace "comment-count-#{@post.id}" do %>
+  <span id="comment-count-<%= @post.id %>" class="comment-count-badge">
+    <%= @post.comments.count %>
+  </span>
+<% end %>
+
+<%= turbo_stream.replace "comment-form-fields-#{@post.id}" do %>
+  <%= form_with model: [ @post, Comment.new ],
+        data: { turbo_stream: true },
+        class: "comment-form" do |f| %>
+    <div class="comment-input-row">
+      <div class="avatar avatar-sm"><%= current_user.username[0].upcase %></div>
+      <%= f.text_area :body,
+            placeholder: "Leave a comment...",
+            class: "comment-input",
+            rows: 1,
+            maxlength: 500 %>
+      <%= f.submit "Post", class: "btn-brand-nc btn-sm-nc" %>
+    </div>
+  <% end %>
+<% end %>

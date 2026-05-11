@@ -1,0 +1,16 @@
+<div id="rsvp-buttons-<%= post.id %>" class="rsvp-btn-group">
+  <% current_status = rsvp&.status %>
+
+  <% [["going", "bi-check-circle-fill", "I'm Going"],
+      ["maybe", "bi-question-circle-fill", "Maybe"],
+      ["not_going", "bi-x-circle-fill", "Can't Make It"]].each do |status, icon, label| %>
+    <%= button_to post_rsvp_path(post),
+          method: :post,
+          params: { status: status },
+          class: "rsvp-btn #{"rsvp-btn-active rsvp-btn-#{status.gsub('_', '-')}" if current_status == status}",
+          data: { turbo_stream: true } do %>
+      <i class="bi <%= icon %>"></i>
+      <%= label %>
+    <% end %>
+  <% end %>
+</div>

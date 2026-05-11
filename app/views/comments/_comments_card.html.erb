@@ -1,0 +1,29 @@
+<div class="content-card">
+  <div class="content-card-header">
+    <p class="content-card-label">Comments</p>
+    <span id="comment-count-<%= post.id %>" class="comment-count-badge">
+      <%= post.comments.count %>
+    </span>
+  </div>
+  <div class="content-card-body" style="padding:0">
+    <div id="comment-form-fields-<%= post.id %>">
+    <%= form_with model: [ post, Comment.new ],
+          data: { turbo_stream: true },
+          class: "comment-form" do |f| %>
+      <div class="comment-input-row">
+        <div class="avatar avatar-sm"><%= current_user.username[0].upcase %></div>
+        <%= f.text_area :body,
+              placeholder: "Leave a comment...",
+              class: "comment-input",
+              rows: 1,
+              maxlength: 500 %>
+        <%= f.submit "Post", class: "btn-brand-nc btn-sm-nc" %>
+      </div>
+    <% end %>
+    </div>
+
+    <div id="comments-list-<%= post.id %>" class="comments-list">
+      <%= render post.comments.order(created_at: :desc), post: post %>
+    </div>
+  </div>
+</div>

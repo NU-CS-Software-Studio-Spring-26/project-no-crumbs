@@ -1,0 +1,13 @@
+<div id="like-button-<%= likeable.class.name.downcase %>-<%= likeable.id %>" class="like-btn-wrap">
+  <% liked = current_user&.likes&.exists?(likeable: likeable) %>
+  <% btn_size = local_assigns.fetch(:size, :normal) %>
+  <% like_path = likeable.is_a?(Comment) ? post_comment_like_path(likeable.post, likeable) : post_like_path(likeable) %>
+  <%= button_to like_path,
+        method: :post,
+        params: { size: btn_size },
+        class: "like-btn #{btn_size == :small ? "like-btn-sm" : ""} #{"like-btn-active" if liked}".strip,
+        data: { turbo_stream: true } do %>
+    <i class="bi <%= liked ? "bi-heart-fill" : "bi-heart" %>"></i>
+    <span class="like-count"><%= likeable.likes.count %></span>
+  <% end %>
+</div>

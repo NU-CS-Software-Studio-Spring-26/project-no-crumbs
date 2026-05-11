@@ -1,0 +1,104 @@
+<% content_for :title, @community.name %>
+
+<div class="mb-3">
+  <a href="#" onclick="history.back(); return false;" class="btn-outline-nc btn-sm-nc">
+    <i class="bi bi-arrow-left"></i> Communities
+  </a>
+</div>
+
+<div class="detail-cover gc-<%= @community.id % 8 %>">
+  <div class="detail-cover-overlay"></div>
+  <div class="detail-cover-content">
+    <%= link_to members_community_path(@community), class: "detail-date-pill", style: "text-decoration:none" do %>
+      <i class="bi bi-people"></i>
+      <%= pluralize(@community.members.count, "member") %>
+    <% end %>
+    <h1 class="detail-title"><%= @community.name %></h1>
+  </div>
+</div>
+
+<div class="row g-4 mb-4">
+  <div class="col-md-8">
+    <div class="content-card h-100">
+      <div class="content-card-header">
+        <p class="content-card-label">About</p>
+      </div>
+      <div class="content-card-body">
+        <p style="color:var(--text-2);margin:0;line-height:1.75;font-size:0.9375rem">
+          <%= @community.description.presence || "No description yet." %>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="content-card h-100">
+      <div class="content-card-header">
+        <p class="content-card-label">Created by</p>
+      </div>
+      <div class="content-card-body">
+        <%= link_to @community.creator, class: "d-flex align-items-center gap-3 text-decoration-none" do %>
+          <div class="avatar avatar-md"><%= @community.creator.username[0].upcase %></div>
+          <div>
+            <div style="font-weight:700;color:var(--text);font-size:0.9375rem;letter-spacing:-0.1px">
+              <%= @community.creator.username %>
+            </div>
+            <div style="font-size:0.8rem;color:var(--muted);margin-top:1px">Admin</div>
+          </div>
+        <% end %>
+
+        <div class="mt-3">
+          <% if @membership %>
+            <%= button_to community_membership_path(@community), method: :delete,
+                  class: "btn-outline-nc btn-sm-nc w-100",
+                  form: { data: { turbo_confirm: "Leave #{@community.name}?" } } do %>
+              <i class="bi bi-box-arrow-left"></i> Leave community
+            <% end %>
+          <% else %>
+            <%= button_to community_membership_path(@community), method: :post,
+                  class: "btn-brand-nc btn-sm-nc w-100" do %>
+              <i class="bi bi-person-plus"></i> Join community
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if @community.admin?(current_user) %>
+  <div class="d-flex gap-2 flex-wrap mb-4">
+    <%= button_to @community, method: :delete,
+          form: { data: { turbo_confirm: "Delete #{@community.name}? This cannot be undone." } },
+          class: "btn-danger-nc" do %>
+      <i class="bi bi-trash"></i> Delete community
+    <% end %>
+  </div>
+<% end %>
+
+<p class="section-label">Member meals</p>
+
+<% if @posts.empty? %>
+  <div class="empty-state">
+    <div class="empty-icon">🍽️</div>
+    <p class="empty-title">No meals yet</p>
+    <p class="empty-sub">
+      <% if @membership %>
+        Post a meal and it'll show up here for everyone in the community.
+      <% else %>
+        Join the community to see member meals here.
+      <% end %>
+    </p>
+    <% if @membership %>
+      <%= link_to new_post_path, class: "btn-brand-nc" do %>
+        <i class="bi bi-plus"></i> Plan a Meal
+      <% end %>
+    <% end %>
+  </div>
+<% else %>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+    <% @posts.each do |post| %>
+      <div class="col"><%= render post %></div>
+    <% end %>
+  </div>
+<% end %>

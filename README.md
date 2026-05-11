@@ -20,6 +20,10 @@ The core functionality allows users find opportunities to connect with friends a
 4. **Create/edit a post** - Users can create and edit posts about meals
 5. **Respond/RSVP/comment on a post** - Users can respond, comment, or RSVP in some fashion on a post.
 
+## Sprint Tasks
+
+**Kanban Board:** https://app.clickup.com/90141190629/v/b/2kydauf5-74
+
 ## Deployment
 
 **Heroku Link:** https://project-no-crumbs-5aede83efb62.herokuapp.com/
