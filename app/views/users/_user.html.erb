@@ -20,5 +20,15 @@
 
   <div class="user-card-footer">
     <%= link_to "View profile", user, class: "btn-outline-nc w-100 justify-content-center" %>
+    <% if admin? && current_user != user %>
+      <%= link_to edit_user_path(user), class: "btn-outline-nc btn-sm-nc" do %>
+        <i class="bi bi-pencil"></i>
+      <% end %>
+      <%= button_to user, method: :delete,
+            form: { data: { turbo_confirm: "Delete #{user.username}?" } },
+            class: "btn-danger-nc btn-sm-nc" do %>
+        <i class="bi bi-trash"></i>
+      <% end %>
+    <% end %>
   </div>
 </div>
