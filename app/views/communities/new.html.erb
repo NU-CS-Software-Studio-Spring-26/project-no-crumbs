@@ -1,0 +1,32 @@
+<% content_for :title, "New Community" %>
+
+<div class="form-wrap">
+  <h1 class="form-page-title">Create a community</h1>
+  <p class="form-page-sub">Bring your group together — classmates, housemates, team members.</p>
+
+  <%= form_with model: @community do |form| %>
+    <% if @community.errors.any? %>
+      <div class="alert alert-danger mb-4">
+        <strong><%= pluralize(@community.errors.count, "error") %>:</strong>
+        <ul class="mb-0 mt-1 ps-3">
+          <% @community.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-3">
+      <%= form.label :name, class: "form-label" %>
+      <%= form.text_field :name, class: "form-control", placeholder: "e.g. NU Class of '26" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :description, class: "form-label" %>
+      <%= form.textarea :description, class: "form-control", rows: 4,
+            placeholder: "What's this community about?" %>
+    </div>
+
+    <%= form.submit "Create community", class: "btn-nc" %>
+  <% end %>
+</div>

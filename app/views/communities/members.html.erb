@@ -1,0 +1,20 @@
+<% content_for :title, "#{@community.name} — Members" %>
+
+<div class="mb-3">
+  <%= link_to community_path(@community), class: "btn-outline-nc btn-sm-nc" do %>
+    <i class="bi bi-arrow-left"></i> <%= @community.name %>
+  <% end %>
+</div>
+
+<div class="feed-header">
+  <div>
+    <h1 class="feed-title">Members</h1>
+    <p class="feed-subtitle"><%= @community.name %> · <%= pluralize(@members.count, "member") %></p>
+  </div>
+</div>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+  <% @members.each do |member| %>
+    <div class="col"><%= render member %></div>
+  <% end %>
+</div>
