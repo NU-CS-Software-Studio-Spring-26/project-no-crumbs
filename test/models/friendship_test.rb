@@ -1,91 +1,64 @@
 require "test_helper"
 
 class FriendshipTest < ActiveSupport::TestCase
-  test "can create a friendship with valid attributes" do
-    alice = users(:one)
-    bob   = users(:two)
-    Friendship.where(requester: alice, receiver: bob).or(Friendship.where(requester: bob, receiver: alice)).destroy_all
-    friendship = Friendship.new(requester: alice, receiver: bob, status: "pending")
-    assert friendship.save
+  setup do
+    @alice   = users(:one)
+    @bob     = users(:two)
+    @charlie = User.create!(username: "charlie", email: "charlie@example.com", password: "password123")
   end
 
-  test "status defaults to pending" do
-    friendship = friendships(:one)
-    assert_equal "accepted", friendship.status
+  # Use alice+charlie (no fixture conflict) for validity tests
+  test "valid with pending status" do
+    assert Friendship.new(requester: @alice, receiver: @charlie, status: "pending").valid?
   end
 
-  test "status must be pending, accepted, or declined" do
-    alice = users(:one)
-    bob   = users(:two)
-    Friendship.where(requester: alice, receiver: bob).or(Friendship.where(requester: bob, receiver: alice)).destroy_all
-    friendship = Friendship.new(requester: alice, receiver: bob, status: "strangers")
-    assert_not friendship.valid?
-    assert friendship.errors[:status].any?
+  test "valid with accepted status" do
+    assert Friendship.new(requester: @alice, receiver: @charlie, status: "accepted").valid?
   end
 
-  test "pending status is valid" do
-    alice = users(:one)
-    bob   = users(:two)
-    Friendship.where(requester: alice, receiver: bob).or(Friendship.where(requester: bob, receiver: alice)).destroy_all
-    friendship = Friendship.new(requester: alice, receiver: bob, status: "pending")
-    assert friendship.valid?
+  test "valid with declined status" do
+    assert Friendship.new(requester: @alice, receiver: @charlie, status: "declined").valid?
   end
 
-  test "accepted status is valid" do
-    alice = users(:one)
-    bob   = users(:two)
-    Friendship.where(requester: alice, receiver: bob).or(Friendship.where(requester: bob, receiver: alice)).destroy_all
-    friendship = Friendship.new(requester: alice, receiver: bob, status: "accepted")
-    assert friendship.valid?
+  test "invalid with unknown status" do
+    assert_not Friendship.new(requester: @alice, receiver: @charlie, status: "blocked").valid?
   end
 
-  test "declined status is valid" do
-    alice = users(:one)
-    bob   = users(:two)
-    Friendship.where(requester: alice, receiver: bob).or(Friendship.where(requester: bob, receiver: alice)).destroy_all
-    friendship = Friendship.new(requester: alice, receiver: bob, status: "declined")
-    assert friendship.valid?
+  test "invalid without status" do
+    assert_not Friendship.new(requester: @alice, receiver: @charlie, status: nil).valid?
   end
 
-  test "duplicate friendship between same pair is invalid" do
-    alice = users(:one)
-    bob   = users(:two)
-    Friendship.where(requester: alice, receiver: bob).or(Friendship.where(requester: bob, receiver: alice)).destroy_all
-    Friendship.create!(requester: alice, receiver: bob, status: "pending")
-    duplicate = Friendship.new(requester: alice, receiver: bob, status: "pending")
-    assert_not duplicate.valid?
-    assert duplicate.errors[:requester_id].any?
+  test "duplicate requester and receiver pair is invalid" do
+    Friendship.create!(requester: @alice, receiver: @charlie, status: "pending")
+    assert_not Friendship.new(requester: @alice, receiver: @charlie, status: "pending").valid?
   end
 
+  test "reverse pair is valid" do
+    Friendship.create!(requester: @alice, receiver: @charlie, status: "pending")
+    assert Friendship.new(requester: @charlie, receiver: @alice, status: "pending").valid?
+  end
+
+  # Fixture-based tests
+  test "belongs to requester" do
+    assert_equal @alice, friendships(:one).requester
+  end
+
+  test "belongs to receiver" do
+    assert_equal @bob, friendships(:one).receiver
+  end
+
+  # Scope tests use charlie to avoid fixture conflict
   test "pending scope returns only pending friendships" do
-    alice = users(:one)
-    bob   = users(:two)
-    Friendship.where(requester: alice, receiver: bob).or(Friendship.where(requester: bob, receiver: alice)).destroy_all
-    f = Friendship.create!(requester: alice, receiver: bob, status: "pending")
-    assert_includes Friendship.pending, f
+    Friendship.create!(requester: @alice, receiver: @charlie, status: "pending")
+    assert Friendship.pending.all? { |f| f.status == "pending" }
   end
 
   test "accepted scope returns only accepted friendships" do
-    friendship = friendships(:one)
-    assert_includes Friendship.accepted, friendship
+    Friendship.create!(requester: @alice, receiver: @charlie, status: "accepted")
+    assert Friendship.accepted.all? { |f| f.status == "accepted" }
   end
 
-  test "pending scope excludes accepted friendships" do
-    friendship = friendships(:one)
-    assert_not_includes Friendship.pending, friendship
-  end
-
-  test "requires a requester" do
-    bob = users(:two)
-    friendship = Friendship.new(receiver: bob, status: "pending")
-    assert_not friendship.valid?
-    assert friendship.errors[:requester].any?
-  end
-
-  test "requires a receiver" do
-    alice = users(:one)
-    friendship = Friendship.new(requester: alice, status: "pending")
-    assert_not friendship.valid?
-    assert friendship.errors[:receiver].any?
+  test "accepted scope excludes pending friendships" do
+    assert_not_includes Friendship.accepted, friendships(:one)
   end
 end

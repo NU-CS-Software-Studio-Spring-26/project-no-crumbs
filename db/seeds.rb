@@ -136,6 +136,7 @@ bob   = User.find_by!(email: "bob@example.com")
 carol = User.find_by!(email: "carol@example.com")
 dave  = User.find_by!(email: "dave@example.com")
 eve   = User.find_by!(email: "eve@example.com")
+frank = User.find_by!(email: "frank@example.com")
 
 friendships_data = [
   { requester: alice, receiver: bob,   status: "accepted" },
@@ -150,5 +151,162 @@ friendships_data = [
 friendships_data.each do |f|
   Friendship.find_or_create_by!(requester: f[:requester], receiver: f[:receiver]) do |fs|
     fs.status = f[:status]
+  end
+end
+
+# ── Nick (the real user) ──────────────────────────────────────────────────────
+nick = User.find_or_create_by!(email: "nperry248@gmail.com") do |u|
+  u.username = "nperry"
+  u.bio      = "Always down to eat."
+  u.password = "password123"
+end
+
+# Nick's upcoming meals (active, so friends can RSVP to them)
+nick_bbq = nick.posts.find_or_create_by!(title: "Backyard BBQ Bash") do |p|
+  p.description = "Burgers, dogs, ribs — the whole spread. BYOB and bring a side."
+  p.meal_date   = 2.days.from_now.change(hour: 17, min: 0)
+end
+
+nick_sushi = nick.posts.find_or_create_by!(title: "Homemade Sushi Night") do |p|
+  p.description = "Rolling our own maki and nigiri. I'll have all the fish — just show up hungry."
+  p.meal_date   = 5.days.from_now.change(hour: 19, min: 30)
+end
+
+# Friends' upcoming meals (so Nick has something to RSVP to)
+alice_pasta = alice.posts.find_or_create_by!(title: "Garden Pasta Night") do |p|
+  p.description = "Fresh pappardelle with cherry tomatoes, basil, and burrata straight from the garden."
+  p.meal_date   = 3.days.from_now.change(hour: 18, min: 30)
+end
+
+bob_ramen = bob.posts.find_or_create_by!(title: "Sunday Ramen Session") do |p|
+  p.description = "Spent all day on the broth — tonkotsu with all the toppings. Limited seats."
+  p.meal_date   = 4.days.from_now.change(hour: 19, min: 0)
+end
+
+frank_wine = frank.posts.find_or_create_by!(title: "Wine & Cheese Evening") do |p|
+  p.description = "Pairing six cheeses with natural wines. A quiet one — max 6 people."
+  p.meal_date   = 7.days.from_now.change(hour: 20, min: 0)
+end
+
+# Friendships connecting Nick to the existing crew
+[
+  { requester: nick, receiver: alice },
+  { requester: nick, receiver: bob   },
+  { requester: nick, receiver: carol },
+  { requester: frank, receiver: nick }
+].each do |f|
+  Friendship.find_or_create_by!(requester: f[:requester], receiver: f[:receiver]) do |fs|
+    fs.status = "accepted"
+  end
+end
+
+# RSVPs on Nick's meals (friends responding to his events)
+{
+  nick_bbq   => [ { user: alice, status: "going"     },
+                  { user: bob,   status: "maybe"      },
+                  { user: carol, status: "going"      },
+                  { user: frank, status: "not_going"  } ],
+  nick_sushi => [ { user: alice, status: "going"     },
+                  { user: frank, status: "maybe"      } ]
+}.each do |post, rsvps|
+  rsvps.each do |r|
+    Rsvp.find_or_create_by!(post: post, user: r[:user]) do |rsvp|
+      rsvp.status = r[:status]
+    end
+  end
+end
+
+# Nick's RSVPs on friends' upcoming meals
+{
+  alice_pasta => "going",
+  bob_ramen   => "maybe",
+  frank_wine  => "going"
+}.each do |post, status|
+  Rsvp.find_or_create_by!(post: post, user: nick) do |rsvp|
+    rsvp.status = status
+  end
+end
+
+# ── Likes ─────────────────────────────────────────────────────────────────────
+[
+  { user: alice, post: nick_bbq    },
+  { user: bob,   post: nick_bbq    },
+  { user: carol, post: nick_bbq    },
+  { user: nick,  post: alice_pasta },
+  { user: bob,   post: alice_pasta },
+  { user: nick,  post: bob_ramen   },
+  { user: alice, post: bob_ramen   },
+  { user: nick,  post: frank_wine  },
+  { user: alice, post: nick_sushi  },
+  { user: carol, post: nick_sushi  }
+].each do |l|
+  Like.find_or_create_by!(user: l[:user], likeable: l[:post])
+end
+
+# ── Comments ──────────────────────────────────────────────────────────────────
+comments_data = [
+  { user: alice, post: nick_bbq,    body: "Can't wait — I'm bringing potato salad!" },
+  { user: bob,   post: nick_bbq,    body: "Should I grab extra charcoal on the way?" },
+  { user: carol, post: nick_bbq,    body: "Making a veggie option to bring 🌽" },
+  { user: nick,  post: alice_pasta, body: "That burrata detail has me sold. See you there." },
+  { user: bob,   post: alice_pasta, body: "Fresh pappardelle is undefeated. Counting down." },
+  { user: alice, post: bob_ramen,   body: "12 hours of broth?? You're insane (in the best way)." },
+  { user: nick,  post: bob_ramen,   body: "Save me a seat. I'll bring the beer." },
+  { user: nick,  post: frank_wine,  body: "Really hoping the Époisses makes the cut." },
+  { user: alice, post: frank_wine,  body: "Do we need to bring anything?" },
+  { user: alice, post: nick_sushi,  body: "I'll be the one who rolls everything wrong but has fun." },
+  { user: carol, post: nick_sushi,  body: "I've been practicing my rolling. Game time." }
+]
+
+comments_data.each do |c|
+  next if Comment.exists?(user: c[:user], post: c[:post], body: c[:body])
+  Comment.create!(user: c[:user], post: c[:post], body: c[:body])
+end
+
+# ── Communities ───────────────────────────────────────────────────────────────
+grace  = User.find_by!(email: "grace@example.com")
+henry  = User.find_by!(email: "henry@example.com")
+isabel = User.find_by!(email: "isabel@example.com")
+jordan = User.find_by!(email: "jordan@example.com")
+eve    = User.find_by!(email: "eve@example.com")
+
+communities_data = [
+  {
+    name:        "NU Class of '26",
+    description: "Northwestern University class of 2026 — eat, cook, and share meals with your classmates.",
+    creator:     alice,
+    members:     [ alice, bob, carol, nick ]
+  },
+  {
+    name:        "Chicago Food Scene",
+    description: "Exploring the best of Chicago's dining culture, one meal at a time.",
+    creator:     frank,
+    members:     [ frank, grace, isabel, nick ]
+  },
+  {
+    name:        "Meal Prep Crew",
+    description: "Plan your week, cook in bulk, and share what's in the rotation.",
+    creator:     henry,
+    members:     [ henry, carol, eve ]
+  },
+  {
+    name:        "Late Night Eaters",
+    description: "For people who eat dinner after midnight and have zero regrets.",
+    creator:     jordan,
+    members:     [ jordan, bob, nick ]
+  }
+]
+
+communities_data.each do |data|
+  community = Community.find_or_create_by!(name: data[:name]) do |c|
+    c.description = data[:description]
+    c.creator     = data[:creator]
+  end
+
+  data[:members].each do |user|
+    role = user == data[:creator] ? "admin" : "member"
+    CommunityMembership.find_or_create_by!(community: community, user: user) do |m|
+      m.role = role
+    end
   end
 end

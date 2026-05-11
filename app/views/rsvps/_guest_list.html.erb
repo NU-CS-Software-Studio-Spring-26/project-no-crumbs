@@ -1,0 +1,50 @@
+<div id="rsvp-guest-list-<%= post.id %>">
+  <% going   = post.rsvps.where(status: "going").includes(:user) %>
+  <% maybe   = post.rsvps.where(status: "maybe").includes(:user) %>
+  <% not_going_count = post.rsvps.where(status: "not_going").count %>
+
+  <% if going.any? %>
+    <div class="rsvp-group">
+      <p class="rsvp-group-label">
+        <i class="bi bi-check-circle-fill" style="color:#16a34a"></i>
+        Going (<%= going.count %>)
+      </p>
+      <div class="rsvp-avatars">
+        <% going.each do |r| %>
+          <%= link_to user_path(r.user), class: "rsvp-avatar-item", title: r.user.username do %>
+            <div class="avatar avatar-sm"><%= r.user.username[0].upcase %></div>
+            <span class="rsvp-avatar-name"><%= r.user.username %></span>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if maybe.any? %>
+    <div class="rsvp-group">
+      <p class="rsvp-group-label">
+        <i class="bi bi-question-circle-fill" style="color:#d97706"></i>
+        Maybe (<%= maybe.count %>)
+      </p>
+      <div class="rsvp-avatars">
+        <% maybe.each do |r| %>
+          <%= link_to user_path(r.user), class: "rsvp-avatar-item", title: r.user.username do %>
+            <div class="avatar avatar-sm"><%= r.user.username[0].upcase %></div>
+            <span class="rsvp-avatar-name"><%= r.user.username %></span>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if not_going_count > 0 %>
+    <p class="rsvp-cant-make-it">
+      <i class="bi bi-x-circle-fill" style="color:var(--muted)"></i>
+      <%= not_going_count %> <%= "person".pluralize(not_going_count) %> can't make it
+    </p>
+  <% end %>
+
+  <% if going.empty? && maybe.empty? && not_going_count == 0 %>
+    <p class="rsvp-empty">No RSVPs yet</p>
+  <% end %>
+</div>

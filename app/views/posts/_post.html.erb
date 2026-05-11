@@ -1,5 +1,6 @@
 <div class="meal-card" id="<%= dom_id post %>">
-  <div class="meal-cover gc-meal">
+  <div class="meal-cover <%= post.cover_photo_url? ? "meal-cover-photo" : "gc-meal" %>"
+       <%= post.cover_photo_url? ? "style=background-image:url('#{post.cover_photo_url}')" : "" %>>
     <div class="meal-cover-date">
       <span class="day"><%= post.meal_date&.strftime("%-d") || "?" %></span>
       <span class="mon"><%= post.meal_date&.strftime("%b") || "—" %></span>
@@ -7,7 +8,10 @@
   </div>
 
   <div class="meal-card-body">
-    <h3 class="meal-card-title"><%= post.title %></h3>
+    <div class="d-flex align-items-start justify-content-between gap-2">
+      <h3 class="meal-card-title" style="margin:0"><%= post.title %></h3>
+      <%= render "likes/like_button", likeable: post, size: :small %>
+    </div>
     <div class="meal-card-when">
       <i class="bi bi-clock" style="font-size:0.75rem;color:var(--muted)"></i>
       <span><%= post.meal_date&.strftime("%a, %b %-d · %l:%M %p")&.strip || "Date TBD" %></span>
@@ -15,6 +19,16 @@
     <% if post.description.present? %>
       <p class="meal-card-desc"><%= post.description %></p>
     <% end %>
+    <div class="d-flex align-items-center gap-3">
+      <%= render "rsvps/count", post: post %>
+      <% comment_count = post.comments.count %>
+      <% if comment_count > 0 %>
+        <span class="meal-meta-count">
+          <i class="bi bi-chat" style="font-size:0.7rem"></i>
+          <%= comment_count %>
+        </span>
+      <% end %>
+    </div>
   </div>
 
   <div class="meal-card-footer">

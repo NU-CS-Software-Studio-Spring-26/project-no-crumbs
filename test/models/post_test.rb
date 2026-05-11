@@ -1,25 +1,25 @@
 require "test_helper"
 
 class PostTest < ActiveSupport::TestCase
+  setup do
+    @user = users(:one)
+  end
+
   test "can create a post with valid attributes" do
-    user = users(:one)
-    post = Post.new(title: "Taco Tuesday", description: "Making tacos for everyone", meal_date: Time.now, user: user)
+    post = Post.new(title: "Taco Tuesday", description: "Making tacos", meal_date: 1.day.from_now, user: @user)
     assert post.save
   end
 
   test "post has a title" do
-    post = posts(:one)
-    assert_equal "Homemade Lasagna Night", post.title
+    assert_equal "Homemade Lasagna Night", posts(:one).title
   end
 
   test "post has a description" do
-    post = posts(:one)
-    assert_not_nil post.description
+    assert_not_nil posts(:one).description
   end
 
   test "post has a meal_date" do
-    post = posts(:one)
-    assert_not_nil post.meal_date
+    assert_not_nil posts(:one).meal_date
   end
 
   test "post belongs to a user" do
@@ -29,37 +29,91 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test "post requires a user" do
-    post = Post.new(title: "No User Post", description: "desc", meal_date: Time.now)
+    post = Post.new(title: "No User Post", description: "desc", meal_date: 1.day.from_now)
     assert_not post.save
   end
 
-  test "active scope excludes posts older than 36 hours" do
-    user = users(:one)
-    old_post = user.posts.create!(title: "Old Meal", description: "desc", meal_date: 2.days.ago)
-    assert_not_includes Post.active, old_post
+  # title validation
+  test "invalid without title" do
+    post = Post.new(description: "desc", meal_date: 1.day.from_now, user: @user)
+    assert_not post.valid?
+    assert_includes post.errors[:title], "can't be blank"
   end
 
-  test "active scope includes posts within 36 hours" do
-    user = users(:one)
-    recent_post = user.posts.create!(title: "Recent Meal", description: "desc", meal_date: 1.hour.from_now)
-    assert_includes Post.active, recent_post
+  test "invalid when title exceeds 100 characters" do
+    post = Post.new(title: "a" * 101, user: @user)
+    assert_not post.valid?
+    assert post.errors[:title].any?
   end
 
-  test "archived scope includes posts older than 36 hours" do
-    user = users(:one)
-    old_post = user.posts.create!(title: "Old Meal", description: "desc", meal_date: 2.days.ago)
-    assert_includes Post.archived, old_post
+  test "valid with title at exactly 100 characters" do
+    post = Post.new(title: "a" * 100, user: @user)
+    assert post.valid?
   end
 
-  test "archived scope excludes recent posts" do
-    user = users(:one)
-    recent_post = user.posts.create!(title: "Future Meal", description: "desc", meal_date: 1.day.from_now)
-    assert_not_includes Post.archived, recent_post
+  # description validation
+  test "invalid when description exceeds 2000 characters" do
+    post = Post.new(title: "Dinner", description: "a" * 2001, user: @user)
+    assert_not post.valid?
+    assert post.errors[:description].any?
   end
 
-  test "post can be created without a meal_date" do
-    user = users(:one)
-    post = Post.new(title: "Someday Meal", description: "No date yet", user: user)
-    assert post.save
+  test "valid with description at exactly 2000 characters" do
+    post = Post.new(title: "Dinner", description: "a" * 2000, user: @user)
+    assert post.valid?
+  end
+
+  test "valid without description" do
+    post = Post.new(title: "Dinner", user: @user)
+    assert post.valid?
+  end
+
+  # meal_date validation
+  test "invalid when meal_date is more than 6 months in the future" do
+    post = Post.new(title: "Far Future", user: @user, meal_date: 7.months.from_now)
+    assert_not post.valid?
+    assert post.errors[:meal_date].any?
+  end
+
+  test "valid when meal_date is within 6 months" do
+    post = Post.new(title: "Soon", user: @user, meal_date: 5.months.from_now)
+    assert post.valid?
+  end
+
+  test "valid with nil meal_date" do
+    post = Post.new(title: "No Date", user: @user, meal_date: nil)
+    assert post.valid?
+  end
+
+  # active scope
+  test "active scope includes post with future meal_date" do
+    post = Post.create!(title: "Future", description: "d", meal_date: 2.days.from_now, user: @user)
+    assert_includes Post.active, post
+  end
+
+  test "active scope includes post with nil meal_date" do
+    post = Post.create!(title: "No Date", description: "d", meal_date: nil, user: @user)
+    assert_includes Post.active, post
+  end
+
+  test "active scope excludes post older than 36 hours" do
+    post = Post.create!(title: "Old", description: "d", meal_date: 37.hours.ago, user: @user)
+    assert_not_includes Post.active, post
+  end
+
+  # archived scope
+  test "archived scope includes post older than 36 hours" do
+    post = Post.create!(title: "Archived", description: "d", meal_date: 37.hours.ago, user: @user)
+    assert_includes Post.archived, post
+  end
+
+  test "archived scope excludes post with future meal_date" do
+    post = Post.create!(title: "Future", description: "d", meal_date: 2.days.from_now, user: @user)
+    assert_not_includes Post.archived, post
+  end
+
+  test "archived scope excludes post with nil meal_date" do
+    post = Post.create!(title: "No Date", description: "d", meal_date: nil, user: @user)
+    assert_not_includes Post.archived, post
   end
 end

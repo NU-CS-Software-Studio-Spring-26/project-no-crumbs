@@ -1,7 +1,4 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
   requester: one
   receiver: two
-  status: accepted
-git
+  status: pending
