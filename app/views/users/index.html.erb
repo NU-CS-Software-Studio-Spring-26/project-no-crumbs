@@ -25,6 +25,7 @@
           autocomplete: "off",
           data: { user_search_target: "input", action: "input->user-search#search" } %>
       <a href="#" class="nc-search-clear<%= " d-none" unless @query.present? %>"
+         aria-label="Clear search"
          data-user-search-target="clear"
          data-action="click->user-search#clear">
         <i class="bi bi-x"></i>

@@ -17,6 +17,7 @@
       <%= button_to post_comment_path(comment.post, comment),
             method: :delete,
             class: "comment-delete-btn",
+            aria: { label: "Delete comment" },
             form: { data: { turbo_stream: true } } do %>
         <i class="bi bi-x"></i>
       <% end %>
