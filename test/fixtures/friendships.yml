@@ -2,3 +2,6 @@ one:
   requester: one
   receiver: two
   status: pending
+
+  status: accepted
+git
