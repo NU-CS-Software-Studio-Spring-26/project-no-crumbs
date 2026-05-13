@@ -26,7 +26,7 @@
     <p class="text-muted" style="font-size:0.85rem;margin-bottom:0.5rem">Check everything this meal can accommodate. Guests with unmet restrictions will see a warning.</p>
     <input type="hidden" name="post[dietary_restrictions][]" value="">
     <div class="d-flex flex-wrap gap-2" data-controller="dietary-picker">
-      <% ApplicationHelper::DIETARY_RESTRICTION_OPTIONS.each do |value, label| %>
+      <% DietaryRestrictionsHelper::DIETARY_RESTRICTION_OPTIONS.each do |value, label| %>
         <% selected = (post.dietary_restrictions || []).include?(value) %>
         <label class="dietary-check <%= 'dietary-check--selected' if selected %>">
           <%= check_box_tag "post[dietary_restrictions][]", value, selected,

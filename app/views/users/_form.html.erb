@@ -46,7 +46,7 @@
     <p class="text-muted" style="font-size:0.85rem;margin-bottom:0.5rem">Select any that apply to you. Meals that don't accommodate these will show a warning.</p>
     <input type="hidden" name="user[dietary_restrictions][]" value="">
     <div class="d-flex flex-wrap gap-2" data-controller="dietary-picker">
-      <% ApplicationHelper::DIETARY_RESTRICTION_OPTIONS.each do |value, label| %>
+      <% DietaryRestrictionsHelper::DIETARY_RESTRICTION_OPTIONS.each do |value, label| %>
         <% selected = (user.dietary_restrictions || []).include?(value) %>
         <label class="dietary-check <%= 'dietary-check--selected' if selected %>">
           <%= check_box_tag "user[dietary_restrictions][]", value, selected,
