@@ -116,4 +116,26 @@ class PostTest < ActiveSupport::TestCase
     post = Post.create!(title: "No Date", description: "d", meal_date: nil, user: @user)
     assert_not_includes Post.archived, post
   end
+
+  # dietary restrictions
+  test "dietary_restrictions defaults to empty array" do
+    post = Post.create!(title: "Dinner", user: @user)
+    assert_equal [], post.dietary_restrictions
+  end
+
+  test "can save dietary restrictions" do
+    post = Post.create!(title: "Vegan Night", user: @user, dietary_restrictions: [ "vegan", "gluten_free" ])
+    assert_equal [ "vegan", "gluten_free" ], post.reload.dietary_restrictions
+  end
+
+  test "can clear dietary restrictions" do
+    post = Post.create!(title: "Dinner", user: @user, dietary_restrictions: [ "vegan" ])
+    post.update!(dietary_restrictions: [])
+    assert_equal [], post.reload.dietary_restrictions
+  end
+
+  test "dietary restrictions persist across reloads" do
+    post = Post.create!(title: "Dinner", user: @user, dietary_restrictions: [ "kosher", "nut_free" ])
+    assert_equal [ "kosher", "nut_free" ], Post.find(post.id).dietary_restrictions
+  end
 end

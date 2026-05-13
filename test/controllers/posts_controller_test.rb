@@ -80,4 +80,26 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     get new_post_url
     assert_redirected_to new_user_session_path
   end
+
+  # dietary restrictions
+  test "can save dietary restrictions on create" do
+    post posts_url, params: { post: { title: "Vegan Night", meal_date: 1.day.from_now, dietary_restrictions: [ "vegan", "dairy_free" ] } }
+    assert_equal [ "vegan", "dairy_free" ], Post.last.dietary_restrictions
+  end
+
+  test "can save dietary restrictions on update" do
+    patch post_url(@post), params: { post: { title: @post.title, dietary_restrictions: [ "gluten_free" ] } }
+    assert_equal [ "gluten_free" ], @post.reload.dietary_restrictions
+  end
+
+  test "can clear dietary restrictions by submitting empty sentinel" do
+    @post.update!(dietary_restrictions: [ "vegan" ])
+    patch post_url(@post), params: { post: { title: @post.title, dietary_restrictions: [ "" ] } }
+    assert_equal [], @post.reload.dietary_restrictions
+  end
+
+  test "ignores blank values in dietary restrictions" do
+    patch post_url(@post), params: { post: { title: @post.title, dietary_restrictions: [ "", "kosher" ] } }
+    assert_equal [ "kosher" ], @post.reload.dietary_restrictions
+  end
 end
