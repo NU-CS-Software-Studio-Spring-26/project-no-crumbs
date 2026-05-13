@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     @friendship = Friendship.where(requester: current_user, receiver: @user)
                             .or(Friendship.where(requester: @user, receiver: current_user))
                             .first
-    can_see_meals = current_user == @user || current_user.friend_with?(@user)
+    can_see_meals = current_user == @user || current_user.friend_with?(@user) || admin?
     if can_see_meals
       @active_posts   = @user.posts.active.order(meal_date: :asc)
       @archived_posts = @user.posts.archived.order(meal_date: :desc)
@@ -81,12 +81,12 @@ class UsersController < ApplicationController
     end
 
     def require_owner!
-      redirect_to @user, alert: "You can only modify your own profile." unless @user == current_user
+      redirect_to @user, alert: "You can only modify your own profile." unless @user == current_user || admin?
     end
 
     # Only allow a list of trusted parameters through.
     def user_params
-      p = params.require(:user).permit(:username, :email, :bio, dietary_restrictions: [])
+      p = params.require(:user).permit(:username, :email, :bio, :avatar, dietary_restrictions: [])
       p[:dietary_restrictions] = (p[:dietary_restrictions] || []).reject(&:blank?)
       p
     end

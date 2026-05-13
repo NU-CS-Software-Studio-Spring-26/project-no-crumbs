@@ -20,6 +20,7 @@
   </head>
 
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <nav class="nc-nav">
       <div class="nc-nav-left">
         <%= link_to root_path, class: "nc-brand" do %>
@@ -35,8 +36,8 @@
       </div>
       <div class="nc-nav-right">
         <% if user_signed_in? %>
-          <%= link_to user_path(current_user, direct: 1), class: "nc-nav-icon nc-nav-desktop-only", title: "My Profile" do %>
-            <i class="bi bi-person-circle"></i>
+          <%= link_to user_path(current_user, direct: 1), class: "nc-nav-icon nc-nav-desktop-only", aria: { label: "My Profile" } do %>
+            <i class="bi bi-person-circle" aria-hidden="true"></i>
           <% end %>
         <% else %>
           <%= link_to "Sign In", new_user_session_path, class: "nc-nav-link nc-nav-desktop-only" %>
@@ -54,7 +55,7 @@
         <%= link_to "Friends", friendships_path, class: "nc-mobile-link #{'nc-mobile-link-active' if request.path.start_with?(friendships_path)}" %>
         <%= link_to "Communities", communities_path, class: "nc-mobile-link #{'nc-mobile-link-active' if request.path.start_with?(communities_path)}" %>
         <%= link_to user_path(current_user, direct: 1), class: "nc-mobile-link" do %>
-          <i class="bi bi-person-circle"></i> Profile
+          <i class="bi bi-person-circle" aria-hidden="true"></i> Profile
         <% end %>
       <% else %>
         <%= link_to "Sign In", new_user_session_path, class: "nc-mobile-link" %>
@@ -62,21 +63,21 @@
       <% end %>
     </div>
 
-    <div class="nc-container">
+    <main id="main-content" class="nc-container">
       <% if notice.present? %>
-        <div class="nc-flash">
+        <div class="nc-flash" role="alert">
           <i class="bi bi-check-circle-fill"></i>
           <%= notice %>
         </div>
       <% end %>
       <% if alert.present? && !devise_controller? %>
-        <div class="nc-flash nc-flash-alert">
+        <div class="nc-flash nc-flash-alert" role="alert">
           <i class="bi bi-exclamation-circle-fill"></i>
           <%= alert %>
         </div>
       <% end %>
       <%= yield %>
-    </div>
+    </main>
 
     <footer class="nc-footer">
       <div class="nc-footer-inner">

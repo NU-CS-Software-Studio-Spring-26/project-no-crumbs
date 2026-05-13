@@ -2,9 +2,11 @@
 
 <%# ── HERO ── %>
 <div class="lp-hero">
+  <div class="lp-noise" aria-hidden="true"></div>
   <div class="lp-blob lp-blob-1"></div>
   <div class="lp-blob lp-blob-2"></div>
   <div class="lp-blob lp-blob-3"></div>
+  <div class="lp-blob lp-blob-4"></div>
 
   <span class="lp-emoji" style="top:10%;left:7%;font-size:2.75rem;animation-duration:7s;animation-delay:0s;">🍝</span>
   <span class="lp-emoji" style="top:18%;right:9%;font-size:2.25rem;animation-duration:5.5s;animation-delay:0.6s;">🥗</span>
@@ -16,6 +18,21 @@
   <span class="lp-emoji" style="top:12%;left:28%;font-size:1.25rem;animation-duration:5s;animation-delay:1.5s;">🍣</span>
   <span class="lp-emoji" style="top:78%;right:20%;font-size:1.75rem;animation-duration:8.5s;animation-delay:0.4s;">🫕</span>
   <span class="lp-emoji" style="top:50%;right:2%;font-size:1.25rem;animation-duration:6s;animation-delay:2.8s;">🌮</span>
+  <span class="lp-emoji" style="top:24%;left:16%;font-size:1rem;animation-duration:11s;animation-delay:3.1s;">🍱</span>
+  <span class="lp-emoji" style="top:74%;left:42%;font-size:1rem;animation-duration:9.5s;animation-delay:1.1s;">🥟</span>
+
+  <div class="lp-sparks" aria-hidden="true">
+    <div class="lp-spark" style="top:20%;left:35%;animation-delay:0s;animation-duration:2.8s;"></div>
+    <div class="lp-spark" style="top:45%;left:65%;animation-delay:0.6s;animation-duration:3.2s;"></div>
+    <div class="lp-spark" style="top:70%;left:25%;animation-delay:1.1s;animation-duration:2.5s;"></div>
+    <div class="lp-spark" style="top:30%;left:78%;animation-delay:1.8s;animation-duration:3.6s;"></div>
+    <div class="lp-spark" style="top:55%;left:12%;animation-delay:0.4s;animation-duration:4s;"></div>
+    <div class="lp-spark" style="top:15%;left:55%;animation-delay:2.2s;animation-duration:2.9s;"></div>
+    <div class="lp-spark" style="top:85%;left:60%;animation-delay:0.9s;animation-duration:3.4s;"></div>
+    <div class="lp-spark" style="top:40%;left:45%;animation-delay:1.5s;animation-duration:2.7s;"></div>
+    <div class="lp-spark lp-spark-lg" style="top:65%;left:80%;animation-delay:2.5s;animation-duration:4.2s;"></div>
+    <div class="lp-spark lp-spark-lg" style="top:10%;left:90%;animation-delay:0.2s;animation-duration:3.8s;"></div>
+  </div>
 
   <div class="lp-hero-content">
     <div class="lp-eyebrow">
@@ -33,68 +50,147 @@
       <% end %>
     </div>
   </div>
+
+  <div class="lp-scroll-hint">
+    <span class="lp-scroll-label">scroll</span>
+    <div class="lp-scroll-line" aria-hidden="true"></div>
+  </div>
 </div>
 
-<%# ── MARQUEE ── %>
-<div class="lp-marquee-wrap">
+<%# ── MARQUEE (two rows) ── %>
+<div class="lp-marquee-wrap lp-marquee-wrap-2">
+  <div class="lp-marquee-edge lp-marquee-edge-l"></div>
+  <div class="lp-marquee-edge lp-marquee-edge-r"></div>
   <div class="lp-marquee">
     <div class="lp-marquee-track">
       <span>🍝 Pasta Night</span><span>🥗 Salad Bar</span><span>🍕 Pizza Friday</span>
       <span>🥘 Sunday Stew</span><span>🍜 Ramen Lab</span><span>🧆 Falafel Feast</span>
       <span>🥐 Croissant Morning</span><span>🍣 Sushi Spread</span><span>🫕 Fondue Night</span>
       <span>🌮 Taco Tuesday</span><span>🍳 Brunch Club</span><span>🥩 Grill Night</span>
-      <%# duplicate for seamless loop %>
       <span>🍝 Pasta Night</span><span>🥗 Salad Bar</span><span>🍕 Pizza Friday</span>
       <span>🥘 Sunday Stew</span><span>🍜 Ramen Lab</span><span>🧆 Falafel Feast</span>
       <span>🥐 Croissant Morning</span><span>🍣 Sushi Spread</span><span>🫕 Fondue Night</span>
       <span>🌮 Taco Tuesday</span><span>🍳 Brunch Club</span><span>🥩 Grill Night</span>
     </div>
   </div>
+  <div class="lp-marquee lp-marquee-rev">
+    <div class="lp-marquee-track lp-marquee-track-rev">
+      <span>🍱 Bento Box</span><span>🥟 Dumpling Drop</span><span>🫔 Wrap Night</span>
+      <span>🥞 Pancake Sunday</span><span>🍔 Burger Lab</span><span>🥙 Kebab Night</span>
+      <span>🍛 Curry Club</span><span>🫓 Flatbread Friday</span><span>🍤 Tempura Night</span>
+      <span>🥦 Stir Fry Monday</span><span>🧁 Bake Sale</span><span>🍲 Hotpot Night</span>
+      <span>🍱 Bento Box</span><span>🥟 Dumpling Drop</span><span>🫔 Wrap Night</span>
+      <span>🥞 Pancake Sunday</span><span>🍔 Burger Lab</span><span>🥙 Kebab Night</span>
+      <span>🍛 Curry Club</span><span>🫓 Flatbread Friday</span><span>🍤 Tempura Night</span>
+      <span>🥦 Stir Fry Monday</span><span>🧁 Bake Sale</span><span>🍲 Hotpot Night</span>
+    </div>
+  </div>
+</div>
+
+<%# ── STATS ── %>
+<div class="lp-stats">
+  <div class="lp-stat-item" data-lp-reveal="scale" style="--reveal-delay:0s">
+    <div class="lp-stat-val"><span class="lp-count" data-target="<%= @meals_count %>">0</span><span class="lp-stat-plus">+</span></div>
+    <div class="lp-stat-label">Meals Posted</div>
+  </div>
+  <div class="lp-stat-divider"></div>
+  <div class="lp-stat-item" data-lp-reveal="scale" style="--reveal-delay:0.1s">
+    <div class="lp-stat-val"><span class="lp-count" data-target="<%= @friends_count %>">0</span><span class="lp-stat-plus">+</span></div>
+    <div class="lp-stat-label">Friends Made</div>
+  </div>
+  <div class="lp-stat-divider"></div>
+  <div class="lp-stat-item" data-lp-reveal="scale" style="--reveal-delay:0.2s">
+    <div class="lp-stat-val"><span class="lp-count" data-target="<%= @cooks_count %>">0</span><span class="lp-stat-plus">+</span></div>
+    <div class="lp-stat-label">Home Cooks</div>
+  </div>
+  <div class="lp-stat-divider"></div>
+  <div class="lp-stat-item" data-lp-reveal="scale" style="--reveal-delay:0.3s">
+    <div class="lp-stat-val"><span class="lp-count" data-target="<%= @tables_count %>">0</span><span class="lp-stat-plus">+</span></div>
+    <div class="lp-stat-label">Tables Joined</div>
+  </div>
 </div>
 
 <%# ── FEATURES ── %>
+<div class="lp-section-header" data-lp-reveal>
+  <p class="lp-section-eyebrow">What you can do</p>
+</div>
 <div class="lp-features">
-  <div class="lp-feature">
+  <div class="lp-feature" data-lp-reveal style="--reveal-delay:0s">
     <div class="lp-feature-icon gc-meal">🍳</div>
-    <h3 class="lp-feature-title">Cook &amp; Post</h3>
+    <h2 class="lp-feature-title">Cook &amp; Post</h2>
     <p class="lp-feature-desc">Planning a dinner? Post it on NoCrumbs and let your friends know what's cooking — and when.</p>
   </div>
-  <div class="lp-feature">
+  <div class="lp-feature" data-lp-reveal style="--reveal-delay:0.1s">
     <div class="lp-feature-icon gc-1">👀</div>
-    <h3 class="lp-feature-title">See What's On</h3>
+    <h2 class="lp-feature-title">See What's On</h2>
     <p class="lp-feature-desc">Browse your friends' meals, see what's on the menu tonight, and never miss a good bite.</p>
   </div>
-  <div class="lp-feature">
+  <div class="lp-feature" data-lp-reveal style="--reveal-delay:0.2s">
     <div class="lp-feature-icon gc-2">🤝</div>
-    <h3 class="lp-feature-title">Share the Table</h3>
+    <h2 class="lp-feature-title">Share the Table</h2>
     <p class="lp-feature-desc">Add friends, accept invites, and build a crew of people who love food as much as you do.</p>
+  </div>
+</div>
+
+<%# ── PERKS ── %>
+<div class="lp-section-header" data-lp-reveal>
+  <p class="lp-section-eyebrow">Why NoCrumbs</p>
+</div>
+<div class="lp-perks">
+  <div class="lp-perk" data-lp-reveal="left">
+    <div class="lp-perk-icon gc-3">🔒</div>
+    <div class="lp-perk-text">
+      <h3 class="lp-perk-title">Private by default</h3>
+      <p class="lp-perk-desc">Your meals are only visible to friends you've connected with. No strangers, no noise — just your crew.</p>
+    </div>
+  </div>
+  <div class="lp-perk lp-perk-flip" data-lp-reveal="right">
+    <div class="lp-perk-icon gc-4">⚡</div>
+    <div class="lp-perk-text">
+      <h3 class="lp-perk-title">Instant RSVP</h3>
+      <p class="lp-perk-desc">Going, maybe, or can't make it — let your host know in one tap and see who else is coming to the table.</p>
+    </div>
+  </div>
+  <div class="lp-perk" data-lp-reveal="left">
+    <div class="lp-perk-icon gc-5">📅</div>
+    <div class="lp-perk-text">
+      <h3 class="lp-perk-title">Plan ahead</h3>
+      <p class="lp-perk-desc">Post future meals with a date and time so your crew can coordinate. No more last-minute surprises.</p>
+    </div>
+  </div>
+  <div class="lp-perk lp-perk-flip" data-lp-reveal="right">
+    <div class="lp-perk-icon gc-6">🍽️</div>
+    <div class="lp-perk-text">
+      <h3 class="lp-perk-title">Meal history</h3>
+      <p class="lp-perk-desc">Every dish you've ever posted, archived forever. Build a personal cookbook of your best meals.</p>
+    </div>
   </div>
 </div>
 
 <%# ── HOW IT WORKS ── %>
 <div class="lp-how">
-  <p class="lp-section-eyebrow">How it works</p>
+  <p class="lp-section-eyebrow" data-lp-reveal>How it works</p>
   <div class="lp-steps">
-    <div class="lp-step">
-      <div class="lp-step-num">1</div>
+    <div class="lp-step" data-lp-reveal="left" style="--reveal-delay:0s">
+      <div class="lp-step-num lp-step-num-pop">1</div>
       <div class="lp-step-text">
-        <h4 class="lp-step-title">Create your profile</h4>
+        <h3 class="lp-step-title">Create your profile</h3>
         <p class="lp-step-desc">Sign up and set up your NoCrumbs identity in seconds.</p>
       </div>
     </div>
-    <div class="lp-step-line"></div>
-    <div class="lp-step">
-      <div class="lp-step-num">2</div>
+    <div class="lp-step-line" data-lp-reveal="fade" style="--reveal-delay:0.18s"></div>
+    <div class="lp-step" data-lp-reveal="left" style="--reveal-delay:0.2s">
+      <div class="lp-step-num lp-step-num-pop">2</div>
       <div class="lp-step-text">
-        <h4 class="lp-step-title">Add your friends</h4>
+        <h3 class="lp-step-title">Add your friends</h3>
         <p class="lp-step-desc">Connect with people you know — meals stay private to your circle.</p>
       </div>
     </div>
-    <div class="lp-step-line"></div>
-    <div class="lp-step">
-      <div class="lp-step-num">3</div>
+    <div class="lp-step-line" data-lp-reveal="fade" style="--reveal-delay:0.38s"></div>
+    <div class="lp-step" data-lp-reveal="left" style="--reveal-delay:0.4s">
+      <div class="lp-step-num lp-step-num-pop">3</div>
       <div class="lp-step-text">
-        <h4 class="lp-step-title">Post your meals</h4>
+        <h3 class="lp-step-title">Post your meals</h3>
         <p class="lp-step-desc">Share what you're cooking and when — your crew will see it instantly.</p>
       </div>
     </div>
@@ -106,9 +202,9 @@
   <div class="lp-bottom-blob lp-bottom-blob-1"></div>
   <div class="lp-bottom-blob lp-bottom-blob-2"></div>
   <div class="lp-bottom-inner">
-    <p class="lp-bottom-eyebrow">Ready to eat?</p>
-    <h2 class="lp-bottom-headline">Leave no crumbs.</h2>
-    <div class="lp-cta-row">
+    <p class="lp-bottom-eyebrow" data-lp-reveal style="--reveal-delay:0s">Ready to eat?</p>
+    <h2 class="lp-bottom-headline" data-lp-reveal="scale" style="--reveal-delay:0.12s">Leave no crumbs.</h2>
+    <div class="lp-cta-row" data-lp-reveal style="--reveal-delay:0.26s">
       <%= link_to posts_path, class: "lp-btn-primary" do %>
         <i class="bi bi-journal-richtext"></i> See Meals
       <% end %>
@@ -118,3 +214,48 @@
     </div>
   </div>
 </div>
+
+<script>
+(function() {
+  function initLP() {
+    var reveals = document.querySelectorAll('[data-lp-reveal]');
+    if (!reveals.length) return;
+
+    var revObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('lp-revealed');
+          revObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    reveals.forEach(function(el) { revObs.observe(el); });
+
+    // Count-up
+    var counts = document.querySelectorAll('.lp-count');
+    var countObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (!e.isIntersecting) return;
+        var el = e.target;
+        var target = +el.dataset.target;
+        var startTime = null;
+        var duration = 1600;
+        function step(ts) {
+          if (!startTime) startTime = ts;
+          var p = Math.min((ts - startTime) / duration, 1);
+          var eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(eased * target);
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+        countObs.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+    counts.forEach(function(el) { countObs.observe(el); });
+  }
+
+  document.addEventListener('turbo:load', initLP);
+  if (document.readyState !== 'loading') initLP();
+})();
+</script>

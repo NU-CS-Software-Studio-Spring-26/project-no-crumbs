@@ -1,6 +1,6 @@
 <div class="comment" id="<%= dom_id comment %>">
   <div class="comment-avatar">
-    <div class="avatar avatar-sm"><%= comment.user.username[0].upcase %></div>
+    <%= avatar_tag comment.user, size: :sm %>
   </div>
   <div class="comment-body">
     <div class="comment-header">
@@ -17,6 +17,7 @@
       <%= button_to post_comment_path(comment.post, comment),
             method: :delete,
             class: "comment-delete-btn",
+            aria: { label: "Delete comment" },
             form: { data: { turbo_stream: true } } do %>
         <i class="bi bi-x"></i>
       <% end %>

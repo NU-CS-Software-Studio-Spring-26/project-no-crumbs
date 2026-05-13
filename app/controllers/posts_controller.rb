@@ -5,8 +5,12 @@ class PostsController < ApplicationController
   # GET /posts or /posts.json
   def index
     if user_signed_in?
-      visible_ids = current_user.friends.ids + [ current_user.id ]
-      @posts = Post.active.where(user_id: visible_ids).order(meal_date: :asc)
+      @posts = if admin?
+        Post.active.order(meal_date: :asc)
+      else
+        visible_ids = current_user.friends.ids + [ current_user.id ]
+        Post.active.where(user_id: visible_ids).order(meal_date: :asc)
+      end
     else
       @posts = Post.none
     end
@@ -72,7 +76,7 @@ class PostsController < ApplicationController
     end
 
     def require_owner!
-      redirect_to @post, alert: "You can only modify your own meals." unless @post.user == current_user
+      redirect_to @post, alert: "You can only modify your own meals." unless @post.user == current_user || admin?
     end
 
     # Only allow a list of trusted parameters through.

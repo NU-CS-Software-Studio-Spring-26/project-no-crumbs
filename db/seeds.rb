@@ -7,6 +7,13 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+User.find_or_create_by!(email: "admin@nocrumbs.com") do |u|
+  u.username = "admin"
+  u.bio      = "Site administrator."
+  u.password = "adminpassword123"
+  u.admin    = true
+end
+
 users_data = [
   { username: "alice",   email: "alice@example.com",   bio: "Home chef obsessed with Italian food.", password: "password123" },
   { username: "bob",     email: "bob@example.com",     bio: "Ramen devotee and street food hunter.", password: "password123" },

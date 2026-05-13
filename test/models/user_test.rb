@@ -153,4 +153,85 @@ class UserTest < ActiveSupport::TestCase
     @alice.update!(dietary_restrictions: [ "halal", "dairy_free" ])
     assert_equal [ "halal", "dairy_free" ], User.find(@alice.id).dietary_restrictions
   end
+
+  test "email must be present" do
+    user = User.new(username: "nomail", password: "password123")
+    assert_not user.valid?
+    assert_includes user.errors[:email], "can't be blank"
+  end
+
+  test "email must be unique" do
+    user = User.new(username: "dupe", email: "alice@example.com", password: "password123")
+    assert_not user.valid?
+    assert user.errors[:email].any?
+  end
+
+  test "email must have valid format" do
+    user = User.new(username: "badmail", email: "not-an-email", password: "password123")
+    assert_not user.valid?
+    assert user.errors[:email].any?
+  end
+
+  test "password must be present" do
+    user = User.new(username: "nopass", email: "nopass@example.com")
+    assert_not user.valid?
+    assert user.errors[:password].any?
+  end
+
+  test "password must be at least 6 characters" do
+    user = User.new(username: "shortpass", email: "short@example.com", password: "abc")
+    assert_not user.valid?
+    assert user.errors[:password].any?
+  end
+
+  # avatar attachment
+  test "avatar is not attached by default" do
+    user = User.new(username: "noavatar", email: "noavatar@example.com", password: "password123")
+    assert_not user.avatar.attached?
+  end
+
+  test "valid with a jpeg avatar" do
+    @alice.avatar.attach(io: StringIO.new("fake"), filename: "photo.jpg", content_type: "image/jpeg")
+    assert @alice.valid?
+  end
+
+  test "valid with a png avatar" do
+    @alice.avatar.attach(io: StringIO.new("fake"), filename: "photo.png", content_type: "image/png")
+    assert @alice.valid?
+  end
+
+  test "invalid when avatar is not an image" do
+    @alice.avatar.attach(io: StringIO.new("fake"), filename: "doc.pdf", content_type: "application/pdf")
+    assert_not @alice.valid?
+    assert @alice.errors[:avatar].any?
+  end
+
+  test "invalid when avatar exceeds 5MB" do
+    @alice.avatar.attach(io: StringIO.new("x" * 6.megabytes), filename: "big.jpg", content_type: "image/jpeg")
+    assert_not @alice.valid?
+    assert @alice.errors[:avatar].any?
+  end
+
+  test "friend_with? returns true for accepted friendship" do
+    alice = users(:one)
+    bob   = users(:two)
+    Friendship.find_or_create_by!(requester: alice, receiver: bob) { |f| f.status = "accepted" }
+    assert alice.friend_with?(bob)
+    assert bob.friend_with?(alice)
+  end
+
+  test "friend_with? returns false when no friendship exists" do
+    alice = users(:one)
+    bob   = users(:two)
+    Friendship.where(requester: alice, receiver: bob).or(Friendship.where(requester: bob, receiver: alice)).destroy_all
+    assert_not alice.friend_with?(bob)
+  end
+
+  test "pending_friend_requests returns only pending received friendships" do
+    alice = users(:one)
+    bob   = users(:two)
+    Friendship.where(requester: alice, receiver: bob).or(Friendship.where(requester: bob, receiver: alice)).destroy_all
+    Friendship.create!(requester: bob, receiver: alice, status: "pending")
+    assert_includes alice.pending_friend_requests.map(&:requester), bob
+  end
 end

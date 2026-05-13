@@ -14,9 +14,17 @@ module ApplicationHelper
     DIETARY_RESTRICTION_OPTIONS[key] || key.to_s.humanize
   end
 
-  # Returns the restrictions the current user has that this post doesn't accommodate.
   def unmet_dietary_restrictions(post)
     return [] unless user_signed_in? && current_user.dietary_restrictions.present?
     current_user.dietary_restrictions - (post.dietary_restrictions || [])
+  end
+
+  def avatar_tag(user, size: :md)
+    css = "avatar avatar-#{size}"
+    if user.avatar.attached?
+      image_tag user.avatar, class: css, alt: user.username
+    else
+      content_tag(:div, user.username[0].upcase, class: "#{css} gc-#{user.id % 8}")
+    end
   end
 end
