@@ -32,6 +32,14 @@
   </div>
 </div>
 
+<% if (unmet = unmet_dietary_restrictions(@post)).any? %>
+  <div class="alert dietary-warning-alert mb-4" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    <strong>Heads up:</strong> This meal may not accommodate your dietary restrictions:
+    <span class="dietary-warning-list"><%= unmet.map { |r| dietary_restriction_label(r) }.join(", ") %></span>
+  </div>
+<% end %>
+
 <div class="row g-4 mb-4">
   <div class="col-md-8">
     <div class="content-card h-100">

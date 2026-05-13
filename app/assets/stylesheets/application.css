@@ -2578,3 +2578,42 @@ input[type="submit"].btn-outline-nc.w-100 {
 .nc-static-body section ul li {
   margin-bottom: 0.35rem;
 }
+
+/* ── DIETARY RESTRICTIONS ── */
+.tag-dietary {
+  background: #fff8e1;
+  color: #7c5f00;
+  border: 1px solid #ffe082;
+}
+
+.profile-dietary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 0.6rem;
+}
+
+.dietary-warning-banner {
+  background: #fff8e1;
+  color: #7c5f00;
+  border-top: 1px solid #ffe082;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 7px 1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dietary-warning-alert {
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  color: #7c5f00;
+  border-radius: var(--radius-card);
+  padding: 0.85rem 1rem;
+  font-size: 0.9rem;
+}
+
+.dietary-warning-list {
+  font-weight: 700;
+}

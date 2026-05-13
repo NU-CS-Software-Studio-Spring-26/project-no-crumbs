@@ -26,5 +26,21 @@
           placeholder: "A little about yourself..." %>
   </div>
 
+  <div class="mb-4">
+    <label class="form-label">Dietary Restrictions</label>
+    <p class="text-muted" style="font-size:0.85rem;margin-bottom:0.5rem">Select any that apply to you. Meals that don't accommodate these will show a warning.</p>
+    <input type="hidden" name="user[dietary_restrictions][]" value="">
+    <div class="d-flex flex-wrap gap-2">
+      <% ApplicationHelper::DIETARY_RESTRICTION_OPTIONS.each do |value, label| %>
+        <div class="form-check form-check-inline">
+          <%= check_box_tag "user[dietary_restrictions][]", value,
+              (user.dietary_restrictions || []).include?(value),
+              id: "user_dr_#{value}", class: "form-check-input" %>
+          <%= label_tag "user_dr_#{value}", label, class: "form-check-label" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
   <%= form.submit class: "btn-nc" %>
 <% end %>

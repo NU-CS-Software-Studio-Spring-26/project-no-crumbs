@@ -21,6 +21,22 @@
           placeholder: "What's on the menu? Any details to share?" %>
   </div>
 
+  <div class="mb-3">
+    <label class="form-label">Dietary Accommodations</label>
+    <p class="text-muted" style="font-size:0.85rem;margin-bottom:0.5rem">Check everything this meal can accommodate. Guests with unmet restrictions will see a warning.</p>
+    <input type="hidden" name="post[dietary_restrictions][]" value="">
+    <div class="d-flex flex-wrap gap-2">
+      <% ApplicationHelper::DIETARY_RESTRICTION_OPTIONS.each do |value, label| %>
+        <div class="form-check form-check-inline">
+          <%= check_box_tag "post[dietary_restrictions][]", value,
+              (post.dietary_restrictions || []).include?(value),
+              id: "post_dr_#{value}", class: "form-check-input" %>
+          <%= label_tag "post_dr_#{value}", label, class: "form-check-label" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
   <div class="mb-3" data-controller="datepicker"
        data-datepicker-initial-value="<%= post.meal_date&.strftime('%Y-%m-%dT%H:%M') %>">
     <%= form.label :meal_date, "Date & Time", class: "form-label" %>

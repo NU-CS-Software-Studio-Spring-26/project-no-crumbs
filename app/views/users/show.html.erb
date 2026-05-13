@@ -54,6 +54,13 @@
     <% if @user.bio.present? %>
       <p class="profile-bio"><%= @user.bio %></p>
     <% end %>
+    <% if @user.dietary_restrictions.present? %>
+      <div class="profile-dietary">
+        <% @user.dietary_restrictions.each do |r| %>
+          <span class="tag tag-dietary"><%= dietary_restriction_label(r) %></span>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 
   <div class="profile-stats-bar">
