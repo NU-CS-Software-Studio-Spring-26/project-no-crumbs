@@ -4,6 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_one_attached :avatar
+  validate :avatar_acceptable, if: -> { avatar.attached? }
+
   validates :username, presence: true, uniqueness: { case_sensitive: false },
                        length: { in: 2..30 },
                        format: { with: /\A[a-zA-Z0-9_]+\z/, message: "can only contain letters, numbers, and underscores" }
@@ -36,5 +39,16 @@ class User < ApplicationRecord
 
   def friend_with?(user)
     friends.include?(user)
+  end
+
+  private
+
+  def avatar_acceptable
+    unless avatar.blob.content_type.in?(%w[image/jpeg image/png image/gif image/webp])
+      errors.add(:avatar, "must be a JPEG, PNG, WebP, or GIF")
+    end
+    if avatar.blob.byte_size > 5.megabytes
+      errors.add(:avatar, "must be less than 5MB")
+    end
   end
 end

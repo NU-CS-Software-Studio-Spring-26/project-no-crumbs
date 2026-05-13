@@ -12,7 +12,7 @@
 
   <div class="profile-card-body">
     <div class="profile-avatar-row">
-      <div class="avatar avatar-xl"><%= @user.username[0].upcase %></div>
+      <%= avatar_tag @user, size: :xl %>
       <div class="profile-actions">
         <% if current_user == @user %>
           <%= link_to edit_user_path(@user), class: "btn-outline-nc btn-sm-nc" do %>

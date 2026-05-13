@@ -10,6 +10,21 @@
     </div>
   <% end %>
 
+  <div class="mb-4 d-flex align-items-center gap-3">
+    <div id="avatar-preview" class="flex-shrink-0">
+      <% if user.avatar.attached? %>
+        <%= image_tag user.avatar, class: "avatar avatar-xl", alt: user.username %>
+      <% else %>
+        <div class="avatar avatar-xl"><%= user.username[0].upcase %></div>
+      <% end %>
+    </div>
+    <div class="flex-grow-1">
+      <%= form.label :avatar, "Profile Photo", class: "form-label" %>
+      <%= form.file_field :avatar, class: "form-control", accept: "image/*", id: "avatar-file-input" %>
+      <small class="text-muted">JPEG, PNG, WebP or GIF · max 5MB</small>
+    </div>
+  </div>
+
   <div class="mb-3">
     <%= form.label :username, class: "form-label" %>
     <%= form.text_field :username, class: "form-control", placeholder: "e.g. spaghetti_sam" %>
@@ -28,3 +43,20 @@
 
   <%= form.submit class: "btn-nc" %>
 <% end %>
+
+<script>
+  (function() {
+    var input = document.getElementById("avatar-file-input");
+    if (!input) return;
+    input.addEventListener("change", function() {
+      var file = this.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById("avatar-preview").innerHTML =
+          '<img src="' + e.target.result + '" class="avatar avatar-xl" alt="Preview">';
+      };
+      reader.readAsDataURL(file);
+    });
+  })();
+</script>

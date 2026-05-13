@@ -3,7 +3,7 @@
 
   <div class="user-card-body">
     <div class="user-avatar-offset">
-      <div class="avatar avatar-md"><%= user.username&.first&.upcase || "?" %></div>
+      <%= avatar_tag user, size: :md %>
     </div>
 
     <h5 class="user-card-name"><%= user.username %></h5>
