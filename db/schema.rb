@@ -99,6 +99,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_13_175333) do
     t.string "cover_photo_url"
     t.datetime "created_at", null: false
     t.text "description"
+    t.string "dietary_restrictions", default: [], array: true
     t.datetime "meal_date"
     t.string "title"
     t.datetime "updated_at", null: false
@@ -121,6 +122,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_13_175333) do
     t.boolean "admin", default: false, null: false
     t.text "bio"
     t.datetime "created_at", null: false
+    t.string "dietary_restrictions", default: [], array: true
     t.string "email"
     t.string "encrypted_password", default: "", null: false
     t.datetime "remember_created_at"

@@ -132,6 +132,28 @@ class UserTest < ActiveSupport::TestCase
     assert_includes @alice.pending_friend_requests, f
   end
 
+  # dietary restrictions
+  test "dietary_restrictions defaults to empty array" do
+    user = User.create!(username: "freshuser", email: "fresh@example.com", password: "password123")
+    assert_equal [], user.dietary_restrictions
+  end
+
+  test "can save dietary restrictions" do
+    @alice.update!(dietary_restrictions: [ "vegan", "gluten_free" ])
+    assert_equal [ "vegan", "gluten_free" ], @alice.reload.dietary_restrictions
+  end
+
+  test "can clear dietary restrictions" do
+    @alice.update!(dietary_restrictions: [ "vegan" ])
+    @alice.update!(dietary_restrictions: [])
+    assert_equal [], @alice.reload.dietary_restrictions
+  end
+
+  test "dietary restrictions persist across reloads" do
+    @alice.update!(dietary_restrictions: [ "halal", "dairy_free" ])
+    assert_equal [ "halal", "dairy_free" ], User.find(@alice.id).dietary_restrictions
+  end
+
   test "email must be present" do
     user = User.new(username: "nomail", password: "password123")
     assert_not user.valid?

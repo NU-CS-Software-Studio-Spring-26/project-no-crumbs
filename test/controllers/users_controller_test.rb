@@ -71,4 +71,21 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_url(@user)
     assert_redirected_to new_user_session_path
   end
+
+  # dietary restrictions
+  test "can save dietary restrictions" do
+    patch user_url(@user), params: { user: { dietary_restrictions: [ "vegan", "gluten_free" ] } }
+    assert_equal [ "vegan", "gluten_free" ], @user.reload.dietary_restrictions
+  end
+
+  test "can clear dietary restrictions by submitting empty sentinel" do
+    @user.update!(dietary_restrictions: [ "vegan" ])
+    patch user_url(@user), params: { user: { dietary_restrictions: [ "" ] } }
+    assert_equal [], @user.reload.dietary_restrictions
+  end
+
+  test "ignores blank values in dietary restrictions" do
+    patch user_url(@user), params: { user: { dietary_restrictions: [ "", "nut_free" ] } }
+    assert_equal [ "nut_free" ], @user.reload.dietary_restrictions
+  end
 end

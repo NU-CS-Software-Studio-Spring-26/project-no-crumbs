@@ -31,6 +31,13 @@
     </div>
   </div>
 
+  <% if (unmet = unmet_dietary_restrictions(post)).any? %>
+    <div class="dietary-warning-banner">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+      May not accommodate: <%= unmet.map { |r| dietary_restriction_label(r) }.join(", ") %>
+    </div>
+  <% end %>
+
   <div class="meal-card-footer">
     <%= link_to post.user, class: "meal-host-link" do %>
       <%= avatar_tag post.user, size: :sm %>

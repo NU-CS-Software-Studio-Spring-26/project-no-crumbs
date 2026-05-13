@@ -81,6 +81,8 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.expect(post: [ :title, :description, :meal_date ])
+      p = params.require(:post).permit(:title, :description, :meal_date, dietary_restrictions: [])
+      p[:dietary_restrictions] = (p[:dietary_restrictions] || []).reject(&:blank?)
+      p
     end
 end
