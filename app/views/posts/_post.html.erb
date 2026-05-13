@@ -33,7 +33,7 @@
 
   <div class="meal-card-footer">
     <%= link_to post.user, class: "meal-host-link" do %>
-      <div class="avatar avatar-sm"><%= post.user.username[0].upcase %></div>
+      <%= avatar_tag post.user, size: :sm %>
       <span class="meal-host-name"><%= post.user.username %></span>
     <% end %>
     <div class="d-flex gap-1 align-items-center">

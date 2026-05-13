@@ -554,7 +554,6 @@ body {
 /* ── AVATARS ── */
 .avatar {
   border-radius: 50%;
-  background: linear-gradient(135deg, #ff8a4c 0%, #ff4500 100%);
   color: #fff;
   font-weight: 800;
   font-family: var(--font);
@@ -564,6 +563,9 @@ body {
   text-transform: uppercase;
   flex-shrink: 0;
   border: 2.5px solid var(--surface);
+}
+img.avatar {
+  object-fit: cover;
 }
 
 .avatar-xs {
