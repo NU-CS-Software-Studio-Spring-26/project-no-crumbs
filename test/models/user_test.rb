@@ -162,6 +162,34 @@ class UserTest < ActiveSupport::TestCase
     assert user.errors[:password].any?
   end
 
+  # avatar attachment
+  test "avatar is not attached by default" do
+    user = User.new(username: "noavatar", email: "noavatar@example.com", password: "password123")
+    assert_not user.avatar.attached?
+  end
+
+  test "valid with a jpeg avatar" do
+    @alice.avatar.attach(io: StringIO.new("fake"), filename: "photo.jpg", content_type: "image/jpeg")
+    assert @alice.valid?
+  end
+
+  test "valid with a png avatar" do
+    @alice.avatar.attach(io: StringIO.new("fake"), filename: "photo.png", content_type: "image/png")
+    assert @alice.valid?
+  end
+
+  test "invalid when avatar is not an image" do
+    @alice.avatar.attach(io: StringIO.new("fake"), filename: "doc.pdf", content_type: "application/pdf")
+    assert_not @alice.valid?
+    assert @alice.errors[:avatar].any?
+  end
+
+  test "invalid when avatar exceeds 5MB" do
+    @alice.avatar.attach(io: StringIO.new("x" * 6.megabytes), filename: "big.jpg", content_type: "image/jpeg")
+    assert_not @alice.valid?
+    assert @alice.errors[:avatar].any?
+  end
+
   test "friend_with? returns true for accepted friendship" do
     alice = users(:one)
     bob   = users(:two)
