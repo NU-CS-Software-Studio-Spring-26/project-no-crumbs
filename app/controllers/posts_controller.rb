@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
   before_action :require_owner!, only: %i[ edit update destroy ]
+  before_action :set_user_communities, only: %i[ new edit create update ]
 
   # GET /posts or /posts.json
   def index
@@ -23,12 +24,10 @@ class PostsController < ApplicationController
   # GET /posts/new
   def new
     @post = Post.new
-    @user_communities = current_user.communities
   end
 
   # GET /posts/1/edit
   def edit
-    @user_communities = current_user.communities
   end
 
   # POST /posts or /posts.json
@@ -75,6 +74,10 @@ class PostsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_post
       @post = Post.find(params.expect(:id))
+    end
+
+    def set_user_communities
+      @user_communities = current_user.communities
     end
 
     def require_owner!
