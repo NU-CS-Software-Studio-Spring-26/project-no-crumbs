@@ -12,7 +12,7 @@
 
   <div class="mb-4 d-flex align-items-center gap-3">
     <div id="avatar-preview" class="flex-shrink-0">
-      <% if user.avatar.attached? %>
+      <% if user.avatar.attached? && user.avatar.blob.persisted? %>
         <%= image_tag user.avatar, class: "avatar avatar-xl", alt: user.username %>
       <% else %>
         <div class="avatar avatar-xl"><%= user.username[0].upcase %></div>
