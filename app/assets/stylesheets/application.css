@@ -3191,3 +3191,40 @@ input[type="submit"].btn-outline-nc.w-100 {
     display: none;
   }
 }
+
+/* Community pill checkboxes on post form */
+.community-check-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.community-check-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface);
+  color: var(--text-2);
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  padding: 6px 13px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  transition: all var(--t);
+  user-select: none;
+}
+
+.community-check-pill:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+
+.community-check-pill:has(.community-check-input:checked) {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}

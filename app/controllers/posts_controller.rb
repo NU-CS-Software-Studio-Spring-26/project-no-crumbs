@@ -23,10 +23,12 @@ class PostsController < ApplicationController
   # GET /posts/new
   def new
     @post = Post.new
+    @user_communities = current_user.communities
   end
 
   # GET /posts/1/edit
   def edit
+    @user_communities = current_user.communities
   end
 
   # POST /posts or /posts.json
@@ -81,7 +83,7 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      p = params.require(:post).permit(:title, :description, :meal_date, dietary_restrictions: [])
+      p = params.require(:post).permit(:title, :description, :meal_date, { community_ids: [] }, dietary_restrictions: [])
       p[:dietary_restrictions] = (p[:dietary_restrictions] || []).reject(&:blank?)
       p
     end

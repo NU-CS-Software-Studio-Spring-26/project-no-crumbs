@@ -11,7 +11,7 @@ class CommunitiesController < ApplicationController
   end
 
   def show
-    @posts = @community.member_posts.includes(:user)
+    @posts = @community.posts.includes(:user).order(created_at: :desc)
     @membership = current_user.community_memberships.find_by(community: @community)
   end
 

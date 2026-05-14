@@ -46,5 +46,19 @@
     <%= form.hidden_field :meal_date, data: { datepicker_target: "hidden" } %>
   </div>
 
+  <% if @user_communities.any? %>
+    <div class="mb-4">
+      <%= form.label :community_ids, "Post to communities", class: "form-label" %>
+      <div class="d-flex flex-wrap gap-2 mt-1">
+        <%= form.collection_check_boxes :community_ids, @user_communities, :id, :name do |b| %>
+          <label class="community-check-pill">
+            <%= b.check_box class: "community-check-input" %>
+            <%= b.text %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
   <%= form.submit class: "btn-nc" %>
 <% end %>
