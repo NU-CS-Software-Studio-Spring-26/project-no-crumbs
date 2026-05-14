@@ -84,14 +84,15 @@ class CommunityTest < ActiveSupport::TestCase
     assert_not @community.admin?(@charlie)
   end
 
-  test "member_posts returns posts from members" do
+  test "posts returns explicitly shared posts" do
     post = @alice.posts.create!(title: "Community Post", description: "test", meal_date: 1.day.from_now)
-    assert_includes @community.member_posts, post
+    @community.posts << post
+    assert_includes @community.posts, post
   end
 
-  test "member_posts excludes posts from non-members" do
-    post = @charlie.posts.create!(title: "Outsider Post", description: "test", meal_date: 1.day.from_now)
-    assert_not_includes @community.member_posts, post
+  test "posts excludes member posts not shared to the community" do
+    post = @alice.posts.create!(title: "Private Post", description: "test", meal_date: 1.day.from_now)
+    assert_not_includes @community.posts, post
   end
 
   test "destroying community destroys memberships" do

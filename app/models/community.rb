@@ -15,5 +15,4 @@ class Community < ApplicationRecord
   def admin?(user)
     community_memberships.exists?(user: user, role: "admin")
   end
-
 end
