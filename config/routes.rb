@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     omniauth_callbacks: "omniauth_callbacks"
   }
   resources :posts do
+    collection { post :generate_description }
     resource :rsvp, only: %i[create destroy]
     resource :like, only: %i[create]
     resources :comments, only: %i[create destroy] do

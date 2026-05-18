@@ -102,4 +102,17 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     patch post_url(@post), params: { post: { title: @post.title, dietary_restrictions: [ "", "kosher" ] } }
     assert_equal [ "kosher" ], @post.reload.dietary_restrictions
   end
+
+  # AI description generation
+  test "unauthenticated user cannot generate description" do
+    sign_out :user
+    post generate_description_posts_url, params: { title: "Pasta Night" }, as: :json
+    assert_response :unauthorized
+  end
+
+  test "generate description returns bad request when title is blank" do
+    post generate_description_posts_url, params: { title: "" }, as: :json
+    assert_response :bad_request
+    assert_includes response.parsed_body["error"], "required"
+  end
 end
