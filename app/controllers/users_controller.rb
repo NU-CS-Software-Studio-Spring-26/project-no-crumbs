@@ -5,11 +5,12 @@ class UsersController < ApplicationController
   # GET /users or /users.json
   def index
     @query = params[:q].to_s.strip.first(100)
-    @users = if @query.present?
+    collection = if @query.present?
       User.where("username ILIKE ? OR email ILIKE ?", "%#{@query}%", "%#{@query}%")
     else
       User.all
     end
+    @pagy, @users = pagy(:offset, collection)
   end
 
   # GET /users/1 or /users/1.json

@@ -3,15 +3,16 @@ class CommunitiesController < ApplicationController
   before_action :set_community, only: %i[show members destroy]
 
   def index
-    @communities = if params[:q].present?
+    collection = if params[:q].present?
       Community.where("name ILIKE ?", "%#{params[:q].to_s.strip.first(100)}%").order(:name)
     else
       Community.order(:name)
     end
+    @pagy, @communities = pagy(:offset, collection)
   end
 
   def show
-    @posts = @community.posts.includes(:user).order(created_at: :desc)
+    @pagy, @posts = pagy(:offset, @community.posts.includes(:user).order(created_at: :desc))
     @membership = current_user.community_memberships.find_by(community: @community)
   end
 

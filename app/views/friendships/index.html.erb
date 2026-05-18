@@ -3,7 +3,7 @@
 <div class="feed-header">
   <div>
     <h1 class="feed-title">Friends</h1>
-    <p class="feed-subtitle"><%= pluralize(@friends.count, "friend") %></p>
+    <p class="feed-subtitle"><%= pluralize(@pagy.count, "friend") %></p>
   </div>
 </div>
 
@@ -83,4 +83,9 @@
       <div class="col"><%= render friend %></div>
     <% end %>
   </div>
+  <% if @pagy.pages > 1 %>
+    <nav class="d-flex justify-content-center mt-4" aria-label="Friends pagination">
+      <%= raw(@pagy.series_nav(:bootstrap)) %>
+    </nav>
+  <% end %>
 <% end %>

@@ -3,7 +3,7 @@
 <div class="feed-header">
   <div>
     <h1 class="feed-title">Meals</h1>
-    <p class="feed-subtitle"><%= pluralize(@posts.count, "meal") %> planned</p>
+    <p class="feed-subtitle"><%= pluralize(@pagy&.count || @posts.count, "meal") %> planned</p>
   </div>
   <% if user_signed_in? %>
     <%= link_to new_post_path, class: "nc-nav-cta" do %>
@@ -24,4 +24,9 @@
       <div class="col"><%= render post %></div>
     <% end %>
   </div>
+  <% if @pagy && @pagy.pages > 1 %>
+    <nav class="d-flex justify-content-center mt-4" aria-label="Meals pagination">
+      <%= raw(@pagy.series_nav(:bootstrap)) %>
+    </nav>
+  <% end %>
 <% end %>

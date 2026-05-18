@@ -7,13 +7,15 @@ class PostsController < ApplicationController
   # GET /posts or /posts.json
   def index
     if user_signed_in?
-      @posts = if admin?
+      collection = if admin?
         Post.active.order(meal_date: :asc)
       else
         visible_ids = current_user.friends.ids + [ current_user.id ]
         Post.active.where(user_id: visible_ids).order(meal_date: :asc)
       end
+      @pagy, @posts = pagy(:offset, collection)
     else
+      @pagy = nil
       @posts = Post.none
     end
   end

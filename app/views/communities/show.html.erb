@@ -101,4 +101,9 @@
       <div class="col"><%= render post %></div>
     <% end %>
   </div>
+  <% if @pagy && @pagy.pages > 1 %>
+    <nav class="d-flex justify-content-center mt-4" aria-label="Community meals pagination">
+      <%= raw(@pagy.series_nav(:bootstrap)) %>
+    </nav>
+  <% end %>
 <% end %>
