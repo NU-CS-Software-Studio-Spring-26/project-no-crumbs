@@ -81,6 +81,8 @@
       <%= yield %>
     </main>
 
+    <button id="nc-back-top" aria-label="Back to top" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;width:2.5rem;height:2.5rem;border-radius:50%;border:none;background:var(--brand);color:#fff;font-size:1.1rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity 0.2s;">&#8679;</button>
+
     <footer class="nc-footer">
       <div class="nc-footer-inner">
         <%= link_to root_path, class: "nc-footer-brand" do %>
@@ -122,6 +124,16 @@
           }, 3500);
         });
       });
+
+      (function() {
+        var btn = document.getElementById("nc-back-top");
+        if (!btn) return;
+        window.addEventListener("scroll", function() {
+          btn.style.opacity = window.scrollY > 400 ? "1" : "0";
+          btn.style.pointerEvents = window.scrollY > 400 ? "auto" : "none";
+        }, { passive: true });
+        btn.addEventListener("click", function() { window.scrollTo({ top: 0, behavior: "smooth" }); });
+      })();
     </script>
   </body>
 </html>

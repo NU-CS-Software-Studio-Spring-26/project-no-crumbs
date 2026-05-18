@@ -1,4 +1,4 @@
-<%= form_with(model: user) do |form| %>
+<%= form_with(model: user, data: { controller: "unsaved-changes", action: "submit->unsaved-changes#submit" }) do |form| %>
   <% if user.errors.any? %>
     <div class="alert alert-danger mb-4">
       <strong><%= pluralize(user.errors.count, "error") %>:</strong>
