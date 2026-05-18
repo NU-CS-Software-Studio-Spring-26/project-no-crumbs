@@ -213,7 +213,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   # from_omniauth
-  def mock_auth(uid: "12345", email: "oauth@example.com", name: "OAuth User", nickname: nil, provider: "github")
+  def mock_auth(uid: "12345", email: "oauth@example.com", name: "OAuth User", nickname: nil, provider: "google_oauth2")
     OpenStruct.new(
       provider: provider,
       uid:      uid,
@@ -226,14 +226,14 @@ class UserTest < ActiveSupport::TestCase
     assert_difference "User.count", 1 do
       user = User.from_omniauth(auth)
       assert user.persisted?
-      assert_equal "github", user.provider
+      assert_equal "google_oauth2", user.provider
       assert_equal "12345",  user.uid
       assert_equal "oauth@example.com", user.email
     end
   end
 
   test "from_omniauth returns existing user when provider and uid match" do
-    @alice.update!(provider: "github", uid: "12345")
+    @alice.update!(provider: "google_oauth2", uid: "12345")
     auth = mock_auth(uid: "12345", email: "alice@example.com")
     assert_no_difference "User.count" do
       user = User.from_omniauth(auth)
@@ -246,8 +246,8 @@ class UserTest < ActiveSupport::TestCase
     assert_no_difference "User.count" do
       user = User.from_omniauth(auth)
       assert_equal @alice, user
-      assert_equal "github", @alice.reload.provider
-      assert_equal "99999",  @alice.reload.uid
+      assert_equal "google_oauth2", @alice.reload.provider
+      assert_equal "99999",         @alice.reload.uid
     end
   end
 

@@ -3,10 +3,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     handle_auth("Google")
   end
 
-  def github
-    handle_auth("GitHub")
-  end
-
   def discord
     handle_auth("Discord")
   end
