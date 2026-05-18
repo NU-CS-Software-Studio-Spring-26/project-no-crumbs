@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_18_013326) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_18_180642) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -107,6 +107,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_18_013326) do
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.string "action", null: false
+    t.bigint "actor_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "notifiable_id", null: false
+    t.string "notifiable_type", null: false
+    t.datetime "read_at"
+    t.bigint "recipient_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
+    t.index ["recipient_id", "read_at"], name: "index_notifications_on_recipient_id_and_read_at"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string "cover_photo_url"
     t.datetime "created_at", null: false
@@ -163,6 +176,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_18_013326) do
   add_foreign_key "friendships", "users", column: "receiver_id"
   add_foreign_key "friendships", "users", column: "requester_id"
   add_foreign_key "likes", "users"
+  add_foreign_key "notifications", "users", column: "actor_id"
+  add_foreign_key "notifications", "users", column: "recipient_id"
   add_foreign_key "posts", "users"
   add_foreign_key "rsvps", "posts"
   add_foreign_key "rsvps", "users"

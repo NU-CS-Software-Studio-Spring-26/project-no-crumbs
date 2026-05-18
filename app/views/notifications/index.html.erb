@@ -1,0 +1,35 @@
+<% content_for :title, "Notifications – No Crumbs" %>
+
+<div class="feed-header">
+  <h1 class="feed-title">Notifications</h1>
+  <% if @notifications.any? { |n| n.read_at.nil? } %>
+    <%= button_to "Mark all as read", mark_all_read_notifications_path, method: :patch, class: "btn-outline-nc btn-sm-nc" %>
+  <% end %>
+</div>
+
+<% if @notifications.empty? %>
+  <div class="nc-empty-state">
+    <i class="bi bi-bell-slash nc-empty-icon" aria-hidden="true"></i>
+    <p class="nc-empty-title">No notifications yet</p>
+    <p class="nc-empty-sub">When friends interact with your meals you'll see it here.</p>
+  </div>
+<% else %>
+  <div class="nc-notif-list">
+    <% @notifications.each do |notification| %>
+      <%= button_to mark_read_notification_path(notification), method: :patch,
+            class: "nc-notif-row #{"nc-notif-row--unread" if notification.read_at.nil?}",
+            aria: { label: notification_message(notification) } do %>
+        <span class="nc-notif-icon-wrap">
+          <i class="bi <%= notification_icon(notification.action) %> nc-notif-action-icon" aria-hidden="true"></i>
+        </span>
+        <span class="nc-notif-body">
+          <span class="nc-notif-msg"><%= notification_message(notification) %></span>
+          <span class="nc-notif-time"><%= time_ago_in_words(notification.created_at) %> ago</span>
+        </span>
+        <% if notification.read_at.nil? %>
+          <span class="nc-notif-dot" aria-hidden="true"></span>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

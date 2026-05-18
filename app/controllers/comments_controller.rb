@@ -8,6 +8,7 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
+      Notification.create_notification(action: "comment", recipient: @post.user, actor: current_user, notifiable: @comment)
       respond_to do |format|
         format.turbo_stream
         format.html { redirect_to @post }

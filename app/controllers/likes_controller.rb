@@ -10,6 +10,9 @@ class LikesController < ApplicationController
       @like = nil
     else
       @like = @likeable.likes.create!(user: current_user)
+      if @likeable.is_a?(Post)
+        Notification.create_notification(action: "post_like", recipient: @likeable.user, actor: current_user, notifiable: @like)
+      end
     end
 
     @size = params[:size]&.to_sym || :normal

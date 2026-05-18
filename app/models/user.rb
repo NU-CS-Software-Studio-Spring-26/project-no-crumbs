@@ -22,6 +22,8 @@ class User < ApplicationRecord
   has_many :communities, through: :community_memberships
   has_many :created_communities, class_name: "Community", foreign_key: :creator_id, dependent: :destroy
 
+  has_many :notifications, foreign_key: :recipient_id, dependent: :destroy
+
   has_many :sent_friendships,     class_name: "Friendship", foreign_key: :requester_id, dependent: :destroy
   has_many :received_friendships, class_name: "Friendship", foreign_key: :receiver_id,  dependent: :destroy
 
