@@ -1,0 +1,22 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+friend_request:
+  recipient: one
+  actor: two
+  notifiable: one (Friendship)
+  action: friend_request
+  read_at:
+
+post_like:
+  recipient: one
+  actor: two
+  notifiable: one (Post)
+  action: post_like
+  read_at:
+
+comment_read:
+  recipient: one
+  actor: two
+  notifiable: one (Comment)
+  action: comment
+  read_at: 2026-05-18 10:00:00

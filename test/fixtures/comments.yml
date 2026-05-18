@@ -1,1 +1,6 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  body: This looks amazing, can't wait!
+  post: one
+  user: two
