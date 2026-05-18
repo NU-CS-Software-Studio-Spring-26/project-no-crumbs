@@ -37,7 +37,7 @@ SEED_PHOTO_URLS = [
   "https://images.unsplash.com/photo-1654923064926-be7e64267a31?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5NDQ1MDl8MHwxfHNlYXJjaHwxfHxhY2FpJTIwc21vb3RoaWUlMjBib3dsfGVufDB8MHx8fDE3NzkwNzU4NjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
   "https://images.unsplash.com/photo-1606728035253-49e8a23146de?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5NDQ1MDl8MHwxfHNlYXJjaHwxfHxyb2FzdCUyMGNoaWNrZW58ZW58MHwwfHx8MTc3OTA3NTg2N3ww&ixlib=rb-4.1.0&q=80&w=1080",
   "https://images.unsplash.com/photo-1542528180-0c79567c66de?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5NDQ1MDl8MHwxfHNlYXJjaHwxfHxodW1tdXMlMjBtZXp6ZXxlbnwwfDB8fHwxNzc5MDc1ODY3fDA&ixlib=rb-4.1.0&q=80&w=1080",
-  "https://images.unsplash.com/photo-1708184528301-b0dad28dded5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5NDQ1MDl8MHwxfHNlYXJjaHwxfHxtYWMlMjBhbmQlMjBjaGVlc2V8ZW58MHwwfHx8MTc3OTA3NTg2OHww&ixlib=rb-4.1.0&q=80&w=1080",
+  "https://images.unsplash.com/photo-1708184528301-b0dad28dded5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5NDQ1MDl8MHwxfHNlYXJjaHwxfHxtYWMlMjBhbmQlMjBjaGVlc2V8ZW58MHwwfHx8MTc3OTA3NTg2OHww&ixlib=rb-4.1.0&q=80&w=1080"
 ].freeze
 
 DIETARY_OPTIONS = %w[vegetarian vegan gluten_free dairy_free nut_free shellfish_free halal kosher].freeze
@@ -67,7 +67,7 @@ FOOD_COMMENTS = [
   "I would eat this every day.",
   "The smell must be incredible.",
   "You're a menace for posting this at midnight.",
-  "Okay I'm officially hungry now.",
+  "Okay I'm officially hungry now."
 ].freeze
 
 SEED_BIOS = [
@@ -95,7 +95,7 @@ SEED_BIOS = [
   "Cook first, ask questions later.",
   "You had me at charcuterie.",
   "Always the one who suggests the restaurant.",
-  "Sourdough started as a hobby, now it's an identity.",
+  "Sourdough started as a hobby, now it's an identity."
 ].freeze
 
 NAMED_EMAILS = %w[
@@ -576,7 +576,7 @@ else
     { name: "Comfort Food Crew",    description: "Mac and cheese. Ramen. Grilled cheese. The classics." },
     { name: "Global Kitchen",       description: "A world tour through cuisine — one meal at a time." },
     { name: "Healthy Eats",         description: "Nutritious, balanced, and actually delicious meals." },
-    { name: "Street Food Addicts",  description: "Tacos, banh mi, dumplings — the best food is found outside." },
+    { name: "Street Food Addicts",  description: "Tacos, banh mi, dumplings — the best food is found outside." }
   ].each_with_index do |data, i|
     next if Community.exists?(name: data[:name])
 
