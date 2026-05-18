@@ -6,7 +6,8 @@ class UsersController < ApplicationController
   def index
     @query = params[:q].to_s.strip.first(100)
     collection = if @query.present?
-      User.where("username ILIKE ? OR email ILIKE ?", "%#{@query}%", "%#{@query}%")
+      safe_query = ActiveRecord::Base.sanitize_sql_like(@query)
+      User.where("username ILIKE ? OR email ILIKE ?", "%#{safe_query}%", "%#{safe_query}%")
     else
       User.all
     end
