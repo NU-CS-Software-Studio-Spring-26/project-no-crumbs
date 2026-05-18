@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: "registrations" }
   resources :posts do
+    collection { post :generate_description }
     resource :rsvp, only: %i[create destroy]
     resource :like, only: %i[create]
     resources :comments, only: %i[create destroy] do

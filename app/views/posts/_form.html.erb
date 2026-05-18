@@ -1,4 +1,4 @@
-<%= form_with(model: post) do |form| %>
+<%= form_with(model: post, data: { controller: "ai-description" }) do |form| %>
   <% if post.errors.any? %>
     <div class="alert alert-danger mb-4">
       <strong><%= pluralize(post.errors.count, "error") %>:</strong>
@@ -14,17 +14,27 @@
     <%= form.label :title, class: "form-label" %>
     <%= form.text_field :title, class: "form-control", placeholder: "e.g. Backyard pasta night",
           required: true, maxlength: 100,
-          data: { "char-counter-target": "input", action: "input->char-counter#update" } %>
+          data: { "char-counter-target": "input", action: "input->char-counter#update", "ai-description-target": "title" } %>
     <span data-char-counter-target="counter" class="char-counter"></span>
   </div>
 
   <div class="mb-3" data-controller="char-counter" data-char-counter-max-value="2000">
-    <%= form.label :description, class: "form-label" %>
+    <div class="d-flex align-items-center gap-2 mb-1">
+      <%= form.label :description, class: "form-label mb-0" %>
+      <button type="button" class="btn-ai-suggest"
+              data-ai-description-target="button"
+              data-action="click->ai-description#generate">✨ AI suggest</button>
+    </div>
     <%= form.textarea :description, class: "form-control", rows: 4,
           placeholder: "What's on the menu? Any details to share?",
           maxlength: 2000,
-          data: { "char-counter-target": "input", action: "input->char-counter#update" } %>
-    <span data-char-counter-target="counter" class="char-counter"></span>
+          data: { "char-counter-target": "input",
+                  action: "input->char-counter#update input->ai-description#clearBadge",
+                  "ai-description-target": "description" } %>
+    <div class="d-flex align-items-center">
+      <span class="ai-generated-note d-none" data-ai-description-target="badge">✨ ai generated</span>
+      <span data-char-counter-target="counter" class="char-counter ms-auto"></span>
+    </div>
   </div>
 
   <div class="mb-3">
