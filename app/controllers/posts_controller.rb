@@ -2,6 +2,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
   before_action :require_owner!, only: %i[ edit update destroy ]
   before_action :set_user_communities, only: %i[ new edit create update ]
+  before_action :authenticate_user!, only: %i[ generate_description ]
 
   # GET /posts or /posts.json
   def index
@@ -19,6 +20,42 @@ class PostsController < ApplicationController
 
   # GET /posts/1 or /posts/1.json
   def show
+  end
+
+  # POST /posts/generate_description
+  def generate_description
+    title = params[:title].to_s.strip
+    return render json: { error: "Title is required" }, status: :bad_request if title.blank?
+
+    require "net/http"
+
+    uri = URI("https://api.openai.com/v1/chat/completions")
+    req = Net::HTTP::Post.new(uri)
+    req["Authorization"] = "Bearer #{ENV['OPENAI_API_KEY']}"
+    req["Content-Type"] = "application/json"
+    req.body = {
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "system",
+          content: "You write short, warm, and playful descriptions for No Crumbs — a social app where friends share home-cooked meals and dinner parties. Keep it to 3-4 sentences. Focus on the vibe: the cozy atmosphere, the company, the occasion. Only mention specific food if the title makes it obvious — never invent dishes that aren't implied. Do not use quotation marks."
+        },
+        {
+          role: "user",
+          content: "Write a cute description for a meal or event called: #{title}"
+        }
+      ],
+      max_tokens: 80,
+      temperature: 0.85
+    }.to_json
+
+    result = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
+    body = JSON.parse(result.body)
+    description = body.dig("choices", 0, "message", "content")&.strip
+
+    render json: { description: description }
+  rescue => e
+    render json: { error: e.message }, status: :internal_server_error
   end
 
   # GET /posts/new
