@@ -16,15 +16,21 @@
       </div>
     <% end %>
 
-    <div class="mb-3">
+    <div class="mb-3" data-controller="char-counter" data-char-counter-max-value="50">
       <%= form.label :name, class: "form-label" %>
-      <%= form.text_field :name, class: "form-control", placeholder: "e.g. NU Class of '26" %>
+      <%= form.text_field :name, class: "form-control", placeholder: "e.g. NU Class of '26",
+            required: true, minlength: 2, maxlength: 50,
+            data: { "char-counter-target": "input", action: "input->char-counter#update" } %>
+      <span data-char-counter-target="counter" class="char-counter"></span>
     </div>
 
-    <div class="mb-3">
+    <div class="mb-3" data-controller="char-counter" data-char-counter-max-value="1000">
       <%= form.label :description, class: "form-label" %>
       <%= form.textarea :description, class: "form-control", rows: 4,
-            placeholder: "What's this community about?" %>
+            placeholder: "What's this community about?",
+            maxlength: 1000,
+            data: { "char-counter-target": "input", action: "input->char-counter#update" } %>
+      <span data-char-counter-target="counter" class="char-counter"></span>
     </div>
 
     <%= form.submit "Create community", class: "btn-nc" %>
