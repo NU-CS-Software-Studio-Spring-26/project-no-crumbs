@@ -21,16 +21,44 @@ class FriendshipsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to friendships_path
   end
 
+  test "sending a friend request creates a notification for the receiver" do
+    assert_difference("Notification.count") do
+      post friendships_url, params: { receiver_id: @bob.id }
+    end
+    notif = Notification.last
+    assert_equal "friend_request", notif.action
+    assert_equal @bob,   notif.recipient
+    assert_equal @alice, notif.actor
+  end
+
   test "should accept friend request" do
     friendship = Friendship.create!(requester: @bob, receiver: @alice, status: "pending")
     patch friendship_url(friendship), params: { status: "accepted" }
     assert_equal "accepted", friendship.reload.status
   end
 
+  test "accepting a friend request creates a notification for the requester" do
+    friendship = Friendship.create!(requester: @bob, receiver: @alice, status: "pending")
+    assert_difference("Notification.count") do
+      patch friendship_url(friendship), params: { status: "accepted" }
+    end
+    notif = Notification.last
+    assert_equal "friend_accepted", notif.action
+    assert_equal @bob,   notif.recipient
+    assert_equal @alice, notif.actor
+  end
+
   test "should decline friend request" do
     friendship = Friendship.create!(requester: @bob, receiver: @alice, status: "pending")
     patch friendship_url(friendship), params: { status: "declined" }
     assert_equal "declined", friendship.reload.status
+  end
+
+  test "declining a friend request does not create a notification" do
+    friendship = Friendship.create!(requester: @bob, receiver: @alice, status: "pending")
+    assert_no_difference("Notification.count") do
+      patch friendship_url(friendship), params: { status: "declined" }
+    end
   end
 
   test "cannot accept a request you did not receive" do

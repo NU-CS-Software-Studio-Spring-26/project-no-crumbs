@@ -4,6 +4,7 @@ class RsvpsController < ApplicationController
 
   def create
     @rsvp = @post.rsvps.find_or_initialize_by(user: current_user)
+    was_new = @rsvp.new_record?
 
     if @rsvp.status == params[:status]
       @rsvp.destroy
@@ -11,6 +12,9 @@ class RsvpsController < ApplicationController
     else
       @rsvp.status = params[:status]
       @rsvp.save!
+      if was_new
+        Notification.create_notification(action: "rsvp", recipient: @post.user, actor: current_user, notifiable: @rsvp)
+      end
     end
 
     respond_to do |format|

@@ -17,10 +17,12 @@ class FriendshipsController < ApplicationController
 
     if existing
       existing.update!(requester: current_user, receiver: receiver, status: "pending")
+      Notification.create_notification(action: "friend_request", recipient: receiver, actor: current_user, notifiable: existing)
       redirect_back fallback_location: friendships_path, notice: "Friend request sent."
     else
       friendship = current_user.sent_friendships.new(receiver: receiver)
       if friendship.save
+        Notification.create_notification(action: "friend_request", recipient: receiver, actor: current_user, notifiable: friendship)
         redirect_back fallback_location: friendships_path, notice: "Friend request sent."
       else
         redirect_back fallback_location: friendships_path, alert: "Could not send friend request."
@@ -33,6 +35,9 @@ class FriendshipsController < ApplicationController
       return redirect_back fallback_location: friendships_path, alert: "Not authorized."
     end
     @friendship.update!(status: params[:status])
+    if params[:status] == "accepted"
+      Notification.create_notification(action: "friend_accepted", recipient: @friendship.requester, actor: current_user, notifiable: @friendship)
+    end
     redirect_back fallback_location: friendships_path, notice: "Request #{params[:status]}."
   end
 
