@@ -212,6 +212,64 @@ class UserTest < ActiveSupport::TestCase
     assert @alice.errors[:avatar].any?
   end
 
+  # from_omniauth
+  def mock_auth(uid: "12345", email: "oauth@example.com", name: "OAuth User", nickname: nil, provider: "google_oauth2")
+    OpenStruct.new(
+      provider: provider,
+      uid:      uid,
+      info:     OpenStruct.new(email: email, name: name, nickname: nickname)
+    )
+  end
+
+  test "from_omniauth creates a new user when no match exists" do
+    auth = mock_auth
+    assert_difference "User.count", 1 do
+      user = User.from_omniauth(auth)
+      assert user.persisted?
+      assert_equal "google_oauth2", user.provider
+      assert_equal "12345",  user.uid
+      assert_equal "oauth@example.com", user.email
+    end
+  end
+
+  test "from_omniauth returns existing user when provider and uid match" do
+    @alice.update!(provider: "google_oauth2", uid: "12345")
+    auth = mock_auth(uid: "12345", email: "alice@example.com")
+    assert_no_difference "User.count" do
+      user = User.from_omniauth(auth)
+      assert_equal @alice, user
+    end
+  end
+
+  test "from_omniauth links provider to existing user matched by email" do
+    auth = mock_auth(uid: "99999", email: "alice@example.com")
+    assert_no_difference "User.count" do
+      user = User.from_omniauth(auth)
+      assert_equal @alice, user
+      assert_equal "google_oauth2", @alice.reload.provider
+      assert_equal "99999",         @alice.reload.uid
+    end
+  end
+
+  test "from_omniauth generates username from display name" do
+    auth = mock_auth(email: "newperson@example.com", name: "Jane Doe")
+    user = User.from_omniauth(auth)
+    assert_equal "jane_doe", user.username
+  end
+
+  test "from_omniauth prefers nickname over name for username" do
+    auth = mock_auth(email: "ghuser@example.com", name: "Real Name", nickname: "gh_handle")
+    user = User.from_omniauth(auth)
+    assert_equal "gh_handle", user.username
+  end
+
+  test "from_omniauth appends numeric suffix when username is taken" do
+    User.create!(username: "jane_doe", email: "first@example.com", password: "password123")
+    auth = mock_auth(email: "second@example.com", name: "Jane Doe")
+    user = User.from_omniauth(auth)
+    assert_equal "jane_doe_1", user.username
+  end
+
   test "friend_with? returns true for accepted friendship" do
     alice = users(:one)
     bob   = users(:two)

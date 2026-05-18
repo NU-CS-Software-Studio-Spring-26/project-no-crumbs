@@ -38,6 +38,19 @@
         <%= f.submit "Log in", class: "btn-brand-nc w-100" %>
       <% end %>
 
+      <div class="oauth-divider"><span>or continue with</span></div>
+
+      <div class="oauth-buttons">
+        <%= button_to omniauth_authorize_path(:user, :google_oauth2), class: "oauth-btn", data: { turbo: false } do %>
+          <i class="bi bi-google" aria-hidden="true"></i>
+          Google
+        <% end %>
+        <%= button_to omniauth_authorize_path(:user, :discord), class: "oauth-btn", data: { turbo: false } do %>
+          <i class="bi bi-discord" aria-hidden="true"></i>
+          Discord
+        <% end %>
+      </div>
+
       <div class="auth-links">
         <%= render "devise/shared/links" %>
       </div>

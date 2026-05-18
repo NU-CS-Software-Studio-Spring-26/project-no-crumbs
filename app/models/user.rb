@@ -2,7 +2,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: [ :google_oauth2, :discord ]
 
   has_one_attached :avatar
   validate :avatar_acceptable, if: -> { avatar.attached? }
@@ -39,6 +40,47 @@ class User < ApplicationRecord
 
   def friend_with?(user)
     friends.include?(user)
+  end
+
+  class << self
+    def from_omniauth(auth)
+      user = find_by(provider: auth.provider, uid: auth.uid)
+      return user if user
+
+      user = find_by(email: auth.info.email)
+      if user
+        user.update(provider: auth.provider, uid: auth.uid)
+        return user
+      end
+
+      create(
+        provider: auth.provider,
+        uid:      auth.uid,
+        email:    auth.info.email,
+        password: Devise.friendly_token[0, 20],
+        username: generate_username_from(auth)
+      )
+    end
+
+    private
+
+    def generate_username_from(auth)
+      raw = auth.info.nickname || auth.info.name || auth.info.email.split("@").first
+      base = raw.downcase
+                .gsub(/[^a-z0-9_]/, "_")
+                .gsub(/_+/, "_")
+                .gsub(/\A_+|_+\z/, "")
+                .slice(0, 28)
+      base = "user" if base.length < 2
+
+      candidate = base
+      counter   = 1
+      while exists?(username: candidate)
+        candidate = "#{base}_#{counter}"
+        counter  += 1
+      end
+      candidate
+    end
   end
 
   private
