@@ -96,4 +96,15 @@ class RsvpTest < ActiveSupport::TestCase
     no_date_post = Post.create!(title: "No Date", description: "d", meal_date: nil, user: @alice)
     assert_not no_date_post.archived?
   end
+
+  # DB constraint tests — bypass model validations with update_column / save(validate: false)
+  test "database enforces status CHECK constraint on update" do
+    rsvp = Rsvp.create!(post: @post, user: @charlie, status: "going")
+    assert_raises(ActiveRecord::StatementInvalid) { rsvp.update_column(:status, "attending") }
+  end
+
+  test "database enforces status CHECK constraint on insert" do
+    rsvp = Rsvp.new(post: @post, user: @charlie, status: "attending")
+    assert_raises(ActiveRecord::StatementInvalid) { rsvp.save(validate: false) }
+  end
 end

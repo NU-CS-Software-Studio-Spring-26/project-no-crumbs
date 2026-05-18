@@ -40,4 +40,15 @@ class CommunityMembershipTest < ActiveSupport::TestCase
   test "belongs to community" do
     assert_equal @community, community_memberships(:one).community
   end
+
+  # DB constraint tests — bypass model validations with update_column / save(validate: false)
+  test "database enforces role CHECK constraint on update" do
+    membership = CommunityMembership.create!(user: @charlie, community: @community, role: "member")
+    assert_raises(ActiveRecord::StatementInvalid) { membership.update_column(:role, "owner") }
+  end
+
+  test "database enforces role CHECK constraint on insert" do
+    membership = CommunityMembership.new(user: @charlie, community: @community, role: "owner")
+    assert_raises(ActiveRecord::StatementInvalid) { membership.save(validate: false) }
+  end
 end

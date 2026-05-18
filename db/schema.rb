@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_14_001355) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_17_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -71,6 +71,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_14_001355) do
     t.index ["community_id"], name: "index_community_memberships_on_community_id"
     t.index ["user_id", "community_id"], name: "index_community_memberships_on_user_id_and_community_id", unique: true
     t.index ["user_id"], name: "index_community_memberships_on_user_id"
+    t.check_constraint "role::text = ANY (ARRAY['member'::character varying, 'admin'::character varying]::text[])", name: "chk_community_memberships_role"
   end
 
   create_table "community_posts", force: :cascade do |t|
@@ -92,6 +93,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_14_001355) do
     t.index ["receiver_id"], name: "index_friendships_on_receiver_id"
     t.index ["requester_id", "receiver_id"], name: "index_friendships_on_requester_id_and_receiver_id", unique: true
     t.index ["requester_id"], name: "index_friendships_on_requester_id"
+    t.check_constraint "status::text = ANY (ARRAY['pending'::character varying, 'accepted'::character varying, 'declined'::character varying]::text[])", name: "chk_friendships_status"
   end
 
   create_table "likes", force: :cascade do |t|
@@ -111,7 +113,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_14_001355) do
     t.text "description"
     t.string "dietary_restrictions", default: [], array: true
     t.datetime "meal_date"
-    t.string "title"
+    t.string "title", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_posts_on_user_id"
@@ -126,6 +128,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_14_001355) do
     t.index ["post_id", "user_id"], name: "index_rsvps_on_post_id_and_user_id", unique: true
     t.index ["post_id"], name: "index_rsvps_on_post_id"
     t.index ["user_id"], name: "index_rsvps_on_user_id"
+    t.check_constraint "status::text = ANY (ARRAY['going'::character varying, 'maybe'::character varying, 'not_going'::character varying]::text[])", name: "chk_rsvps_status"
   end
 
   create_table "users", force: :cascade do |t|
@@ -133,13 +136,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_14_001355) do
     t.text "bio"
     t.datetime "created_at", null: false
     t.string "dietary_restrictions", default: [], array: true
-    t.string "email"
+    t.string "email", null: false
     t.string "encrypted_password", default: "", null: false
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
     t.string "reset_password_token"
     t.datetime "updated_at", null: false
-    t.string "username"
+    t.string "username", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
