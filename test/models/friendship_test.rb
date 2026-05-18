@@ -61,4 +61,15 @@ class FriendshipTest < ActiveSupport::TestCase
   test "accepted scope excludes pending friendships" do
     assert_not_includes Friendship.accepted, friendships(:one)
   end
+
+  # DB constraint tests — bypass model validations with update_column / save(validate: false)
+  test "database enforces status CHECK constraint on update" do
+    friendship = Friendship.create!(requester: @alice, receiver: @charlie, status: "pending")
+    assert_raises(ActiveRecord::StatementInvalid) { friendship.update_column(:status, "blocked") }
+  end
+
+  test "database enforces status CHECK constraint on insert" do
+    friendship = Friendship.new(requester: @alice, receiver: @charlie, status: "blocked")
+    assert_raises(ActiveRecord::StatementInvalid) { friendship.save(validate: false) }
+  end
 end

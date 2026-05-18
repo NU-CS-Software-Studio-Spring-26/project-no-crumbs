@@ -234,4 +234,23 @@ class UserTest < ActiveSupport::TestCase
     Friendship.create!(requester: bob, receiver: alice, status: "pending")
     assert_includes alice.pending_friend_requests.map(&:requester), bob
   end
+
+  # DB constraint tests — bypass model validations with update_column / save(validate: false)
+  test "database enforces email NOT NULL constraint" do
+    assert_raises(ActiveRecord::NotNullViolation) { @alice.update_column(:email, nil) }
+  end
+
+  test "database enforces username NOT NULL constraint" do
+    assert_raises(ActiveRecord::NotNullViolation) { @alice.update_column(:username, nil) }
+  end
+
+  test "database rejects nil email even when model validations are skipped" do
+    user = User.new(username: "nomail_db", email: nil, password: "password123")
+    assert_raises(ActiveRecord::NotNullViolation) { user.save(validate: false) }
+  end
+
+  test "database rejects nil username even when model validations are skipped" do
+    user = User.new(username: nil, email: "nousername_db@example.com", password: "password123")
+    assert_raises(ActiveRecord::NotNullViolation) { user.save(validate: false) }
+  end
 end

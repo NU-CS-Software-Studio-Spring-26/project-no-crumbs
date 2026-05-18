@@ -138,4 +138,15 @@ class PostTest < ActiveSupport::TestCase
     post = Post.create!(title: "Dinner", user: @user, dietary_restrictions: [ "kosher", "nut_free" ])
     assert_equal [ "kosher", "nut_free" ], Post.find(post.id).dietary_restrictions
   end
+
+  # DB constraint tests — bypass model validations with update_column / save(validate: false)
+  test "database enforces title NOT NULL constraint" do
+    post = Post.create!(title: "Test", user: @user)
+    assert_raises(ActiveRecord::NotNullViolation) { post.update_column(:title, nil) }
+  end
+
+  test "database rejects nil title even when model validations are skipped" do
+    post = Post.new(title: nil, user: @user)
+    assert_raises(ActiveRecord::NotNullViolation) { post.save(validate: false) }
+  end
 end
