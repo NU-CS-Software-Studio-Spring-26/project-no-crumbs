@@ -1,8 +1,8 @@
 class PostsController < ApplicationController
+  before_action :authenticate_user!, only: %i[ index new create edit update destroy generate_description ]
   before_action :set_post, only: %i[ show edit update destroy ]
   before_action :require_owner!, only: %i[ edit update destroy ]
   before_action :set_user_communities, only: %i[ new edit create update ]
-  before_action :authenticate_user!, only: %i[ generate_description ]
 
   # GET /posts or /posts.json
   def index
