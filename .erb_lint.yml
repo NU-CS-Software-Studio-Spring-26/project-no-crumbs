@@ -1,0 +1,9 @@
+---
+EnableDefaultLinters: true
+exclude:
+  - 'vendor/**/*.erb'
+linters:
+  ErbSafety:
+    enabled: false
+  Rubocop:
+    enabled: false
