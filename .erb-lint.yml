@@ -1,0 +1,21 @@
+---
+EnableDefaultLinters: true
+
+linters:
+  ErbSafety:
+    enabled: true
+  Rubocop:
+    enabled: true
+    rubocop_config:
+      inherit_gem:
+        rubocop-rails-omakase: rubocop.yml
+      AllCops:
+        NewCops: disable
+  SelfClosingTag:
+    enabled: true
+  NoUnusedCaptures:
+    enabled: true
+  DeprecatedClasses:
+    enabled: true
+    addendum: "Use semantic HTML or app-specific classes instead."
+    rules: []
