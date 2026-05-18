@@ -1483,6 +1483,65 @@ input[type="submit"].btn-outline-nc.w-100 {
   text-align: center;
 }
 
+/* ── OAUTH BUTTONS ── */
+.oauth-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 1.25rem 0 1rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+.oauth-divider::before,
+.oauth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.oauth-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.oauth-buttons form {
+  flex: 1;
+  display: flex;
+}
+
+.oauth-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  text-align: center;
+  background: var(--surface);
+  color: var(--text-2) !important;
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  text-decoration: none !important;
+  transition:
+    border-color var(--t),
+    background var(--t),
+    box-shadow var(--t);
+  white-space: nowrap;
+}
+
+.oauth-btn:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+  box-shadow: var(--shadow-sm);
+  color: var(--text) !important;
+}
+
 /* ── CONFIRM MODAL ── */
 .nc-modal-backdrop {
   position: fixed;
