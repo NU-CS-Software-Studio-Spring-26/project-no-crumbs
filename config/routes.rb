@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       resource :like, only: %i[create]
     end
   end
-  resources :notifications, only: [:index] do
+  resources :notifications, only: [ :index ] do
     collection { patch :mark_all_read }
     member      { patch :mark_read }
   end
