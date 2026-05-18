@@ -17,62 +17,129 @@
   <% end %>
 </div>
 
-<% if @pending_received.any? %>
-  <p class="section-label">Requests waiting on you</p>
-  <div class="nc-table-wrap">
-    <table class="nc-table">
-      <thead>
-        <tr>
-          <th>Person</th>
-          <th>Sent</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @pending_received.each do |f| %>
-          <tr>
-            <td><%= link_to f.requester.username, f.requester, class: "user-table-link" %></td>
-            <td><%= f.created_at.strftime("%b %-d, %Y") %></td>
-            <td class="text-end">
-              <%= button_to friendship_path(f), method: :patch, params: { status: 'accepted' }, class: "btn-brand-nc btn-sm-nc" do %>
-                <i class="bi bi-check"></i> Accept
-              <% end %>
-              <%= button_to friendship_path(f), method: :patch, params: { status: 'declined' }, class: "btn-outline-nc btn-sm-nc" do %>
-                Decline
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-<% end %>
+<% if @pending_received.any? || @pending_sent.any? %>
+  <p class="section-label">Friend Requests</p>
+  <div class="requests-row">
 
-<% if @pending_sent.any? %>
-  <p class="section-label">Sent requests</p>
-  <div class="nc-table-wrap">
-    <table class="nc-table">
-      <thead>
-        <tr>
-          <th>Person</th>
-          <th>Sent</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @pending_sent.each do |f| %>
-          <tr>
-            <td><%= link_to f.receiver.username, f.receiver, class: "user-table-link" %></td>
-            <td><%= f.created_at.strftime("%b %-d, %Y") %></td>
-            <td class="text-end">
-              <%= button_to friendship_path(f), method: :delete, class: "btn-outline-nc btn-sm-nc" do %>
-                Cancel
+    <%# Received requests block %>
+    <div data-controller="request-modal">
+      <button class="request-card-btn<%= ' request-card-btn--empty' if @pending_received.empty? %>"
+              data-action="click->request-modal#open"
+              <%= 'disabled' if @pending_received.empty? %>>
+        <div>
+          <p class="request-card-label">Received</p>
+          <p class="request-card-sub">
+            <%= @pending_received.empty? ? "No pending requests" : "Tap to review" %>
+          </p>
+        </div>
+        <div class="request-card-right">
+          <span class="request-count-badge<%= ' request-count-badge--zero' if @pending_received.empty? %>">
+            <%= @pending_received.size %>
+          </span>
+          <% unless @pending_received.empty? %>
+            <i class="bi bi-chevron-right request-card-chevron"></i>
+          <% end %>
+        </div>
+      </button>
+
+      <% unless @pending_received.empty? %>
+        <div class="nc-modal-backdrop"
+             data-request-modal-target="backdrop"
+             data-action="click->request-modal#backdropClick"
+             hidden>
+          <div class="nc-modal nc-modal-lg" role="dialog" aria-modal="true">
+            <div class="nc-modal-header nc-modal-header--bordered">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <p class="nc-modal-title">Received Requests</p>
+                  <p class="nc-modal-message">People waiting for your response.</p>
+                </div>
+                <span class="request-count-badge request-count-badge--lg"><%= @pending_received.size %></span>
+              </div>
+            </div>
+            <div class="nc-modal-list">
+              <% @pending_received.each do |f| %>
+                <div class="nc-modal-list-item">
+                  <div class="nc-modal-list-info">
+                    <%= link_to f.requester.username, f.requester, class: "user-table-link" %>
+                    <span class="request-date"><%= f.created_at.strftime("%b %-d, %Y") %></span>
+                  </div>
+                  <div class="d-flex gap-2">
+                    <%= button_to friendship_path(f), method: :patch, params: { status: 'accepted' }, class: "btn-brand-nc btn-sm-nc" do %>
+                      <i class="bi bi-check"></i> Accept
+                    <% end %>
+                    <%= button_to friendship_path(f), method: :patch, params: { status: 'declined' }, class: "btn-outline-nc btn-sm-nc" do %>
+                      Decline
+                    <% end %>
+                  </div>
+                </div>
               <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+            </div>
+            <div class="nc-modal-footer">
+              <button class="btn-outline-nc btn-sm-nc" data-action="click->request-modal#close">Close</button>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <%# Sent requests block %>
+    <div data-controller="request-modal">
+      <button class="request-card-btn<%= ' request-card-btn--empty' if @pending_sent.empty? %>"
+              data-action="click->request-modal#open"
+              <%= 'disabled' if @pending_sent.empty? %>>
+        <div>
+          <p class="request-card-label">Sent</p>
+          <p class="request-card-sub">
+            <%= @pending_sent.empty? ? "No pending requests" : "Tap to manage" %>
+          </p>
+        </div>
+        <div class="request-card-right">
+          <span class="request-count-badge request-count-badge--sent<%= ' request-count-badge--zero' if @pending_sent.empty? %>">
+            <%= @pending_sent.size %>
+          </span>
+          <% unless @pending_sent.empty? %>
+            <i class="bi bi-chevron-right request-card-chevron"></i>
+          <% end %>
+        </div>
+      </button>
+
+      <% unless @pending_sent.empty? %>
+        <div class="nc-modal-backdrop"
+             data-request-modal-target="backdrop"
+             data-action="click->request-modal#backdropClick"
+             hidden>
+          <div class="nc-modal nc-modal-lg" role="dialog" aria-modal="true">
+            <div class="nc-modal-header nc-modal-header--bordered">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <p class="nc-modal-title">Sent Requests</p>
+                  <p class="nc-modal-message">Awaiting a response from these people.</p>
+                </div>
+                <span class="request-count-badge request-count-badge--sent request-count-badge--lg"><%= @pending_sent.size %></span>
+              </div>
+            </div>
+            <div class="nc-modal-list">
+              <% @pending_sent.each do |f| %>
+                <div class="nc-modal-list-item">
+                  <div class="nc-modal-list-info">
+                    <%= link_to f.receiver.username, f.receiver, class: "user-table-link" %>
+                    <span class="request-date"><%= f.created_at.strftime("%b %-d, %Y") %></span>
+                  </div>
+                  <%= button_to friendship_path(f), method: :delete, class: "btn-outline-nc btn-sm-nc" do %>
+                    Cancel
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+            <div class="nc-modal-footer">
+              <button class="btn-outline-nc btn-sm-nc" data-action="click->request-modal#close">Close</button>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
   </div>
 <% end %>
 
