@@ -3,8 +3,10 @@ class CommunitiesController < ApplicationController
   before_action :set_community, only: %i[show members destroy]
 
   def index
-    collection = if params[:q].present?
-      Community.where("name ILIKE ?", "%#{params[:q].to_s.strip.first(100)}%").order(:name)
+    @query = params[:q].to_s.strip.first(100)
+    collection = if @query.present?
+      safe_query = ActiveRecord::Base.sanitize_sql_like(@query)
+      Community.where("name ILIKE ?", "%#{safe_query}%").order(:name)
     else
       Community.order(:name)
     end
