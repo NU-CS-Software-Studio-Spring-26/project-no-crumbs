@@ -38,6 +38,7 @@
       </div>
       <div class="nc-nav-right">
         <% if user_signed_in? %>
+          <span class="nc-nav-desktop-only"><%= render "notifications/notification_bell" %></span>
           <%= link_to user_path(current_user, direct: 1), class: "nc-nav-icon nc-nav-desktop-only", aria: { label: "My Profile" } do %>
             <i class="bi bi-person-circle" aria-hidden="true"></i>
           <% end %>
@@ -56,6 +57,11 @@
         <%= link_to "Meals", posts_path, class: "nc-mobile-link #{'nc-mobile-link-active' if request.path.start_with?(posts_path)}" %>
         <%= link_to "Friends", friendships_path, class: "nc-mobile-link #{'nc-mobile-link-active' if request.path.start_with?(friendships_path)}" %>
         <%= link_to "Communities", communities_path, class: "nc-mobile-link #{'nc-mobile-link-active' if request.path.start_with?(communities_path)}" %>
+        <%= link_to notifications_path, class: "nc-mobile-link #{'nc-mobile-link-active' if request.path.start_with?(notifications_path)}" do %>
+          <% unread = current_user.notifications.unread.count %>
+          <i class="bi bi-bell<%= "-fill" if unread > 0 %>" aria-hidden="true"></i>
+          Notifications<% if unread > 0 %> <span class="nc-notif-badge nc-notif-badge--inline"><%= unread > 99 ? "99+" : unread %></span><% end %>
+        <% end %>
         <%= link_to user_path(current_user, direct: 1), class: "nc-mobile-link" do %>
           <i class="bi bi-person-circle" aria-hidden="true"></i> Profile
         <% end %>
