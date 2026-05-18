@@ -3348,3 +3348,21 @@ input[type="submit"].btn-outline-nc.w-100 {
   color: var(--bg);
   border-color: var(--text);
 }
+
+/* ── Pagination ────────────────────────────── */
+.pagination .page-item .page-link {
+  color: var(--brand);
+  border-color: var(--border);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+.pagination .page-item.active .page-link {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+.pagination .page-item .page-link:hover {
+  background: var(--brand-muted);
+  color: var(--brand);
+  border-color: var(--border);
+}
