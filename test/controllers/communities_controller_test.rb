@@ -24,7 +24,7 @@ class CommunitiesControllerTest < ActionDispatch::IntegrationTest
   test "index search returns empty state for no match" do
     get communities_url, params: { q: "zzznomatch" }
     assert_response :success
-    assert_match "No communities found", response.body
+    assert_match "No results for", response.body
   end
 
   test "should get show" do
