@@ -10,13 +10,20 @@
     <%= form_with model: [ post, Comment.new ],
           data: { turbo_stream: true },
           class: "comment-form" do |f| %>
-      <div class="comment-input-row">
+      <div class="comment-input-row"
+           data-controller="char-counter"
+           data-char-counter-max-value="500">
         <div class="avatar avatar-sm"><%= current_user.username[0].upcase %></div>
-        <%= f.text_area :body,
-              placeholder: "Leave a comment...",
-              class: "comment-input",
-              rows: 1,
-              maxlength: 500 %>
+        <div class="comment-input-wrap">
+          <%= f.text_area :body,
+                placeholder: "Leave a comment...",
+                class: "comment-input",
+                rows: 1,
+                required: true,
+                maxlength: 500,
+                data: { "char-counter-target": "input", action: "input->char-counter#update" } %>
+          <span data-char-counter-target="counter" class="char-counter"></span>
+        </div>
         <%= f.submit "Post", class: "btn-brand-nc btn-sm-nc" %>
       </div>
     <% end %>

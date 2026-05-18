@@ -2477,8 +2477,12 @@ input[type="submit"].btn-outline-nc.w-100 {
   gap: 10px;
 }
 
-.comment-input {
+.comment-input-wrap {
   flex: 1;
+}
+
+.comment-input {
+  width: 100%;
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
   padding: 8px 12px;
@@ -3222,6 +3226,18 @@ input[type="submit"].btn-outline-nc.w-100 {
   border-color: var(--border-strong);
   background: var(--surface-2);
 }
+
+/* ── Char Counter ──────────────────────────── */
+.char-counter {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-align: right;
+  margin-top: 3px;
+  transition: color var(--t);
+}
+.char-counter--warn  { color: #f59e0b; }
+.char-counter--danger { color: #ef4444; font-weight: 600; }
 
 .community-check-pill:has(.community-check-input:checked) {
   background: var(--text);
