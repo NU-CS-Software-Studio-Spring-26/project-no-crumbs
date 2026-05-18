@@ -1,3 +1,3 @@
 require "pagy"
 
-Pagy::DEFAULT[:limit] = 12
+Pagy::OPTIONS[:limit] = 12
