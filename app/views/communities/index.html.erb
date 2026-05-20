@@ -58,7 +58,7 @@
             <% @communities.each do |community| %>
               <tr>
                 <td>
-                  <%= link_to community.name, community, class: "user-table-link" %>
+                  <%= link_to community.name, community, class: "user-table-link", data: { turbo_frame: "_top" } %>
                   <% if community.description.present? %>
                     <div style="font-size:0.8rem;color:var(--muted);font-weight:400;margin-top:2px">
                       <%= truncate(community.description, length: 72) %>
