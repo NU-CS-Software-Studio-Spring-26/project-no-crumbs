@@ -79,4 +79,28 @@ class NotificationsControllerTest < ActionDispatch::IntegrationTest
     patch mark_all_read_notifications_url
     assert_redirected_to new_user_session_path
   end
+
+  # unsubscribe
+  test "valid token unsubscribes user and redirects to root" do
+    sign_out :user
+    @alice.update!(email_notifications_enabled: true)
+    token = @alice.signed_id(purpose: :unsubscribe_notifications, expires_in: 30.days)
+    get unsubscribe_notifications_url(token: token)
+    assert_redirected_to root_path
+    assert_not @alice.reload.email_notifications_enabled
+  end
+
+  test "invalid token redirects with alert" do
+    sign_out :user
+    get unsubscribe_notifications_url(token: "bogus")
+    assert_redirected_to root_path
+    assert_equal "That unsubscribe link has expired or is invalid.", flash[:alert]
+  end
+
+  test "unsubscribe does not require authentication" do
+    sign_out :user
+    token = @alice.signed_id(purpose: :unsubscribe_notifications, expires_in: 30.days)
+    get unsubscribe_notifications_url(token: token)
+    assert_response :redirect
+  end
 end
