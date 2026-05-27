@@ -26,7 +26,7 @@
     <% if @post.meal_date %>
       <div class="detail-time-row">
         <i class="bi bi-clock"></i>
-        <%= @post.meal_date.strftime("%l:%M %p").strip %>
+        <%= meal_time_range(@post) %>
       </div>
     <% end %>
   </div>
