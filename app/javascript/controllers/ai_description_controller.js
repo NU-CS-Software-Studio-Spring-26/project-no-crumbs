@@ -6,9 +6,9 @@ export default class extends Controller {
   generate() {
     const title = this.titleTarget.value.trim()
     if (!title) {
-      this.titleTarget.focus()
-      this.titleTarget.classList.add("is-invalid")
-      setTimeout(() => this.titleTarget.classList.remove("is-invalid"), 1500)
+      this.titleTarget.setCustomValidity("Title is required for AI suggestion")
+      this.titleTarget.reportValidity()
+      this.titleTarget.setCustomValidity("")
       return
     }
 
@@ -32,13 +32,6 @@ export default class extends Controller {
   async confirmOverlay() {
     const title = this.titleTarget.value.trim()
     const mealDescription = this.mealInputTarget.value.trim()
-
-    if (!mealDescription) {
-      this.mealInputTarget.classList.add("is-invalid")
-      this.mealInputTarget.focus()
-      setTimeout(() => this.mealInputTarget.classList.remove("is-invalid"), 1500)
-      return
-    }
 
     this.overlayTarget.style.display = "none"
 

@@ -29,8 +29,6 @@ class PostsController < ApplicationController
     title = params[:title].to_s.strip
     meal_description = params[:meal_description].to_s.strip
     return render json: { error: "Title is required" }, status: :bad_request if title.blank?
-    return render json: { error: "Meal description is required" }, status: :bad_request if meal_description.blank?
-
     require "net/http"
 
     uri = URI("https://api.openai.com/v1/chat/completions")
@@ -49,7 +47,7 @@ class PostsController < ApplicationController
           content: "Write a cute description for a meal or event called: #{title}\n\nMeal description: #{meal_description}"
         }
       ],
-      max_tokens: 80,
+      max_tokens: 150,
       temperature: 0.85
     }.to_json
 
