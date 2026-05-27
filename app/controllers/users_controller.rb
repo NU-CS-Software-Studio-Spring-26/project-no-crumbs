@@ -27,6 +27,14 @@ class UsersController < ApplicationController
       @active_posts   = nil
       @archived_posts = nil
     end
+
+    if current_user == @user
+      @upcoming_rsvps = current_user.rsvps
+                                    .includes(:post)
+                                    .where(status: %w[going maybe])
+                                    .select { |r| r.post.meal_date.present? && r.post.meal_date > 36.hours.ago }
+                                    .sort_by { |r| r.post.meal_date }
+    end
   end
 
   # GET /users/new

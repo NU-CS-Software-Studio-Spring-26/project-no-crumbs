@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     registrations: "registrations",
     omniauth_callbacks: "omniauth_callbacks"
   }
+  get "rsvps/export", to: "rsvps#export", as: :export_rsvps
+
   resources :posts do
     collection { post :generate_description }
     resource :rsvp, only: %i[create destroy]
