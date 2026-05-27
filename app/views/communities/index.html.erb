@@ -71,7 +71,7 @@
                     <span class="tag tag-brand"><i class="bi bi-check2"></i> Joined</span>
                   <% else %>
                     <%= button_to community_membership_path(community), method: :post,
-                          class: "btn-brand-nc btn-sm-nc" do %>
+                          class: "btn-brand-nc btn-sm-nc", data: { turbo_frame: "_top" } do %>
                       <i class="bi bi-person-plus"></i> Join
                     <% end %>
                   <% end %>
