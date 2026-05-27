@@ -65,6 +65,14 @@
     </div>
   </div>
 
+  <div class="mb-4">
+    <label class="form-label">Notifications</label>
+    <div class="form-check">
+      <%= form.check_box :email_notifications_enabled, class: "form-check-input", id: "email_notifs_toggle" %>
+      <%= form.label :email_notifications_enabled, "Email me when someone likes, comments, RSVPs, or sends a friend request", class: "form-check-label", for: "email_notifs_toggle" %>
+    </div>
+  </div>
+
   <%= form.submit class: "btn-nc" %>
 <% end %>
 

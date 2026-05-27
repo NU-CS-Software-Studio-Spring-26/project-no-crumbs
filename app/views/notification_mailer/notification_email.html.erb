@@ -1,0 +1,91 @@
+<%
+  icon_emoji = case @action
+               when "friend_request"  then "👋"
+               when "friend_accepted" then "🤝"
+               when "comment"         then "💬"
+               when "post_like"       then "❤️"
+               when "rsvp"            then "✅"
+               end
+
+  message = case @action
+            when "friend_request"  then "<strong>#{@actor.username}</strong> sent you a friend request."
+            when "friend_accepted" then "<strong>#{@actor.username}</strong> accepted your friend request."
+            when "comment"         then "<strong>#{@actor.username}</strong> commented on your meal."
+            when "post_like"       then "<strong>#{@actor.username}</strong> liked your meal."
+            when "rsvp"            then "<strong>#{@actor.username}</strong> RSVP'd to your meal."
+            end
+
+  cta = case @action
+        when "friend_request", "friend_accepted" then "View Friends"
+        when "comment"                            then "View Comment"
+        when "post_like"                          then "View Meal"
+        when "rsvp"                               then "View Meal"
+        end
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= @notification.action.humanize %></title>
+</head>
+<body style="margin:0;padding:0;background:#f7f7f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f7f7f5;padding:40px 16px;">
+    <tr>
+      <td align="center">
+        <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
+
+          <%# Header %>
+          <tr>
+            <td style="padding-bottom:24px;text-align:center;">
+              <span style="font-size:22px;font-weight:700;color:#111827;letter-spacing:-0.5px;">
+                No&nbsp;<span style="color:#ff4500;">Crumbs</span>
+              </span>
+            </td>
+          </tr>
+
+          <%# Card %>
+          <tr>
+            <td style="background:#ffffff;border-radius:12px;border:1px solid #e5e7eb;padding:36px 32px;">
+
+              <%# Icon %>
+              <p style="margin:0 0 16px;font-size:36px;text-align:center;line-height:1;">
+                <%= icon_emoji %>
+              </p>
+
+              <%# Message %>
+              <p style="margin:0 0 24px;font-size:16px;color:#111827;line-height:1.6;text-align:center;">
+                <%= raw message %>
+              </p>
+
+              <%# CTA button %>
+              <p style="margin:0;text-align:center;">
+                <a href="<%= @target_url %>"
+                   style="display:inline-block;background:#ff4500;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;padding:12px 28px;border-radius:8px;letter-spacing:-0.2px;">
+                  <%= cta %> &rarr;
+                </a>
+              </p>
+
+            </td>
+          </tr>
+
+          <%# Footer %>
+          <tr>
+            <td style="padding-top:24px;text-align:center;">
+              <p style="margin:0 0 8px;font-size:13px;color:#9ca3af;line-height:1.5;">
+                You're receiving this because you have email notifications turned on.
+              </p>
+              <p style="margin:0;font-size:13px;">
+                <a href="<%= @unsubscribe_url %>" style="color:#9ca3af;text-decoration:underline;">
+                  Unsubscribe
+                </a>
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

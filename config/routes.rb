@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   end
   resources :notifications, only: [ :index ] do
     collection { patch :mark_all_read }
+    collection { get :unsubscribe }
     member      { patch :mark_read }
   end
   resources :users, only: %i[index show edit update destroy]

@@ -96,7 +96,7 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      p = params.require(:user).permit(:username, :email, :bio, :avatar, dietary_restrictions: [])
+      p = params.require(:user).permit(:username, :email, :bio, :avatar, :email_notifications_enabled, dietary_restrictions: [])
       p[:dietary_restrictions] = (p[:dietary_restrictions] || []).reject(&:blank?)
       p
     end

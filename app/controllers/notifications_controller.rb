@@ -1,8 +1,19 @@
 class NotificationsController < ApplicationController
+  skip_before_action :authenticate_user!, only: [ :unsubscribe ]
   before_action :set_notification, only: [ :mark_read ]
 
   def index
     @notifications = current_user.notifications.includes(:actor, :notifiable).recent
+  end
+
+  def unsubscribe
+    user = User.find_signed(params[:token], purpose: :unsubscribe_notifications)
+    if user
+      user.update!(email_notifications_enabled: false)
+      redirect_to root_path, notice: "You've been unsubscribed from email notifications."
+    else
+      redirect_to root_path, alert: "That unsubscribe link has expired or is invalid."
+    end
   end
 
   def mark_read
