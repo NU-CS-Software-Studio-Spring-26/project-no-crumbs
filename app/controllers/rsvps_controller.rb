@@ -11,7 +11,7 @@ class RsvpsController < ApplicationController
     rsvps = current_user.rsvps
                         .includes(:post)
                         .where(status: %w[going maybe])
-                        .select { |r| r.post.meal_date.present? }
+                        .select { |r| r.post.meal_date.present? && r.post.meal_date > Time.current }
                         .sort_by { |r| r.post.meal_date }
 
     cal = Icalendar::Calendar.new
