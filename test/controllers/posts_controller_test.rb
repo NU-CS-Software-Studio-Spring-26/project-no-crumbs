@@ -115,4 +115,16 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response :bad_request
     assert_includes response.parsed_body["error"], "required"
   end
+
+  test "generate description does not require meal description" do
+    post generate_description_posts_url, params: { title: "Pasta Night" }, as: :json
+    assert_not response.bad_request?, "meal_description should be optional but got 400"
+  end
+
+  test "generate description accepts meal description when provided" do
+    post generate_description_posts_url,
+      params: { title: "Pasta Night", meal_description: "Fresh handmade pasta with marinara sauce" },
+      as: :json
+    assert_not response.bad_request?
+  end
 end

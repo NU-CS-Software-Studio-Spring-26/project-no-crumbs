@@ -27,8 +27,8 @@ class PostsController < ApplicationController
   # POST /posts/generate_description
   def generate_description
     title = params[:title].to_s.strip
+    meal_description = params[:meal_description].to_s.strip
     return render json: { error: "Title is required" }, status: :bad_request if title.blank?
-
     require "net/http"
 
     uri = URI("https://api.openai.com/v1/chat/completions")
@@ -40,14 +40,14 @@ class PostsController < ApplicationController
       messages: [
         {
           role: "system",
-          content: "You write short, warm, and playful descriptions for No Crumbs — a social app where friends share home-cooked meals and dinner parties. Keep it to 3-4 sentences. Focus on the vibe: the cozy atmosphere, the company, the occasion. Only mention specific food if the title makes it obvious — never invent dishes that aren't implied. Do not use quotation marks."
+          content: "You write short, warm, and playful descriptions for No Crumbs — a social app where friends share home-cooked meals and dinner parties. Keep it to 3-4 sentences. Focus on the vibe: the cozy atmosphere, the company, the occasion. Only mention specific food if the title or meal description makes it explicit — never invent dishes that aren't stated. Do not use quotation marks."
         },
         {
           role: "user",
-          content: "Write a cute description for a meal or event called: #{title}"
+          content: "Write a cute description for a meal or event called: #{title}\n\nMeal description: #{meal_description}"
         }
       ],
-      max_tokens: 80,
+      max_tokens: 150,
       temperature: 0.85
     }.to_json
 
