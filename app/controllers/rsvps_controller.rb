@@ -28,7 +28,7 @@ class RsvpsController < ApplicationController
       cal.event do |e|
         going = rsvp.status == "going"
         e.dtstart     = Icalendar::Values::DateTime.new(naive, "tzid" => EXPORT_TZID)
-        e.dtend       = Icalendar::Values::DateTime.new((post.meal_date + 1.hour).strftime("%Y%m%dT%H%M%S"), "tzid" => EXPORT_TZID)
+        e.dtend       = Icalendar::Values::DateTime.new((post.meal_date + (post.duration_minutes || 60).minutes).strftime("%Y%m%dT%H%M%S"), "tzid" => EXPORT_TZID)
         e.summary     = "#{going ? "[GOING]" : "[MAYBE]"} #{post.title}"
         e.description = post.description.presence || ""
         e.description += "\n\nView on No Crumbs: #{post_url(post)}"

@@ -94,6 +94,12 @@
     <p class="section-label">Meals hosted</p>
     <div class="nc-table-wrap">
       <table class="nc-table">
+        <colgroup>
+          <col style="width:40%">
+          <col style="width:20%">
+          <col style="width:28%">
+          <col style="width:12%">
+        </colgroup>
         <thead>
           <tr>
             <th>Meal</th>
@@ -107,7 +113,7 @@
             <tr>
               <td><%= post.title %></td>
               <td><%= post.meal_date&.strftime("%b %-d, %Y") || "—" %></td>
-              <td><%= post.meal_date&.strftime("%-l:%M %p")&.strip || "—" %></td>
+              <td><%= meal_time_range(post) || "—" %></td>
               <td class="text-end">
                 <%= link_to "View", post, class: "btn-outline-nc btn-sm-nc" %>
               </td>
@@ -122,6 +128,12 @@
     <p class="section-label">Archived meals</p>
     <div class="nc-table-wrap">
       <table class="nc-table nc-table-muted">
+        <colgroup>
+          <col style="width:40%">
+          <col style="width:20%">
+          <col style="width:28%">
+          <col style="width:12%">
+        </colgroup>
         <thead>
           <tr>
             <th>Meal</th>
@@ -135,7 +147,7 @@
             <tr>
               <td><%= post.title %></td>
               <td><%= post.meal_date&.strftime("%b %-d, %Y") || "—" %></td>
-              <td><%= post.meal_date&.strftime("%-l:%M %p")&.strip || "—" %></td>
+              <td><%= meal_time_range(post) || "—" %></td>
               <td class="text-end">
                 <%= link_to "View", post, class: "btn-outline-nc btn-sm-nc" %>
               </td>
@@ -156,28 +168,33 @@
   </div>
   <div class="nc-table-wrap">
     <table class="nc-table">
+      <colgroup>
+        <col style="width:40%">
+        <col style="width:20%">
+        <col style="width:28%">
+        <col style="width:12%">
+      </colgroup>
       <thead>
         <tr>
           <th>Meal</th>
           <th>Date</th>
           <th>Time</th>
-          <th>Status</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <% @upcoming_rsvps.each do |rsvp| %>
           <tr>
-            <td><%= rsvp.post.title %></td>
-            <td><%= rsvp.post.meal_date.strftime("%b %-d, %Y") %></td>
-            <td><%= rsvp.post.meal_date.strftime("%-l:%M %p").strip %></td>
             <td>
+              <%= rsvp.post.title %>
               <% if rsvp.status == "going" %>
-                <span class="tag" style="background:var(--going-bg,#d1fae5);color:var(--going-fg,#065f46)">Going</span>
+                <span class="tag" style="margin-left:6px;background:var(--going-bg,#d1fae5);color:var(--going-fg,#065f46)">Going</span>
               <% else %>
-                <span class="tag" style="background:var(--maybe-bg,#fef9c3);color:var(--maybe-fg,#713f12)">Maybe</span>
+                <span class="tag" style="margin-left:6px;background:var(--maybe-bg,#fef9c3);color:var(--maybe-fg,#713f12)">Maybe</span>
               <% end %>
             </td>
+            <td><%= rsvp.post.meal_date.strftime("%b %-d, %Y") %></td>
+            <td><%= meal_time_range(rsvp.post) %></td>
             <td class="text-end">
               <%= link_to "View", rsvp.post, class: "btn-outline-nc btn-sm-nc" %>
             </td>
