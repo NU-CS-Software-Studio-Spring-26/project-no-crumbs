@@ -149,4 +149,20 @@ class PostTest < ActiveSupport::TestCase
     post = Post.new(title: nil, user: @user)
     assert_raises(ActiveRecord::NotNullViolation) { post.save(validate: false) }
   end
+
+  # duration_minutes
+  test "duration_minutes defaults to 60" do
+    post = Post.create!(title: "Dinner", user: @user)
+    assert_equal 60, post.duration_minutes
+  end
+
+  test "can set a custom duration_minutes" do
+    post = Post.create!(title: "Dinner", user: @user, duration_minutes: 90)
+    assert_equal 90, post.reload.duration_minutes
+  end
+
+  test "database enforces duration_minutes NOT NULL constraint" do
+    post = Post.create!(title: "Dinner", user: @user)
+    assert_raises(ActiveRecord::NotNullViolation) { post.update_column(:duration_minutes, nil) }
+  end
 end
