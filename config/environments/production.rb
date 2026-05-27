@@ -61,9 +61,9 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST", "example.com") }
   config.action_mailer.smtp_settings = {
-    user_name: "resend",
-    password: ENV["RESEND_API_KEY"],
-    address: "smtp.resend.com",
+    user_name: ENV["GMAIL_USERNAME"],
+    password: ENV["GMAIL_APP_PASSWORD"],
+    address: "smtp.gmail.com",
     port: 587,
     authentication: :plain,
     enable_starttls_auto: true
