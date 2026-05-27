@@ -1,0 +1,17 @@
+NO CRUMBS
+=========
+
+<% message = case @action
+             when "friend_request"  then "#{@actor.username} sent you a friend request."
+             when "friend_accepted" then "#{@actor.username} accepted your friend request."
+             when "comment"         then "#{@actor.username} commented on your meal."
+             when "post_like"       then "#{@actor.username} liked your meal."
+             when "rsvp"            then "#{@actor.username} RSVP'd to your meal."
+             end %>
+<%= message %>
+
+<%= @target_url %>
+
+---
+You're receiving this because you have email notifications turned on.
+To unsubscribe: <%= @unsubscribe_url %>
