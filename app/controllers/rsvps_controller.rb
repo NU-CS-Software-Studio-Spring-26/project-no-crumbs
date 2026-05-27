@@ -4,8 +4,8 @@ require "icalendar/tzinfo"
 EXPORT_TZID = "America/Chicago"
 
 class RsvpsController < ApplicationController
-  before_action :set_post, except: [:export]
-  before_action :authorize_rsvp!, except: [:export]
+  before_action :set_post, except: [ :export ]
+  before_action :authorize_rsvp!, except: [ :export ]
 
   def export
     rsvps = current_user.rsvps
