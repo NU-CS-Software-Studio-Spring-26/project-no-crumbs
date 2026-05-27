@@ -10,6 +10,8 @@ class Notification < ApplicationRecord
 
   def self.create_notification(action:, recipient:, actor:, notifiable:)
     return if recipient == actor
-    create!(action: action, recipient: recipient, actor: actor, notifiable: notifiable)
+    notification = create!(action: action, recipient: recipient, actor: actor, notifiable: notifiable)
+    NotificationMailer.notification_email(notification).deliver_later if recipient.email_notifications_enabled?
+    notification
   end
 end
