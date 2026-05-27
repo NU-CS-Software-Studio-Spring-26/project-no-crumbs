@@ -1,9 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["title", "description", "button", "badge"]
+  static targets = ["title", "description", "button", "badge", "overlay", "mealInput"]
 
-  async generate() {
+  generate() {
     const title = this.titleTarget.value.trim()
     if (!title) {
       this.titleTarget.focus()
@@ -11,6 +11,36 @@ export default class extends Controller {
       setTimeout(() => this.titleTarget.classList.remove("is-invalid"), 1500)
       return
     }
+
+    this.mealInputTarget.value = ""
+    this.overlayTarget.style.display = "flex"
+    this.mealInputTarget.focus()
+  }
+
+  cancelOverlay() {
+    this.overlayTarget.style.display = "none"
+  }
+
+  handleKeydown(event) {
+    if (event.key === "Escape") this.cancelOverlay()
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault()
+      this.confirmOverlay()
+    }
+  }
+
+  async confirmOverlay() {
+    const title = this.titleTarget.value.trim()
+    const mealDescription = this.mealInputTarget.value.trim()
+
+    if (!mealDescription) {
+      this.mealInputTarget.classList.add("is-invalid")
+      this.mealInputTarget.focus()
+      setTimeout(() => this.mealInputTarget.classList.remove("is-invalid"), 1500)
+      return
+    }
+
+    this.overlayTarget.style.display = "none"
 
     const btn = this.buttonTarget
     btn.disabled = true
@@ -23,7 +53,7 @@ export default class extends Controller {
           "Content-Type": "application/json",
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
         },
-        body: JSON.stringify({ title })
+        body: JSON.stringify({ title, meal_description: mealDescription })
       })
       const data = await resp.json()
       if (data.description) {
