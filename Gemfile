@@ -53,6 +53,8 @@ gem "faker"
 
 gem "pagy"
 
+gem "pg_search"
+
 gem "icalendar"
 
 group :development, :test do
