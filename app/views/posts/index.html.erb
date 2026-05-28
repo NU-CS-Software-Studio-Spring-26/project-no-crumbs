@@ -12,11 +12,30 @@
   <% end %>
 </div>
 
+<% if user_signed_in? %>
+  <%= form_with url: posts_path, method: :get, class: "nc-search-form", data: { turbo: false } do |f| %>
+    <div class="nc-search-wrap">
+      <i class="bi bi-search nc-search-icon" aria-hidden="true"></i>
+      <%= f.text_field :q, value: @query, placeholder: "Search meals…", class: "nc-search-input", autocomplete: "off", aria: { label: "Search meals" } %>
+      <% if @query.present? %>
+        <%= link_to posts_path, class: "nc-search-clear", aria: { label: "Clear search" } do %>
+          <i class="bi bi-x" aria-hidden="true"></i>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
 <% if @posts.empty? %>
   <div class="empty-state">
     <div class="empty-icon">🍽️</div>
-    <p class="empty-title">Nothing on the menu yet</p>
-    <p class="empty-sub">Be the first to plan something — your crew is hungry.</p>
+    <% if @query.present? %>
+      <p class="empty-title">No meals found for "<%= @query %>"</p>
+      <p class="empty-sub">Try a different search or <%= link_to "clear it", posts_path %>.</p>
+    <% else %>
+      <p class="empty-title">Nothing on the menu yet</p>
+      <p class="empty-sub">Be the first to plan something — your crew is hungry.</p>
+    <% end %>
   </div>
 <% else %>
   <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
