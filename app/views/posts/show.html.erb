@@ -1,6 +1,6 @@
 <% content_for :title, @post.title %>
 
-<div class="mb-3">
+<div class="mb-3 d-flex align-items-center gap-2">
   <% if params[:from_create] || params[:from_edit] %>
     <%= link_to posts_path, class: "btn-outline-nc btn-sm-nc" do %>
       <i class="bi bi-arrow-left"></i> All Meals
@@ -10,6 +10,10 @@
       <i class="bi bi-arrow-left"></i> Back
     </a>
   <% end %>
+  <button class="btn-outline-nc btn-sm-nc"
+          onclick="navigator.clipboard.writeText(window.location.href).then(() => { this.innerHTML = '<i class=\'bi bi-check\'></i> Copied!'; setTimeout(() => { this.innerHTML = '<i class=\'bi bi-share\'></i> Share'; }, 2000); })">
+    <i class="bi bi-share"></i> Share
+  </button>
 </div>
 
 <div class="detail-cover <%= @post.cover_photo_url? ? "detail-cover-photo" : "gc-meal" %>"
