@@ -7,6 +7,8 @@
     </div>
     <% if post.meal_date&.to_date == Date.today %>
       <span class="meal-urgency-badge meal-urgency-badge--cover">Today</span>
+    <% elsif post.meal_date&.to_date == Date.tomorrow %>
+      <span class="meal-urgency-badge meal-urgency-badge--cover meal-urgency-badge--tomorrow">Tomorrow</span>
     <% end %>
   </div>
 

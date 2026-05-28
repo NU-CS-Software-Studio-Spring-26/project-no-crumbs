@@ -433,6 +433,10 @@ body {
   box-shadow: 0 1px 4px rgba(0,0,0,0.25);
 }
 
+.meal-urgency-badge--tomorrow {
+  background: #f59e0b;
+}
+
 .meal-card-desc {
   color: var(--muted);
   font-size: 0.8125rem;
