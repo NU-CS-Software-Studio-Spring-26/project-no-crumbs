@@ -75,11 +75,19 @@
   <div class="profile-stats-bar">
     <div class="profile-stat">
       <span class="profile-stat-num"><%= @user.posts.count %></span>
-      <span class="profile-stat-label"><%= @user.posts.count == 1 ? "Meal" : "Meals" %></span>
+      <span class="profile-stat-label"><%= @user.posts.count == 1 ? "Meal Hosted" : "Meals Hosted" %></span>
     </div>
     <div class="profile-stat">
       <span class="profile-stat-num"><%= @user.friends.count %></span>
       <span class="profile-stat-label"><%= @user.friends.count == 1 ? "Friend" : "Friends" %></span>
+    </div>
+    <div class="profile-stat">
+      <span class="profile-stat-num"><%= @rsvps_sent %></span>
+      <span class="profile-stat-label"><%= @rsvps_sent == 1 ? "Meal Attending" : "Meals Attending" %></span>
+    </div>
+    <div class="profile-stat">
+      <span class="profile-stat-num"><%= @rsvps_received %></span>
+      <span class="profile-stat-label">RSVPs Received</span>
     </div>
   </div>
 </div>

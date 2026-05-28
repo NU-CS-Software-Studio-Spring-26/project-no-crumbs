@@ -35,6 +35,9 @@ class UsersController < ApplicationController
                                     .select { |r| r.post.meal_date.present? && r.post.meal_date > 36.hours.ago }
                                     .sort_by { |r| r.post.meal_date }
     end
+
+    @rsvps_sent     = @user.rsvps.where(status: %w[going maybe]).count
+    @rsvps_received = Rsvp.joins(:post).where(posts: { user_id: @user.id }).count
   end
 
   # GET /users/new
