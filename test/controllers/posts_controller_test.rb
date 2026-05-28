@@ -29,6 +29,11 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "show page includes share button" do
+    get post_url(@post)
+    assert_select "button", text: /Share/
+  end
+
   test "should get edit" do
     get edit_post_url(@post)
     assert_response :success
