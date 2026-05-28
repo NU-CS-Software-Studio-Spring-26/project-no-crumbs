@@ -29,6 +29,12 @@
         <%= meal_time_range(@post) %>
       </div>
     <% end %>
+    <% if @post.address.present? %>
+      <div class="detail-time-row">
+        <i class="bi bi-geo-alt"></i>
+        <%= @post.address %>
+      </div>
+    <% end %>
   </div>
 </div>
 

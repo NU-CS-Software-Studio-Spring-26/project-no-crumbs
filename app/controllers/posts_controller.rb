@@ -131,7 +131,7 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      p = params.require(:post).permit(:title, :description, :meal_date, :duration_minutes, { community_ids: [] }, dietary_restrictions: [])
+      p = params.require(:post).permit(:title, :description, :address, :meal_date, :duration_minutes, { community_ids: [] }, dietary_restrictions: [])
       p[:dietary_restrictions] = (p[:dietary_restrictions] || []).reject(&:blank?)
       p
     end
