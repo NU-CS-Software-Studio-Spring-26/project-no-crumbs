@@ -150,6 +150,28 @@ class PostTest < ActiveSupport::TestCase
     assert_raises(ActiveRecord::NotNullViolation) { post.save(validate: false) }
   end
 
+  # address
+  test "address defaults to nil" do
+    post = Post.create!(title: "Dinner", user: @user)
+    assert_nil post.address
+  end
+
+  test "can save and retrieve an address" do
+    post = Post.create!(title: "Dinner", user: @user, address: "123 Main St, Evanston, IL")
+    assert_equal "123 Main St, Evanston, IL", post.reload.address
+  end
+
+  test "valid without an address" do
+    post = Post.new(title: "Dinner", user: @user, address: nil)
+    assert post.valid?
+  end
+
+  test "invalid when address exceeds 255 characters" do
+    post = Post.new(title: "Dinner", user: @user, address: "a" * 256)
+    assert_not post.valid?
+    assert post.errors[:address].any?
+  end
+
   # duration_minutes
   test "duration_minutes defaults to 60" do
     post = Post.create!(title: "Dinner", user: @user)

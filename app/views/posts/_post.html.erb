@@ -22,6 +22,12 @@
       <i class="bi bi-clock" style="font-size:0.75rem;color:var(--muted)"></i>
       <span><%= post.meal_date ? "#{post.meal_date.strftime("%a, %b %-d")} · #{meal_time_range(post)}" : "Date TBD" %></span>
     </div>
+    <% if post.address.present? %>
+      <div class="meal-card-when">
+        <i class="bi bi-geo-alt" style="font-size:0.75rem;color:var(--muted)"></i>
+        <span><%= post.address %></span>
+      </div>
+    <% end %>
     <% if post.description.present? %>
       <p class="meal-card-desc"><%= post.description %></p>
     <% end %>

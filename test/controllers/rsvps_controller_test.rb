@@ -158,13 +158,13 @@ class RsvpsControllerTest < ActionDispatch::IntegrationTest
   test "export uses duration_minutes for DTEND" do
     @future_post.update!(duration_minutes: 90)
     get export_rsvps_url
-    expected_end = (@future_post.meal_date + 90.minutes).utc.strftime("%Y%m%dT%H%M%S")
+    expected_end = (@future_post.meal_date + 90.minutes).strftime("%Y%m%dT%H%M%S")
     assert_includes response.body, expected_end
   end
 
   test "export falls back to 60 minutes when duration_minutes is default" do
     get export_rsvps_url
-    expected_end = (@future_post.meal_date + 60.minutes).utc.strftime("%Y%m%dT%H%M%S")
+    expected_end = (@future_post.meal_date + 60.minutes).strftime("%Y%m%dT%H%M%S")
     assert_includes response.body, expected_end
   end
 end
