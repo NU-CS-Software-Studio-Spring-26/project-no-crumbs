@@ -5,6 +5,12 @@
       <span class="day"><%= post.meal_date&.strftime("%-d") || "?" %></span>
       <span class="mon"><%= post.meal_date&.strftime("%b") || "—" %></span>
     </div>
+    <% meal_date_local = post.meal_date&.in_time_zone&.to_date %>
+    <% if meal_date_local == Time.zone.today %>
+      <span class="meal-urgency-badge meal-urgency-badge--cover">Today</span>
+    <% elsif meal_date_local == Time.zone.tomorrow %>
+      <span class="meal-urgency-badge meal-urgency-badge--cover meal-urgency-badge--tomorrow">Tomorrow</span>
+    <% end %>
   </div>
 
   <div class="meal-card-body">
