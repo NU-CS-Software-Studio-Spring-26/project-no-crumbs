@@ -1,4 +1,13 @@
 class User < ApplicationRecord
+  include PgSearch::Model
+
+  pg_search_scope :search_friends,
+    against: { username: "A", bio: "B" },
+    using: {
+      tsearch: { prefix: true },
+      trigram: { threshold: 0.1 }
+    }
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
