@@ -5,6 +5,9 @@
       <span class="day"><%= post.meal_date&.strftime("%-d") || "?" %></span>
       <span class="mon"><%= post.meal_date&.strftime("%b") || "—" %></span>
     </div>
+    <% if post.meal_date&.to_date == Date.today %>
+      <span class="meal-urgency-badge meal-urgency-badge--cover">Today</span>
+    <% end %>
   </div>
 
   <div class="meal-card-body">
@@ -15,9 +18,6 @@
     <div class="meal-card-when">
       <i class="bi bi-clock" style="font-size:0.75rem;color:var(--muted)"></i>
       <span><%= post.meal_date ? "#{post.meal_date.strftime("%a, %b %-d")} · #{meal_time_range(post)}" : "Date TBD" %></span>
-      <% if post.meal_date&.to_date == Date.today %>
-        <span class="meal-urgency-badge">Today</span>
-      <% end %>
     </div>
     <% if post.description.present? %>
       <p class="meal-card-desc"><%= post.description %></p>
