@@ -15,6 +15,9 @@
     <div class="meal-card-when">
       <i class="bi bi-clock" style="font-size:0.75rem;color:var(--muted)"></i>
       <span><%= post.meal_date ? "#{post.meal_date.strftime("%a, %b %-d")} · #{meal_time_range(post)}" : "Date TBD" %></span>
+      <% if post.meal_date&.to_date == Date.today %>
+        <span class="meal-urgency-badge">Today</span>
+      <% end %>
     </div>
     <% if post.description.present? %>
       <p class="meal-card-desc"><%= post.description %></p>
