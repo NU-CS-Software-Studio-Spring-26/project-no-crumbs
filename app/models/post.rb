@@ -1,4 +1,13 @@
 class Post < ApplicationRecord
+  include PgSearch::Model
+
+  pg_search_scope :search_meals,
+    against: { title: "A", description: "B" },
+    using: {
+      tsearch: { prefix: true },
+      trigram: { threshold: 0.1 }
+    }
+
   belongs_to :user
   has_many :community_posts, dependent: :destroy
   has_many :communities, through: :community_posts

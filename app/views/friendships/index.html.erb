@@ -7,6 +7,18 @@
   </div>
 </div>
 
+<%= form_with url: friendships_path, method: :get, class: "nc-search-form", data: { turbo: false } do |f| %>
+  <div class="nc-search-wrap">
+    <i class="bi bi-search nc-search-icon" aria-hidden="true"></i>
+    <%= f.text_field :q, value: @query, placeholder: "Search friends…", class: "nc-search-input", autocomplete: "off", aria: { label: "Search friends" } %>
+    <% if @query.present? %>
+      <%= link_to friendships_path, class: "nc-search-clear", aria: { label: "Clear search" } do %>
+        <i class="bi bi-x" aria-hidden="true"></i>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
 <div class="find-people-banner">
   <div>
     <p class="find-people-title">Find People</p>
@@ -143,7 +155,13 @@
   </div>
 <% end %>
 
-<% if @friends.any? %>
+<% if @query.present? && @friends.empty? %>
+  <div class="empty-state">
+    <div class="empty-icon">🔍</div>
+    <p class="empty-title">No friends found for "<%= @query %>"</p>
+    <p class="empty-sub">Try a different name or <%= link_to "clear the search", friendships_path %>.</p>
+  </div>
+<% elsif @friends.any? %>
   <p class="section-label">Your friends</p>
   <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
     <% @friends.each do |friend| %>

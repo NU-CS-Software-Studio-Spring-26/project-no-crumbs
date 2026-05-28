@@ -2,7 +2,13 @@ class FriendshipsController < ApplicationController
   before_action :set_friendship, only: [ :update, :destroy ]
 
   def index
-    @pagy, @friends   = pagy(:offset, current_user.friends)
+    @query = params[:q].to_s.strip
+    friends_scope = if @query.present?
+      current_user.friends.search_friends(@query)
+    else
+      current_user.friends
+    end
+    @pagy, @friends   = pagy(:offset, friends_scope)
     @pending_received = current_user.pending_friend_requests
     @pending_sent     = current_user.sent_friendships.pending
   end
