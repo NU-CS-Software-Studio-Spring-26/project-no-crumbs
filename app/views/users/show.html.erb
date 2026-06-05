@@ -1,9 +1,10 @@
 <% content_for :title, @user.username %>
 <% unless params[:direct] %>
+  <% back_path = safe_users_return_path(params[:return_to]) %>
   <div class="mb-3">
-    <a href="#" onclick="history.back(); return false;" class="btn-outline-nc btn-sm-nc">
+    <%= link_to back_path, class: "btn-outline-nc btn-sm-nc" do %>
       <i class="bi bi-arrow-left"></i> Back
-    </a>
+    <% end %>
   </div>
 <% end %>
 
