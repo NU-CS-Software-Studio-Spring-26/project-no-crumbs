@@ -115,21 +115,21 @@
   <p class="lp-section-eyebrow">What you can do</p>
 </div>
 <div class="lp-features">
-  <div class="lp-feature" data-lp-reveal style="--reveal-delay:0s">
+  <%= link_to new_post_path, class: "lp-feature", data: { lp_reveal: "" }, style: "--reveal-delay:0s" do %>
     <div class="lp-feature-icon gc-meal">🍳</div>
     <h2 class="lp-feature-title">Cook &amp; Post</h2>
     <p class="lp-feature-desc">Planning a dinner? Post it on NoCrumbs and let your friends know what's cooking — and when.</p>
-  </div>
-  <div class="lp-feature" data-lp-reveal style="--reveal-delay:0.1s">
+  <% end %>
+  <%= link_to posts_path, class: "lp-feature", data: { lp_reveal: "" }, style: "--reveal-delay:0.1s" do %>
     <div class="lp-feature-icon gc-1">👀</div>
     <h2 class="lp-feature-title">See What's On</h2>
     <p class="lp-feature-desc">Browse your friends' meals, see what's on the menu tonight, and never miss a good bite.</p>
-  </div>
-  <div class="lp-feature" data-lp-reveal style="--reveal-delay:0.2s">
+  <% end %>
+  <%= link_to users_path, class: "lp-feature", data: { lp_reveal: "" }, style: "--reveal-delay:0.2s" do %>
     <div class="lp-feature-icon gc-2">🤝</div>
     <h2 class="lp-feature-title">Share the Table</h2>
     <p class="lp-feature-desc">Add friends, accept invites, and build a crew of people who love food as much as you do.</p>
-  </div>
+  <% end %>
 </div>
 
 <%# ── PERKS ── %>

@@ -2344,6 +2344,13 @@ input[type="submit"].btn-outline-nc.w-100 {
   border-color: transparent;
 }
 
+a.lp-feature {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
 .lp-feature-icon {
   width: 64px;
   height: 64px;
