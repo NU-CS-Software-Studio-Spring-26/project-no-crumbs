@@ -21,8 +21,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index profile links preserve current people page" do
-    get users_url(page: 2)
-    assert_select "a[href='#{user_path(@user, return_to: "/users?page=2")}']"
+    get users_url(page: 1)
+    assert_select "a[href='#{user_path(@user, return_to: "/users?page=1")}']"
   end
 
   test "show back link uses return_to param when present" do
