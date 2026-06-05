@@ -21,6 +21,14 @@ class FriendshipsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to friendships_path
   end
 
+  test "sending friend request from profile keeps return_to in redirect" do
+    profile_url = user_url(@bob, return_to: "/users?page=2")
+    assert_difference("Friendship.count") do
+      post friendships_url, params: { receiver_id: @bob.id }, headers: { "HTTP_REFERER" => profile_url }
+    end
+    assert_redirected_to profile_url
+  end
+
   test "sending a friend request creates a notification for the receiver" do
     assert_difference("Notification.count") do
       post friendships_url, params: { receiver_id: @bob.id }
