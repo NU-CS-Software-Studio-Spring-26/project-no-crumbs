@@ -18,6 +18,7 @@ class Post < ApplicationRecord
   validates :title, presence: true, length: { maximum: 100 }
   validates :description, length: { maximum: 2000, allow_blank: true }
   validates :address, length: { maximum: 255, allow_blank: true }
+  validate :meal_date_not_in_past, if: :meal_date_changed?
   validate :meal_date_not_too_far_in_future
 
   scope :active,   -> { where("meal_date IS NULL OR meal_date > ?", 36.hours.ago) }
@@ -28,6 +29,12 @@ class Post < ApplicationRecord
   end
 
   private
+
+  def meal_date_not_in_past
+    if meal_date.present? && meal_date < Time.current
+      errors.add(:meal_date, "must be in the future")
+    end
+  end
 
   def meal_date_not_too_far_in_future
     if meal_date.present? && meal_date > 6.months.from_now
