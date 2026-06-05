@@ -70,14 +70,16 @@ class RsvpsControllerTest < ActionDispatch::IntegrationTest
   # --- authorize_rsvp!: archived meal ---
 
   test "user is redirected when attempting to RSVP an archived meal" do
-    archived = Post.create!(title: "Old Meal", user: @alice, meal_date: 2.days.ago)
+    archived = Post.new(title: "Old Meal", user: @alice, meal_date: 2.days.ago)
+    archived.save(validate: false)
     post post_rsvp_url(archived), params: { status: "going" }, as: :turbo_stream
     assert_redirected_to archived
     assert_equal "This meal has already passed.", flash[:alert]
   end
 
   test "RSVP attempt on archived meal does not create a record" do
-    archived = Post.create!(title: "Old Meal 2", user: @alice, meal_date: 2.days.ago)
+    archived = Post.new(title: "Old Meal 2", user: @alice, meal_date: 2.days.ago)
+    archived.save(validate: false)
     assert_no_difference("Rsvp.count") do
       post post_rsvp_url(archived), params: { status: "going" }, as: :turbo_stream
     end
