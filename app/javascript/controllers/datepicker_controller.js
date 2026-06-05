@@ -12,6 +12,7 @@ export default class extends Controller {
       dateFormat: "F j, Y \\a\\t h:i K",
       minuteIncrement: 15,
       disableMobile: true,
+      minDate: "today",
       onChange: ([date]) => {
         if (!date) return
         const pad = n => String(n).padStart(2, "0")

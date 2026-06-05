@@ -69,6 +69,26 @@ class PostTest < ActiveSupport::TestCase
   end
 
   # meal_date validation
+  test "invalid when meal_date is in the past on create" do
+    post = Post.new(title: "Yesterday", user: @user, meal_date: 1.hour.ago)
+    assert_not post.valid?
+    assert_includes post.errors[:meal_date], "must be in the future"
+  end
+
+  test "invalid when meal_date is changed to a past date on update" do
+    post = Post.create!(title: "Dinner", user: @user, meal_date: 1.day.from_now)
+    post.meal_date = 1.hour.ago
+    assert_not post.valid?
+    assert_includes post.errors[:meal_date], "must be in the future"
+  end
+
+  test "valid when editing other fields on a past meal without changing date" do
+    post = Post.new(title: "Old Meal", user: @user, meal_date: 1.hour.ago)
+    post.save(validate: false)
+    post.title = "Updated Title"
+    assert post.valid?
+  end
+
   test "invalid when meal_date is more than 6 months in the future" do
     post = Post.new(title: "Far Future", user: @user, meal_date: 7.months.from_now)
     assert_not post.valid?
@@ -97,13 +117,15 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test "active scope excludes post older than 36 hours" do
-    post = Post.create!(title: "Old", description: "d", meal_date: 37.hours.ago, user: @user)
+    post = Post.new(title: "Old", description: "d", meal_date: 37.hours.ago, user: @user)
+    post.save(validate: false)
     assert_not_includes Post.active, post
   end
 
   # archived scope
   test "archived scope includes post older than 36 hours" do
-    post = Post.create!(title: "Archived", description: "d", meal_date: 37.hours.ago, user: @user)
+    post = Post.new(title: "Archived", description: "d", meal_date: 37.hours.ago, user: @user)
+    post.save(validate: false)
     assert_includes Post.archived, post
   end
 
