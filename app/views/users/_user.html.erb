@@ -19,7 +19,7 @@
   </div>
 
   <div class="user-card-footer">
-    <%= link_to "View profile", user_path(user, return_to: request.fullpath), class: "btn-outline-nc w-100 justify-content-center", data: { turbo_frame: "_top" } %>
+    <%= link_to "View profile", user_path(user, return_to: users_index_return_to(page: params[:page], query: @query)), class: "btn-outline-nc w-100 justify-content-center", data: { turbo_frame: "_top" } %>
     <% if admin? && current_user != user %>
       <%= link_to edit_user_path(user), class: "btn-outline-nc btn-sm-nc" do %>
         <i class="bi bi-pencil"></i>
