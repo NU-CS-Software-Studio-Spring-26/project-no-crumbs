@@ -98,4 +98,32 @@ class CommunitiesControllerTest < ActionDispatch::IntegrationTest
     get community_url(@community)
     assert_redirected_to new_user_session_path
   end
+
+  test "should get my communities" do
+    get mine_communities_url
+    assert_response :success
+  end
+
+  test "my communities shows communities the user has joined" do
+    get mine_communities_url
+    assert_match "NU Class of &#x27;26", response.body
+  end
+
+  test "my communities excludes communities the user has not joined" do
+    get mine_communities_url
+    assert_no_match "Chicago Food Scene", response.body
+  end
+
+  test "my communities shows empty state when user has no communities" do
+    sign_out :user
+    sign_in @charlie
+    get mine_communities_url
+    assert_match "haven&#x27;t joined", response.body
+  end
+
+  test "unauthenticated user is redirected from my communities" do
+    sign_out :user
+    get mine_communities_url
+    assert_redirected_to new_user_session_path
+  end
 end
