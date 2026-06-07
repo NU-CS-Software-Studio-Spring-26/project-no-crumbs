@@ -83,7 +83,8 @@ class RsvpTest < ActiveSupport::TestCase
   end
 
   test "post archived? returns true when meal_date is more than 36 hours ago" do
-    old_post = Post.create!(title: "Old", description: "d", meal_date: 37.hours.ago, user: @alice)
+    old_post = Post.new(title: "Old", description: "d", meal_date: 37.hours.ago, user: @alice)
+    old_post.save(validate: false)
     assert old_post.archived?
   end
 

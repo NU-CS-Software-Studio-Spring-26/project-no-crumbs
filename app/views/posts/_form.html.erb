@@ -71,6 +71,11 @@
           class: "form-select" %>
   </div>
 
+  <div class="mb-3">
+    <%= form.label :address, "Location", class: "form-label" %>
+    <%= form.text_field :address, class: "form-control", placeholder: "e.g. 123 Main St, Evanston, IL" %>
+  </div>
+
   <% if @user_communities.any? %>
     <div class="mb-4">
       <%= form.label :community_ids, "Post to communities", class: "form-label" %>

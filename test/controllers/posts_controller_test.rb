@@ -29,6 +29,11 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "show page includes share button" do
+    get post_url(@post)
+    assert_select "button", text: /Share/
+  end
+
   test "should get edit" do
     get edit_post_url(@post)
     assert_response :success
@@ -37,6 +42,22 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   test "should update post" do
     patch post_url(@post), params: { post: { description: @post.description, meal_date: @post.meal_date, title: @post.title } }
     assert_redirected_to post_url(@post, from_edit: 1)
+  end
+
+  test "create saves address" do
+    post posts_url, params: { post: { title: "Dinner", address: "456 Oak Ave, Chicago, IL", meal_date: 1.day.from_now } }
+    assert_equal "456 Oak Ave, Chicago, IL", Post.last.address
+  end
+
+  test "update saves address" do
+    patch post_url(@post), params: { post: { title: @post.title, address: "789 Elm St, Evanston, IL" } }
+    assert_equal "789 Elm St, Evanston, IL", @post.reload.address
+  end
+
+  test "address is shown on show page" do
+    @post.update!(address: "321 Pine Rd, Wilmette, IL")
+    get post_url(@post)
+    assert_select ".detail-time-row", text: /321 Pine Rd/
   end
 
   test "should destroy post" do

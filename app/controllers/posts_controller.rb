@@ -7,11 +7,17 @@ class PostsController < ApplicationController
   # GET /posts or /posts.json
   def index
     if user_signed_in?
+      @query = params[:q].to_s.strip
       collection = if admin?
-        Post.active.order(meal_date: :asc)
+        Post.active
       else
         visible_ids = current_user.friends.ids + [ current_user.id ]
-        Post.active.where(user_id: visible_ids).order(meal_date: :asc)
+        Post.active.where(user_id: visible_ids)
+      end
+      collection = if @query.present?
+        collection.search_meals(@query)
+      else
+        collection.order(meal_date: :asc)
       end
       @pagy, @posts = pagy(:offset, collection)
     else
@@ -125,7 +131,7 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      p = params.require(:post).permit(:title, :description, :meal_date, :duration_minutes, { community_ids: [] }, dietary_restrictions: [])
+      p = params.require(:post).permit(:title, :description, :address, :meal_date, :duration_minutes, { community_ids: [] }, dietary_restrictions: [])
       p[:dietary_restrictions] = (p[:dietary_restrictions] || []).reject(&:blank?)
       p
     end

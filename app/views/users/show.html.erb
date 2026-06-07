@@ -1,9 +1,10 @@
 <% content_for :title, @user.username %>
 <% unless params[:direct] %>
+  <% back_path = safe_users_return_path(params[:return_to]) %>
   <div class="mb-3">
-    <a href="#" onclick="history.back(); return false;" class="btn-outline-nc btn-sm-nc">
+    <%= link_to back_path, class: "btn-outline-nc btn-sm-nc" do %>
       <i class="bi bi-arrow-left"></i> Back
-    </a>
+    <% end %>
   </div>
 <% end %>
 
@@ -75,11 +76,19 @@
   <div class="profile-stats-bar">
     <div class="profile-stat">
       <span class="profile-stat-num"><%= @user.posts.count %></span>
-      <span class="profile-stat-label"><%= @user.posts.count == 1 ? "Meal" : "Meals" %></span>
+      <span class="profile-stat-label"><%= @user.posts.count == 1 ? "Meal Hosted" : "Meals Hosted" %></span>
     </div>
     <div class="profile-stat">
       <span class="profile-stat-num"><%= @user.friends.count %></span>
       <span class="profile-stat-label"><%= @user.friends.count == 1 ? "Friend" : "Friends" %></span>
+    </div>
+    <div class="profile-stat">
+      <span class="profile-stat-num"><%= @rsvps_sent %></span>
+      <span class="profile-stat-label"><%= @rsvps_sent == 1 ? "Meal Attending" : "Meals Attending" %></span>
+    </div>
+    <div class="profile-stat">
+      <span class="profile-stat-num"><%= @rsvps_received %></span>
+      <span class="profile-stat-label">RSVPs Received</span>
     </div>
   </div>
 </div>
