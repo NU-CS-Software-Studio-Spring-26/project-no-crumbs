@@ -72,7 +72,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_28_023301) do
     t.index ["community_id"], name: "index_community_memberships_on_community_id"
     t.index ["user_id", "community_id"], name: "index_community_memberships_on_user_id_and_community_id", unique: true
     t.index ["user_id"], name: "index_community_memberships_on_user_id"
-    t.check_constraint "role::text = ANY (ARRAY['member'::character varying, 'admin'::character varying]::text[])", name: "chk_community_memberships_role"
+    t.check_constraint "role::text = ANY (ARRAY['member'::character varying::text, 'admin'::character varying::text])", name: "chk_community_memberships_role"
   end
 
   create_table "community_posts", force: :cascade do |t|
@@ -94,7 +94,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_28_023301) do
     t.index ["receiver_id"], name: "index_friendships_on_receiver_id"
     t.index ["requester_id", "receiver_id"], name: "index_friendships_on_requester_id_and_receiver_id", unique: true
     t.index ["requester_id"], name: "index_friendships_on_requester_id"
-    t.check_constraint "status::text = ANY (ARRAY['pending'::character varying, 'accepted'::character varying, 'declined'::character varying]::text[])", name: "chk_friendships_status"
+    t.check_constraint "status::text = ANY (ARRAY['pending'::character varying::text, 'accepted'::character varying::text, 'declined'::character varying::text])", name: "chk_friendships_status"
   end
 
   create_table "likes", force: :cascade do |t|
@@ -144,7 +144,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_28_023301) do
     t.index ["post_id", "user_id"], name: "index_rsvps_on_post_id_and_user_id", unique: true
     t.index ["post_id"], name: "index_rsvps_on_post_id"
     t.index ["user_id"], name: "index_rsvps_on_user_id"
-    t.check_constraint "status::text = ANY (ARRAY['going'::character varying, 'maybe'::character varying, 'not_going'::character varying]::text[])", name: "chk_rsvps_status"
+    t.check_constraint "status::text = ANY (ARRAY['going'::character varying::text, 'maybe'::character varying::text, 'not_going'::character varying::text])", name: "chk_rsvps_status"
   end
 
   create_table "users", force: :cascade do |t|
