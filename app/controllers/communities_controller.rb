@@ -22,6 +22,10 @@ class CommunitiesController < ApplicationController
     @members = @community.members.order(:username)
   end
 
+  def mine
+    @communities = current_user.communities.order(:name)
+  end
+
   def new
     @community = Community.new
   end

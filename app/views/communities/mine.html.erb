@@ -1,0 +1,56 @@
+<% content_for :title, "My Communities" %>
+
+<div class="feed-header">
+  <div>
+    <h1 class="feed-title">My Communities</h1>
+    <p class="feed-subtitle">Communities you've joined</p>
+  </div>
+  <%= link_to new_community_path, class: "nc-nav-cta" do %>
+    <i class="bi bi-plus"></i> New Community
+  <% end %>
+</div>
+
+<% if @communities.empty? %>
+  <div class="empty-state">
+    <div class="empty-icon">🏘️</div>
+    <p class="empty-title">You haven't joined any communities yet</p>
+    <p class="empty-sub">Browse all communities and join one to get started.</p>
+    <%= link_to communities_path, class: "btn-brand-nc" do %>
+      <i class="bi bi-search"></i> Browse Communities
+    <% end %>
+  </div>
+<% else %>
+  <div class="nc-table-wrap">
+    <table class="nc-table">
+      <thead>
+        <tr>
+          <th>Community</th>
+          <th>Members</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @communities.each do |community| %>
+          <tr>
+            <td>
+              <%= link_to community.name, community, class: "user-table-link" %>
+              <% if community.description.present? %>
+                <div style="font-size:0.8rem;color:var(--muted);font-weight:400;margin-top:2px">
+                  <%= truncate(community.description, length: 72) %>
+                </div>
+              <% end %>
+            </td>
+            <td><%= community.members.count %></td>
+            <td class="text-end">
+              <% if community.admin?(current_user) %>
+                <span class="tag tag-brand"><i class="bi bi-shield-check"></i> Admin</span>
+              <% else %>
+                <span class="tag tag-brand"><i class="bi bi-check2"></i> Joined</span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
