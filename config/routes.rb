@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :users, only: %i[index show edit update destroy]
   resources :friendships
   resources :communities, only: %i[index show new create destroy] do
+    collection { get :mine }
     member { get :members }
     resource :membership, only: %i[create destroy], controller: "community_memberships"
   end

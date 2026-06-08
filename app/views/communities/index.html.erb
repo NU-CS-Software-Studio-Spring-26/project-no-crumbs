@@ -5,9 +5,14 @@
     <h1 class="feed-title">Communities</h1>
     <p class="feed-subtitle">Find your group, eat together</p>
   </div>
-  <%= link_to new_community_path, class: "nc-nav-cta" do %>
-    <i class="bi bi-plus"></i> New Community
-  <% end %>
+  <div class="d-flex gap-2">
+    <%= link_to mine_communities_path, class: "btn-outline-nc" do %>
+      <i class="bi bi-person-check"></i> My Communities
+    <% end %>
+    <%= link_to new_community_path, class: "nc-nav-cta" do %>
+      <i class="bi bi-plus"></i> New Community
+    <% end %>
+  </div>
 </div>
 
 <div data-controller="user-search">
