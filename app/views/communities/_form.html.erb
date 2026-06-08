@@ -1,0 +1,63 @@
+<%= form_with model: community do |form| %>
+  <% if community.errors.any? %>
+    <div class="alert alert-danger mb-4">
+      <strong><%= pluralize(community.errors.count, "error") %>:</strong>
+      <ul class="mb-0 mt-1 ps-3">
+        <% community.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4 d-flex align-items-center gap-3">
+    <div id="community-image-preview" class="flex-shrink-0">
+      <% if community.image.attached? && community.image.blob.persisted? %>
+        <%= image_tag community.image, class: "avatar avatar-xl", alt: community.name %>
+      <% else %>
+        <div class="avatar avatar-xl"><i class="bi bi-people"></i></div>
+      <% end %>
+    </div>
+    <div class="flex-grow-1">
+      <%= form.label :image, "Community Photo", class: "form-label" %>
+      <%= form.file_field :image, class: "form-control", accept: "image/*", id: "community-image-file-input" %>
+      <small class="text-muted">JPEG, PNG, WebP or GIF · max 5MB</small>
+    </div>
+  </div>
+
+  <div class="mb-3" data-controller="char-counter" data-char-counter-max-value="50">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-control", placeholder: "e.g. NU Class of '26",
+          required: true, minlength: 2, maxlength: 50,
+          data: { "char-counter-target": "input", action: "input->char-counter#update" } %>
+    <span data-char-counter-target="counter" class="char-counter"></span>
+  </div>
+
+  <div class="mb-3" data-controller="char-counter" data-char-counter-max-value="1000">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.textarea :description, class: "form-control", rows: 4,
+          placeholder: "What's this community about?",
+          maxlength: 1000,
+          data: { "char-counter-target": "input", action: "input->char-counter#update" } %>
+    <span data-char-counter-target="counter" class="char-counter"></span>
+  </div>
+
+  <%= form.submit (community.persisted? ? "Save changes" : "Create community"), class: "btn-nc" %>
+<% end %>
+
+<script>
+  (function() {
+    var input = document.getElementById("community-image-file-input");
+    if (!input) return;
+    input.addEventListener("change", function() {
+      var file = this.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById("community-image-preview").innerHTML =
+          '<img src="' + e.target.result + '" class="avatar avatar-xl" alt="Preview">';
+      };
+      reader.readAsDataURL(file);
+    });
+  })();
+</script>

@@ -1,6 +1,7 @@
 class CommunitiesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_community, only: %i[show members destroy]
+  before_action :set_community, only: %i[show members edit update destroy]
+  before_action :require_admin, only: %i[edit update]
 
   def index
     @query = params[:q].to_s.strip.first(100)
@@ -41,6 +42,17 @@ class CommunitiesController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    if @community.update(community_params)
+      redirect_to @community, notice: "#{@community.name} updated!"
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     unless @community.admin?(current_user)
       redirect_to communities_path, alert: "Only the community admin can delete it."
@@ -56,7 +68,13 @@ class CommunitiesController < ApplicationController
     @community = Community.find(params[:id])
   end
 
+  def require_admin
+    unless @community.admin?(current_user)
+      redirect_to @community, alert: "Only the community admin can do that."
+    end
+  end
+
   def community_params
-    params.require(:community).permit(:name, :description)
+    params.require(:community).permit(:name, :description, :image)
   end
 end

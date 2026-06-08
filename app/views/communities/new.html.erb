@@ -4,35 +4,5 @@
   <h1 class="form-page-title">Create a community</h1>
   <p class="form-page-sub">Bring your group together — classmates, housemates, team members.</p>
 
-  <%= form_with model: @community do |form| %>
-    <% if @community.errors.any? %>
-      <div class="alert alert-danger mb-4">
-        <strong><%= pluralize(@community.errors.count, "error") %>:</strong>
-        <ul class="mb-0 mt-1 ps-3">
-          <% @community.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-    <div class="mb-3" data-controller="char-counter" data-char-counter-max-value="50">
-      <%= form.label :name, class: "form-label" %>
-      <%= form.text_field :name, class: "form-control", placeholder: "e.g. NU Class of '26",
-            required: true, minlength: 2, maxlength: 50,
-            data: { "char-counter-target": "input", action: "input->char-counter#update" } %>
-      <span data-char-counter-target="counter" class="char-counter"></span>
-    </div>
-
-    <div class="mb-3" data-controller="char-counter" data-char-counter-max-value="1000">
-      <%= form.label :description, class: "form-label" %>
-      <%= form.textarea :description, class: "form-control", rows: 4,
-            placeholder: "What's this community about?",
-            maxlength: 1000,
-            data: { "char-counter-target": "input", action: "input->char-counter#update" } %>
-      <span data-char-counter-target="counter" class="char-counter"></span>
-    </div>
-
-    <%= form.submit "Create community", class: "btn-nc" %>
-  <% end %>
+  <%= render "form", community: @community %>
 </div>
