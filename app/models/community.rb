@@ -9,6 +9,9 @@ class Community < ApplicationRecord
   has_many :community_posts, dependent: :destroy
   has_many :posts, through: :community_posts
 
+  has_one_attached :image
+  validate :image_acceptable, if: -> { image.attached? }
+
   validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { in: 2..50 }
   validates :description, length: { maximum: 1000, allow_blank: true }
 
@@ -20,5 +23,16 @@ class Community < ApplicationRecord
   # Returns true if the given user holds the admin role in this community.
   def admin?(user)
     community_memberships.exists?(user: user, role: "admin")
+  end
+
+  private
+
+  def image_acceptable
+    unless image.blob.content_type.in?(%w[image/jpeg image/png image/gif image/webp])
+      errors.add(:image, "must be a JPEG, PNG, WebP, or GIF")
+    end
+    if image.blob.byte_size > 5.megabytes
+      errors.add(:image, "must be less than 5MB")
+    end
   end
 end

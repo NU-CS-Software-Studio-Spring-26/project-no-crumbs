@@ -1,0 +1,8 @@
+<% content_for :title, "Edit #{@community.name}" %>
+
+<div class="form-wrap">
+  <h1 class="form-page-title">Edit community</h1>
+  <p class="form-page-sub">Update your community's photo, name, or description.</p>
+
+  <%= render "form", community: @community %>
+</div>

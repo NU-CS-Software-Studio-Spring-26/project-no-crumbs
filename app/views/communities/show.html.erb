@@ -6,7 +6,8 @@
   </a>
 </div>
 
-<div class="detail-cover gc-<%= @community.id % 8 %>">
+<div class="detail-cover <%= @community.image.attached? ? "detail-cover-photo" : "gc-#{@community.id % 8}" %>"
+     <%= "style=background-image:url('#{url_for(@community.image)}')".html_safe if @community.image.attached? %>>
   <div class="detail-cover-overlay"></div>
   <div class="detail-cover-content">
     <%= link_to members_community_path(@community), class: "detail-date-pill", style: "text-decoration:none" do %>
@@ -68,6 +69,9 @@
 
 <% if @community.admin?(current_user) %>
   <div class="d-flex gap-2 flex-wrap mb-4">
+    <%= link_to edit_community_path(@community), class: "btn-outline-nc btn-sm-nc" do %>
+      <i class="bi bi-pencil"></i> Edit community
+    <% end %>
     <%= button_to @community, method: :delete,
           form: { data: { turbo_confirm: "Delete #{@community.name}? This cannot be undone." } },
           class: "btn-danger-nc" do %>
