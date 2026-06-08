@@ -1,6 +1,12 @@
+# Represents a registered user of NoCrumbs.
+#
+# Users can post meals, befriend other users, join communities,
+# leave comments and likes, and receive in-app notifications.
+# Authentication is handled by Devise with support for Google and Discord OAuth.
 class User < ApplicationRecord
   include PgSearch::Model
 
+  # Full-text search scope across username (weighted A) and bio (weighted B).
   pg_search_scope :search_friends,
     against: { username: "A", bio: "B" },
     using: {
@@ -41,19 +47,24 @@ class User < ApplicationRecord
   has_many :friends_as_receiver,  -> { where(friendships: { status: "accepted" }) },
            through: :received_friendships, source: :requester
 
+  # Returns all accepted friends regardless of who sent the original request.
   def friends
     User.where(id: friends_as_requester.ids + friends_as_receiver.ids)
   end
 
+  # Returns incoming friendship requests that have not yet been accepted or declined.
   def pending_friend_requests
     received_friendships.pending
   end
 
+  # Returns true if the given user is an accepted friend of this user.
   def friend_with?(user)
     friends.include?(user)
   end
 
   class << self
+    # Finds or creates a user from an OmniAuth authentication payload.
+    # Matches first by provider+uid, then by email. Creates a new record if neither matches.
     def from_omniauth(auth)
       user = find_by(provider: auth.provider, uid: auth.uid)
       return user if user
@@ -75,6 +86,9 @@ class User < ApplicationRecord
 
     private
 
+    # Derives a unique, sanitized username from an OmniAuth profile.
+    # Falls back to "user" if the resulting string is too short, then appends
+    # a numeric suffix until the username is unique.
     def generate_username_from(auth)
       raw = auth.info.nickname || auth.info.name || auth.info.email.split("@").first
       base = raw.downcase
@@ -96,6 +110,7 @@ class User < ApplicationRecord
 
   private
 
+  # Validates that an attached avatar is an accepted image type and under 5 MB.
   def avatar_acceptable
     unless avatar.blob.content_type.in?(%w[image/jpeg image/png image/gif image/webp])
       errors.add(:avatar, "must be a JPEG, PNG, WebP, or GIF")

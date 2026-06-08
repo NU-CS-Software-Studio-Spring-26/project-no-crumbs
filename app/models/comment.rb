@@ -1,3 +1,6 @@
+# Represents a comment left by a user on a meal post.
+#
+# Comments can themselves be liked via the polymorphic Like association.
 class Comment < ApplicationRecord
   belongs_to :post
   belongs_to :user
