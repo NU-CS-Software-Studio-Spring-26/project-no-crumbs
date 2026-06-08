@@ -62,6 +62,12 @@ class User < ApplicationRecord
     friends.include?(user)
   end
 
+  # Returns true if this account was created via Google sign-in, meaning the
+  # user has no password of their own to change.
+  def google_account?
+    provider == "google_oauth2"
+  end
+
   class << self
     # Finds or creates a user from an OmniAuth authentication payload.
     # Matches first by provider+uid, then by email. Creates a new record if neither matches.
