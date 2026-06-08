@@ -38,4 +38,5 @@ Rails.application.routes.draw do
 
   get "about", to: "pages#about", as: :about
   get "legal", to: "pages#legal", as: :legal
+  get "community-guidelines", to: "pages#community_guidelines", as: :community_guidelines
 end
