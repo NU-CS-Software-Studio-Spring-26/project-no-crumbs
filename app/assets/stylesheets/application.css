@@ -322,6 +322,7 @@ body {
 }
 
 .meal-card {
+  position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
@@ -335,6 +336,12 @@ body {
     box-shadow var(--t),
     border-color var(--t);
   animation: fadeUp 0.38s ease both;
+}
+
+.meal-card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
 }
 
 .meal-card:hover {
@@ -451,6 +458,8 @@ body {
 }
 
 .meal-card-footer {
+  position: relative;
+  z-index: 1;
   padding: 10px 16px;
   border-top: 1px solid var(--border);
   display: flex;
@@ -2675,6 +2684,8 @@ a.lp-feature {
 
 /* ── Like button ──────────────────────────────── */
 .like-btn-wrap {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
 }
 
