@@ -209,6 +209,7 @@ body {
   max-width: 1120px;
   margin: 0 auto;
   padding: 2rem 1.75rem;
+  min-height: calc(100vh - var(--nav-h) - 175px);
 }
 
 /* ── FLASH ── */
@@ -2519,7 +2520,6 @@ a.lp-feature {
   font-size: 0.8rem;
   color: var(--text-2);
   border-top: 1px solid var(--border);
-  margin-top: 3rem;
 }
 
 /* Responsive overrides */
@@ -2888,7 +2888,6 @@ a.lp-feature {
 
 /* ── Footer ──────────────────────────────────────────────── */
 .nc-footer {
-  margin-top: 4rem;
   border-top: 1px solid var(--border);
   background: var(--surface);
 }
